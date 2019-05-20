@@ -126,6 +126,9 @@
     </script>
 
     <script type='text/javascript'>
+        let email
+        let password
+        
         function makeElements() {
             let url = document.location.href
             let params = url.split('?')
@@ -137,7 +140,10 @@
             }
             email = data["email"]
             password = data["psw"]
-            console.log(email + "   " + password)
+
+            if (email == "" || email == "undefined" || password == "" || password == "undefined") {
+                document.location.href = 'login.htm'
+            }
 
             let toRedeem = [];
 
@@ -159,7 +165,7 @@
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "", // body data type must match "Content-Type" header
+                body: "username=" + email + "&password=" + password, // body data type must match "Content-Type" header
             })
             .then(function (result) {
                 toRedeem = result;
@@ -236,17 +242,6 @@
             par2.children[place - 2].remove();*/
 
             //remove from server
-            /*$.ajax({
-                url: "https://server/redeemItem",
-                type: "POST", 
-                data: (email, password, par2.children[place - 1].textContent),
-                success: function(result){
-                    items = result;                
-                },
-                error: function(error){
-                    console.log("Error: " + error)
-                }
-            })*/
 
             fetch("/redeemItem", {
                 method: 'POST',
@@ -254,7 +249,7 @@
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "", // body data type must match "Content-Type" header
+                body: "username=" + email + "&password=" + password + "&itemName=" + (par2.children[place - 1].textContent), // body data type must match "Content-Type" header
             })
             .then(function (result) {
                 items = result;

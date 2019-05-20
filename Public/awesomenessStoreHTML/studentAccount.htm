@@ -149,29 +149,35 @@
             }
             email = data["email"]
             password = data["psw"]
-            console.log(email + "   " + password)
+            if (email == "" || email == "undefined" || password == "" || password == "undefined") {
+                document.location.href = 'login.htm'
+            }
 
             //let awesomePoints = 32
             //let goldenPoints = 4
             //let name = "Ethan Ash"
             //let className = "Chinese 4"
+            let awesomePoints
+            let goldenPoints
+            let name
+            let className
 
             //connecting with server
 
             fetch("/getStudent", {
-                    method: 'POST',
-                    headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: "email=" + email + "&password=" + password, // body data type must match "Content-Type" header
-                })
-                .then(function (result) {
-                    awesomePoints = result["awesomeCards"]
-                    goldenPoints = result["goldenCards"]
-                    name = result["realName"]
-                    className = result["class"]
-                })
+                method: 'POST',
+                headers: {
+                    //'Content-Type': 'application/url',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: "email=" + email + "&password=" + password, // body data type must match "Content-Type" header
+            })
+            .then(function (result) {
+                awesomePoints = result["awesomeCards"]
+                goldenPoints = result["goldenCards"]
+                name = result["realName"]
+                className = result["class"]
+            })
 
             let awePoints = document.getElementById("awesomePoints")
             let golPoints = document.getElementById("goldenPoints")
