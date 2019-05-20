@@ -1,0 +1,145 @@
+<html lang="en" class="gr__getbootstrap_com">
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/4.0/examples/sign-in/signin.css" rel="stylesheet">
+<style type="text/css">
+
+div.text{
+    background-color: rgb(73, 31, 75);
+    margin-bottom: 20px;
+    text-align:center;
+    font-size: 1.75rem;
+    font-weight: 400!important;
+    font-family: sans-serif;
+}
+
+button.theme{
+    color:rgb(253, 253, 253);
+    background-color: rgb(73, 31, 75)!important;
+}
+
+button.spacing{
+    margin-top: 20px;
+}
+
+div#title{
+    color: rgb(253, 253, 253);
+}
+
+div#failed{
+    color:crimson;
+    margin-bottom: 15px;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+nav.theme{
+    background-color: rgb(73, 31, 75)!important;
+}
+
+div.bolded{
+    color:rgb(253, 253, 253);
+    text-align:center;
+    font-size: 2.75rem!important;
+}
+
+input.formPadding{
+    padding: 10px;
+}
+
+form.formSize{
+    width: 100%;
+    max-width: 430px;
+    padding: 15px;
+}
+input.spaces{
+    margin-bottom: 3px;
+}
+
+</style>
+
+
+
+</head>
+<body>
+
+<body class="text-center">
+    <nav class="fixed-top theme">
+        <div class="navbar-brand bolded">Awesomeness Store</div>
+    </nav>
+    <form class="formSize" id="myform">
+        <h1 class="h3 mb-3 font-weight-normal">Make a new account</h1>
+        
+        <label for="inputFirstName" class="sr-only">First Name</label>
+        <input type="text" id="inputFirstName" class="form-control formPadding" placeholder="First Name" required autofocus>
+
+        <label for="inputLastName" class="sr-only">Last Name</label>
+        <input type="text" id="inputLastName" class="form-control formPadding spaces" placeholder="Last Name" required>
+
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control formPadding" placeholder="Email address" required>
+        
+        
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control formPadding spaces" placeholder="Password" required>
+        
+        <select class="custom-select" id="className" required>
+            <option>Chinese 3</option>
+            <option>Chinese 4</option>
+            <option>Chinese 5</option>
+            <option>Chinese AP</option>
+        </select>
+
+        <button class="btn btn-lg theme btn-block spacing" type="submit">Create Account</button>
+
+    </form>
+</body>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type='text/javascript'>
+
+    $('#myform').submit(function(e){
+        e.preventDefault();
+        let email = (document.getElementById("inputEmail")).value
+        let name = (document.getElementById("inputFirstName")).value + " " + (document.getElementById("inputLastName")).value
+        let password = (document.getElementById("inputPassword")).value
+        let className = (document.getElementById("className")).value
+
+        makeAccount(email, name, password, className)
+    })
+
+    function makeAccount(email, name, password, className){
+        
+        fetch("/newStudent", {
+        method: 'POST', 
+        headers: {
+            //'Content-Type': 'application/url',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }, 
+        body: "email=" + email + "&name=" + name + "&password=" + password + "&className=" + className, // body data type must match "Content-Type" header
+        })
+        .then(function(result) {
+            if(result){
+                    document.location.href = 'studentStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
+            }else{
+                //didn't work
+            } 
+        })
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<html lang="en" class="gr__getbootstrap_com">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/navbar-top-fixed.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/grid/grid.css" rel="stylesheet">
+
+    <style type="text/css">
+        div.col-6 {
+            max-width: 100% !important;
+            border: 0px !important;
+        }
+
+        div.oneLine {
+            display: flex;
+            justify-content: space-evenly;
+            white-space: nowrap;
+        }
+
+        div.parentCol {
+            background-color: rgb(255, 255, 255);
+        }
+
+        main.offtop {
+            margin-top: 110px;
+        }
+
+        div.named {
+            font-size: 1.5rem;
+            font-weight: 600 !important;
+        }
+
+        div.text {
+            background-color: rgb(73, 31, 75);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.75rem;
+            font-weight: 400 !important;
+            font-family: sans-serif;
+        }
+
+        div#elements {
+            border: 5px !important;
+            border-color: rgb(73, 31, 75) !important;
+        }
+
+        div.title {
+            font-size: 2.7rem;
+            font-weight: 500 !important;
+            margin-bottom: 15px;
+        }
+
+        a.bolded {
+            font-size: 1.75rem !important;
+        }
+
+        nav.theme {
+            background-color: rgb(73, 31, 75) !important;
+        }
+
+        div#title {
+            color: rgb(253, 253, 253);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+
+
+</head>
+
+<body onload="makeElements()">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top theme">
+        <a class="navbar-brand bolded" href="#">Awesomeness Store</a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="">Store<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link"
+                    href="javascript:document.location.href = 'studentHistory.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)">History</a>
+                <a class="nav-item nav-link"
+                    href="javascript:document.location.href = 'studentAccount.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)">Account</a>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="container offtop" id="main">
+        <div class="text-center title">
+            Store
+        </div>
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+    <script type='text/javascript'>
+        let email
+        let password
+
+        function makeElements() {
+            let url = document.location.href
+            let params = url.split('?')
+            let data = {}
+            let tmp
+            for (let i = 0; i < params.length; i++) {
+                tmp = params[i].split('=')
+                data[tmp[0]] = decodeURIComponent(tmp[1])
+            }
+            email = data["email"]
+            password = data["psw"]
+            console.log(email + "   " + password)
+
+            let items = []
+
+            fetch("/newStudent", {
+                method: 'POST',
+                headers: {
+                    //'Content-Type': 'application/url',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: "", // body data type must match "Content-Type" header
+            })
+            .then(function (result) {
+                items = result;
+            })
+
+            let newItem1 = []
+            newItem1["name"] = "Candy"
+            newItem1["awesomeCost"] = 5
+            newItem1["goldenCost"] = 0
+
+            let newItem2 = []
+            newItem2["name"] = "1-Day Class Pass"
+            newItem2["awesomeCost"] = 50
+            newItem2["goldenCost"] = 1
+
+            let newItem3 = []
+            newItem3["name"] = "Homework Pass"
+            newItem3["awesomeCost"] = 30
+            newItem3["goldenCost"] = 0
+
+            items.push(newItem1)
+            items.push(newItem2)
+            items.push(newItem3)
+
+            let main = document.getElementById("main")
+
+            for (let i = 0; i < items.length; i = i + 2) {
+                let newRow = document.createElement('div')
+                newRow.className = 'row text-center'
+
+                let newItem1 = document.createElement('div')
+                newItem1.className = 'col-6 row-fluid parentCol'
+
+                let name1 = document.createElement('div')
+                name1.className = 'col-6 text-center named oneLine'
+                name1.textContent = items[i]["name"]
+
+                let costAwesome1 = document.createElement('div')
+                costAwesome1.className = 'col-6 text-center oneLine'
+                costAwesome1.textContent = "Cost (Awesome): " + items[i]["awesomeCost"]
+
+                let costGolden1 = document.createElement('div')
+                costGolden1.className = 'col-6 text-center oneLine'
+                costGolden1.textContent = "Cost (Golden): " + items[i]["goldenCost"]
+
+
+                let buttonDiv1 = document.createElement('div')
+                buttonDiv1.className = 'col-6 text-center'
+
+                let button1 = document.createElement('button')
+                button1.className = 'btn'
+                button1.onclick = function () {
+                    buy(name1.textContent)
+                }
+
+                let buttonText1 = document.createElement('div')
+                buttonText1.textContent = "Buy"
+
+                button1.appendChild(buttonText1)
+                buttonDiv1.appendChild(button1)
+
+
+                newItem1.appendChild(name1)
+                newItem1.appendChild(costAwesome1)
+                newItem1.appendChild(costGolden1)
+                newItem1.appendChild(buttonDiv1)
+
+                newRow.appendChild(newItem1)
+
+                if (i + 1 < items.length) {
+                    let newItem2 = document.createElement('div')
+                    newItem2.className = 'col-6 row-fluid parentCol'
+
+                    let name2 = document.createElement('div')
+                    name2.className = 'col-6 text-center named oneLine'
+                    name2.textContent = items[i + 1]["name"]
+
+                    let costAwesome2 = document.createElement('div')
+                    costAwesome2.className = 'col-6 text-center oneLine'
+                    costAwesome2.textContent = "Cost (Awesome): " + items[i + 1]["awesomeCost"]
+
+                    let costGolden2 = document.createElement('div')
+                    costGolden2.className = 'col-6 text-center oneLine'
+                    costGolden2.textContent = "Cost (Golden): " + items[i + 1]["goldenCost"]
+
+
+                    let buttonDiv2 = document.createElement('div')
+                    buttonDiv2.className = 'col-6 text-center'
+
+                    let button2 = document.createElement('button')
+                    button2.className = 'btn'
+
+                    let buttonText2 = document.createElement('div')
+                    buttonText2.textContent = "Buy"
+
+                    button2.appendChild(buttonText2)
+                    buttonDiv2.appendChild(button2)
+
+
+                    newItem2.appendChild(name2)
+                    newItem2.appendChild(costAwesome2)
+                    newItem2.appendChild(costGolden2)
+                    newItem2.appendChild(buttonDiv2)
+
+                    newRow.appendChild(newItem2)
+                }
+                main.appendChild(newRow)
+            }
+        }
+
+        function buy(itemName) {
+            
+            fetch("/newStudent", {
+            method: 'POST', 
+            headers: {
+            //'Content-Type': 'application/url',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            }, 
+            body: "email=" + email + "&password=" + password + "&itemName=" + itemName, // body data type must match "Content-Type" header
+            })
+            .then(function(result) {
+                if(!result){
+                    alert("Not Enough Currency")
+                } 
+            })
+        }
+    </script>
+</body>
+
+</html>

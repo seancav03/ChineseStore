@@ -1,0 +1,192 @@
+<html lang="en" class="gr__getbootstrap_com">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/navbar-top-fixed.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/4.0/examples/grid/grid.css" rel="stylesheet">
+
+<style type="text/css">
+
+div.col-6{
+    max-width: 100%!important;
+}
+
+div.bolded{
+    font-size: 1.75rem;
+    font-weight: 400!important;
+}
+
+div.used{
+    color: red;
+}
+div.availible{
+    color: rgb(0, 85, 0);
+}
+
+div.parentCol{
+    background-color: rgb(255, 255, 255);
+}
+
+div.title{
+    font-size: 2.7rem;
+    font-weight: 500!important;
+    margin-bottom: 15px;
+}
+
+main.offtop{
+    margin-top: 110px;
+}
+
+div.text{
+    background-color: rgb(73, 31, 75);
+    margin-bottom: 20px;
+    text-align:center;
+    font-size: 1.75rem;
+    font-weight: 400!important;
+    font-family: sans-serif;
+}
+
+a.bolded{
+    font-size: 1.75rem!important;
+}
+
+nav.theme{
+    background-color: rgb(73, 31, 75)!important;
+}
+div#title{
+    color: rgb(253, 253, 253);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+</style>
+
+
+
+</head>
+<body onload="makeElements()">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top theme">
+        <a class="navbar-brand bolded" href="#">Awesomeness Store</a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="javascript:document.location.href = 'studentStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)">Store</a>
+                <a class="nav-item nav-link active" href="">History<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="javascript:document.location.href = 'studentAccount.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)">Account</a>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="container offtop">
+            <div class="text-center title">
+                Purchase History
+            </div>
+        <div class="row text-center" id="items">
+                <div class="col-6 text-center bolded">Item</div>
+                <div class="col-6 text-center bolded">Status</div>
+
+                
+        </div> 
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type='text/javascript'>
+        function makeElements(){
+            let url = document.location.href
+            let params = url.split('?')
+            let data = {}
+            let tmp
+            for (let i = 0; i < params.length; i++) {
+                tmp = params[i].split('=')
+                data[tmp[0]] = decodeURIComponent(tmp[1])
+            }
+            email = data["email"]
+            password = data["psw"]
+            console.log(email + "   " + password)
+            
+            let history = [];
+
+            //connecting to server to get redeemed
+            fetch("/getMyRedeemed", {
+            method: 'POST', 
+            headers: {
+                //'Content-Type': 'application/url',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: "email=" + email + "&password=" + password, // body data type must match "Content-Type" header
+            })
+            .then(function(result) {
+                for(let i = 0; i < result.length; i++){
+                    let item = []
+                    item["reward"] = result[i]
+                    item["isUsed"] = true;
+                    history.push(item)     
+                }
+            })
+
+            //connecting to server to get buys that haven't been redeemed yet
+            fetch("/getMyBuys", {
+            method: 'POST', 
+            headers: {
+                //'Content-Type': 'application/url',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }, 
+            body: "email=" + email + "&password=" + password, // body data type must match "Content-Type" header
+            })
+            .then(function(result) {
+                for(let i = 0; i < result.length; i++){
+                    let item = []
+                    item["reward"] = result[i]
+                    item["isUsed"] = false;
+                    history.push(item)     
+                }
+            })
+
+            let item1 = []
+            item1["reward"] = "One-Day Homework Pass"
+            item1["isUsed"] = false;
+
+            let item2 = []
+            item1["isUsed"] = true;
+            item2["reward"] = "Candy"
+
+            let item3 = []
+            item1["isUsed"] = true;
+            item3["reward"] = "Homework Pass"
+            
+            //history.push(item1)
+            //history.push(item2)
+            //history.push(item3)
+
+            let items = document.getElementById("items")
+
+            for(let i = 0; i < history.length; i++){
+                let reward = document.createElement('div')
+                reward.className = 'col-6 text-center'
+                reward.textContent = history[i]["reward"]
+                
+                let status = document.createElement('div')
+                if(history[i]["isUsed"]){
+                    status.className = 'col-6 text-center used'
+                    status.textContent = "Used"
+                }else{
+                    status.className = 'col-6 text-center availible'
+                    status.textContent = "Bought"
+                }
+
+                items.appendChild(reward)
+                items.appendChild(status)
+            }
+        }
+    </script>
+</body>
+</html>

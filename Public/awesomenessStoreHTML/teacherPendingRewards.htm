@@ -1,0 +1,272 @@
+<html lang="en" class="gr__getbootstrap_com">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/navbar-top-fixed.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/grid/grid.css" rel="stylesheet">
+
+    <style type="text/css">
+        div.col-6 {
+            max-width: 100% !important;
+            border: 0px !important;
+        }
+
+        div.parentCol {
+            background-color: rgb(255, 255, 255);
+        }
+
+        main.offtop {
+            margin-top: 110px;
+        }
+
+        div.named {
+            font-size: 1.5rem;
+            font-weight: 600 !important;
+        }
+
+        div.labels {
+            font-size: 1.35rem;
+            font-weight: 500;
+        }
+
+        div.text {
+            background-color: rgb(73, 31, 75);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.75rem;
+            font-weight: 400 !important;
+            font-family: sans-serif;
+        }
+
+        div#elements {
+            border: 5px !important;
+            border-color: rgb(73, 31, 75) !important;
+        }
+
+        div.title {
+            font-size: 2.7rem;
+            font-weight: 500 !important;
+            margin-bottom: 15px;
+        }
+
+        a.bolded {
+            font-size: 1.75rem !important;
+        }
+
+        nav.theme {
+            background-color: rgb(73, 31, 75) !important;
+        }
+
+        div#title {
+            color: rgb(253, 253, 253);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+
+
+</head>
+
+<body onload="makeElements()">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top theme">
+        <a class="navbar-brand bolded" href="#">Awesomeness Store</a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link"
+                    href="javascript:document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)">Store</a>
+                <a class="nav-item nav-link"
+                    href="javascript:document.location.href = 'teacherClasses.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)">Classes</a>
+                <a class="nav-item nav-link active" href="">Pending Rewards<span class="sr-only">(current)</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="container offtop" id="main">
+        <div class="text-center title">
+            Pending Rewards
+        </div>
+        <div class="row centered" id="rewards">
+            <div class="col-4 column text-center labels bordered">
+                Student Name
+            </div>
+
+            <div class="col-4 column text-center labels bordered">
+                Reward
+            </div>
+
+            <div class=" col-4 column text-center bordered" id="space">
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+    <script type='text/javascript'>
+        function makeElements() {
+            let url = document.location.href
+            let params = url.split('?')
+            let data = {}
+            let tmp
+            for (let i = 0; i < params.length; i++) {
+                tmp = params[i].split('=')
+                data[tmp[0]] = decodeURIComponent(tmp[1])
+            }
+            email = data["email"]
+            password = data["psw"]
+            console.log(email + "   " + password)
+
+            let toRedeem = [];
+
+            /*$.ajax({
+                url: "https://server/getRedeemedAdmin",
+                type: "POST", 
+                data: (email, password),
+                success: function(result){
+                    toRedeem = result
+                },
+                error: function(error){
+                    console.log("Error: " + error)
+                }
+            })*/
+
+            fetch("/getRedeemedAdmin", {
+                method: 'POST',
+                headers: {
+                    //'Content-Type': 'application/url',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: "", // body data type must match "Content-Type" header
+            })
+            .then(function (result) {
+                toRedeem = result;
+            })
+
+            let student1 = []
+            student1["name"] = "Ethan Ash"
+            student1["reward"] = "One-Day Homework Pass"
+
+            let student2 = []
+            student2["name"] = "Charlie Jones"
+            student2["reward"] = "Candy"
+
+            let student3 = []
+            student3["name"] = "Luca Snoey"
+            student3["reward"] = "Homework Pass"
+
+            toRedeem.push(student1)
+            toRedeem.push(student2)
+            toRedeem.push(student3)
+
+            let space = document.getElementById("space")
+
+            let rewards = document.getElementById("rewards")
+
+            let last = rewards.lastElementChild
+            while (last != space) {
+                last.remove()
+                last = rewards.lastElementChild
+            }
+
+            for (let i = 0; i < toRedeem.length; i++) {
+                let name = document.createElement('div')
+                name.className = 'col-4 column text-center bordered'
+                name.textContent = toRedeem[i]["name"]
+
+                let reward = document.createElement('div')
+                reward.className = 'col-4 column text-center bordered'
+                reward.textContent = toRedeem[i]["reward"]
+
+                let redeemItem = document.createElement('div')
+                redeemItem.className = 'col-4 column text-center bordered'
+
+                let button = document.createElement('button')
+                button.className = 'btn'
+                button.textContent = "redeem"
+                button.onclick = function () {
+                    redeem(this.parentElement)
+                }
+
+                redeemItem.appendChild(button)
+
+                rewards.appendChild(name)
+                rewards.appendChild(reward)
+                rewards.appendChild(redeemItem)
+
+            }
+
+
+        }
+
+        function redeem(par) {
+            /*let par2 = par.parentElement;
+            let place = null;
+            for (let i = 0; i < par2.children.length; i++) {
+                if (par2.children[i] == par) {
+                    place = i;
+                    break;
+                }
+            }
+            
+            par2.children[place].remove();
+            par2.children[place - 1].remove();
+            par2.children[place - 2].remove();*/
+
+            //remove from server
+            /*$.ajax({
+                url: "https://server/redeemItem",
+                type: "POST", 
+                data: (email, password, par2.children[place - 1].textContent),
+                success: function(result){
+                    items = result;                
+                },
+                error: function(error){
+                    console.log("Error: " + error)
+                }
+            })*/
+
+            fetch("/redeemItem", {
+                method: 'POST',
+                headers: {
+                    //'Content-Type': 'application/url',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: "", // body data type must match "Content-Type" header
+            })
+            .then(function (result) {
+                items = result;
+            })
+
+            makeElements()
+
+            
+            
+            
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,480 @@
+<html lang="en" class="gr__getbootstrap_com">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/navbar-top-fixed.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/4.0/examples/grid/grid.css" rel="stylesheet">
+
+<style type="text/css">
+
+div.parentCol{
+    background-color: rgb(255, 255, 255);
+}
+
+main.offtop{
+    margin-top: 110px;
+}
+
+h1.number{
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+div.labels{
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+div.column{
+    float: left;
+    width: 25%;
+}
+
+div.named{
+    font-size: 1.5rem;
+    font-weight: 600!important;
+}
+
+button.invis{
+    background-color: transparent!important;
+    border: 1px solid rgba(86, 61, 124, .3);
+
+}
+
+button.classes{
+    background-color: rgba(86, 61, 124, .5);;
+    border: 1px solid rgba(86, 61, 124, .6);
+    font-size: 1.5rem;
+}
+
+div.bordered{
+    background-color: rgba(86, 61, 124, .15);
+    border: 1px solid rgba(86, 61, 124, .2);
+}
+
+div.text{
+    background-color: rgb(73, 31, 75);
+    margin-bottom: 20px;
+    text-align:center;
+    font-size: 1.75rem;
+    font-weight: 400!important;
+    font-family: sans-serif;
+}
+
+div.seperate{
+    margin-bottom: 50px;
+    margin-top: 25px;
+}
+
+div#elements{
+    border: 5px!important;
+    border-color: rgb(73, 31, 75)!important;
+}
+
+div.title{
+    font-size: 2.7rem;
+    font-weight: 500!important;
+    margin-bottom: 15px;
+}
+
+a.bolded{
+    font-size: 1.75rem!important;
+}
+
+nav.theme{
+    background-color: rgb(73, 31, 75)!important;
+}
+div#title{
+    color: rgb(253, 253, 253);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input.nums{
+    max-width: 40;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+</style>
+
+
+
+</head>
+<body >
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top theme">
+        <a class="navbar-brand bolded" href="#">Awesomeness Store</a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="javascript:document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)">Store</a>
+                <a class="nav-item nav-link active" href="">Classes<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="javascript:document.location.href = 'teacherPendingRewards.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)">Pending Rewards</a>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="container offtop" id="main">
+        <div class="text-center title">
+                Classes
+        </div>
+        <div class="row text-center seperate">
+            <div class="text-center column">
+                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 2</button>
+            </div>
+
+            <div class="text-center column">
+                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 3</button>
+            </div>
+            <div class="text-center column">
+                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 4</button>
+            </div>
+    
+            <div class="text-center column">
+                <button class="btn classes" onclick="toClass(this.innerText)">Chinese AP</button>
+            </div>
+        </div> 
+        <div id="content">
+            <div class="row centered">
+                <div class="col-4 column text-center bordered labels">
+                    Name 
+                </div>
+            
+                <div class="col-4 column text-center bordered labels">
+                    Golden Points
+                </div>
+
+                <div class=" col-4 column text-center bordered labels">
+                    Awesome Points
+                </div>
+            </div>
+            
+            <div id="students" class="row centered">
+                
+
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type='text/javascript'>
+        let currClass
+        let email
+        let password
+
+        $("div#content").on('focusout', 'input', function(){
+            changeValue(event.target.parentElement, event.target.value)
+        })
+
+        window.onload = function(){
+            let url = document.location.href
+            let params = url.split('?')
+            let data = {}
+            let tmp
+            for (let i = 0; i < params.length; i++) {
+                tmp = params[i].split('=')
+                data[tmp[0]] = decodeURIComponent(tmp[1])
+            }
+            email = data["email"]
+            password = data["psw"]
+            console.log(email + "   " + password)
+        }
+        
+        function toClass(name){
+            //get array by class name
+            currClass = name;
+            let students = []
+
+            let student1 = []
+            student1["name"] = "Ethan Ash"
+            student1["awesomePoints"] = 34
+            student1["goldenPoints"] = 4
+
+            let student2 = []
+            student2["name"] = "Charlie Jones"
+            student2["awesomePoints"] = 50
+            student2["goldenPoints"] = 1
+
+            let student3 = []
+            student3["name"] = "Luca Snoey"
+            student3["awesomePoints"] = 68
+            student3["goldenPoints"] = 8
+            
+            students.push(student1)
+            students.push(student2)
+            students.push(student3)
+
+            /*$.ajax({
+                url: "https://server/getStudentsByClass",
+                type: "POST", 
+                data: (email, password, name),
+                success: function(result){
+                    students = result;                
+                },
+                error: function(error){
+                    console.log("Error: " + error)
+                }
+            })*/
+            fetch("/getStudentByClass", {
+                method: 'POST',
+                headers: {
+                    //'Content-Type': 'application/url',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: "", // body data type must match "Content-Type" header
+            })
+            .then(function (result) {
+                students = result;
+            })
+
+
+            let table = document.getElementById("students")
+
+            let last = table.lastElementChild
+            while(last){
+                last.remove()
+                last = table.lastElementChild
+            }
+
+            for(let i = 0; i < students.length; i++){
+                let name = document.createElement('div')
+                name.textContent = students[i]["name"]
+                name.className = 'col-4 column text-center bordered'
+
+                table.appendChild(name)
+
+                let goldenness = document.createElement('div')
+                goldenness.className = 'col-4 column text-center bordered'
+                goldenness.id = "golden"
+
+                let goldenInput = document.createElement("input")
+                goldenInput.type = 'number'
+                goldenInput.className = 'nums'
+                goldenInput.value = students[i]["goldenPoints"]
+                let brk2 = document.createElement('br')
+                let downButton = document.createElement('button')
+                downButton.className = 'btn invis'
+                downButton.onclick = function(){
+                    lower(this.parentElement, 1)
+                }
+                downButton.textContent = "-"
+                let upButton = document.createElement('button')
+                upButton.className = 'btn invis'
+                upButton.onclick = function(){
+                    higher(this.parentElement, 1)
+                }
+                upButton.textContent = "+"
+
+                goldenness.appendChild(goldenInput)
+                goldenness.append(brk2)
+                goldenness.appendChild(downButton)
+                goldenness.appendChild(upButton)
+
+                table.appendChild(goldenness)
+
+                let awesomeness = document.createElement('div')
+                awesomeness.className = 'col-4 column text-center bordered'
+                awesomeness.id = "awesome"
+
+                let awesomeInput = document.createElement("input")
+                awesomeInput.type = 'number'
+                awesomeInput.className = 'nums'
+                awesomeInput.value = students[i]["awesomePoints"]
+                let brk = document.createElement('br')
+                let downButton2 = document.createElement('button')
+                downButton2.className = 'btn invis'
+                downButton2.onclick = function(){
+                    lower(this.parentElement, 1)
+                }
+                downButton2.textContent = "-"
+                let upButton2 = document.createElement('button')
+                upButton2.className = 'btn invis'
+                upButton2.onclick = function(){
+                    higher(this.parentElement, 1)
+                }
+                upButton2.textContent = "+"
+
+                awesomeness.appendChild(awesomeInput)
+                awesomeness.appendChild(brk)
+                awesomeness.appendChild(downButton2)
+                awesomeness.appendChild(upButton2)
+                
+                table.appendChild(awesomeness)
+            }
+        }
+
+        
+
+        function higher(par, num){
+            let student = "";
+            if((par.id) == "golden"){
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        student = par.parentElement.children[i-1].textContent
+                    }
+                }
+                for(let i = 0; i < students.length; i++){
+                    if(students[i]["name"] == student){
+                        /*$.ajax({
+                            url: "https://server/addPoints",
+                            type: "POST", 
+                            data: (email, password, student, num, true),
+                            success: function(result){
+
+                            },
+                            error: function(error){
+                                console.log("Error: " + error)
+                            }
+                        })*/
+                        students[i]["goldenPoints"] = students[i]["goldenPoints"] + num
+                        break;
+                    }
+                }
+            }else{
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        student = par.parentElement.children[i-2].textContent
+                    }
+                }
+                for(let i = 0; i < students.length; i++){
+                    if(students[i]["name"] == student){
+                        /*$.ajax({
+                            url: "https://server/addPoints",
+                            type: "POST", 
+                            data: (email, password, student, num, false),
+                            success: function(result){
+                                                
+                            },
+                            error: function(error){
+                                console.log("Error: " + error)
+                            }
+                        })*/
+                        students[i]["awesomePoints"] = students[i]["awesomePoints"] + num
+                        break;
+                    }
+                }
+            }
+            toClass(currClass)
+        }
+        function lower(par, num){
+            let student = "";
+            if((par.id) == "golden"){
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        student = par.parentElement.children[i-1].textContent
+                    }
+                }
+                for(let i = 0; i < students.length; i++){
+                    if(students[i]["name"] == student){
+                        /*$.ajax({
+                            url: "https://server/addPoints",
+                            type: "POST", 
+                            data: (email, password, student, num*(-1), true),
+                            success: function(result){
+
+                            },
+                            error: function(error){
+                                console.log("Error: " + error)
+                            }
+                        })*/
+                        students[i]["goldenPoints"] = students[i]["goldenPoints"] - num
+                        break;
+                    }
+                }
+            }else{
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        student = par.parentElement.children[i-2].textContent
+                    }
+                }
+                for(let i = 0; i < students.length; i++){
+                    if(students[i]["name"] == student){
+                        /*$.ajax({
+                            url: "https://server/addPoints",
+                            type: "POST", 
+                            data: (email, password, student, num*(-1), false),
+                            success: function(result){
+
+                            },
+                            error: function(error){
+                                console.log("Error: " + error)
+                            }
+                        })*/
+                        students[i]["awesomePoints"] = students[i]["awesomePoints"] - num
+                        break;
+                    }
+                }
+            }
+            toClass(currClass)
+        }
+
+        function changeValue(par, num) {
+            let student = "";
+            if((par.id) == "golden"){
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        student = par.parentElement.children[i-1].textContent
+                    }
+                }
+                for(let i = 0; i < students.length; i++){
+                    if(students[i]["name"] == student){
+                        /*$.ajax({
+                            url: "https://server/setPoints",
+                            type: "POST", 
+                            data: (email, password, student, AWESOME, num),
+                            success: function(result){
+
+                            },
+                            error: function(error){
+                                console.log("Error: " + error)
+                            }
+                        })*/
+                        students[i]["goldenPoints"] = num
+                        break;
+                    }
+                }
+            }else{
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        student = par.parentElement.children[i-2].textContent
+                    }
+                }
+                for(let i = 0; i < students.length; i++){
+                    if(students[i]["name"] == student){
+                        /*$.ajax({
+                            url: "https://server/setPoints",
+                            type: "POST", 
+                            data: (email, password, student, num, GOLDEN),
+                            success: function(result){
+
+                            },
+                            error: function(error){
+                                console.log("Error: " + error)
+                            }
+                        })*/
+                        students[i]["awesomePoints"] = num
+                        break;
+                    }
+                }
+            }
+            toClass("test")
+        }
+    </script>
+</body>
+</html>
