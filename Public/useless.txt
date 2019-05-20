@@ -1,0 +1,22 @@
+{
+  "name": "chinese_store",
+  "version": "1.0.0",
+  "description": "Store for the Chinese Classes to get and redeem prizes from points earned in class.",
+  "main": "CServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Chinese",
+    "Store"
+  ],
+  "author": "Sean Cavalieri",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "sequelize": "^5.8.5",
+    "sqlite3": "^4.0.7"
+  }
+}
