@@ -8,6 +8,9 @@ let port  = /*process.env.PORT ||*/ 3775;
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({limit: '50mb', extended:false}));
 
+//static directory prep
+app.use(express.static('public'));
+
 
 app.post('/authenticateAdmin', function(req, res) {
     let AdminU = req.body.AdminU;
