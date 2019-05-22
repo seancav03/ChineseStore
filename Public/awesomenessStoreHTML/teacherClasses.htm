@@ -193,10 +193,13 @@ input.nums{
             }
             email = data["email"]
             password = data["psw"]
-            console.log(email + "   " + password)
+            
+            if (email == "" || email == "undefined" || password == "" || password == "undefined") {
+                document.location.href = 'login.htm'
+            }
         }
         
-        function toClass(name){
+        function toClass(className){
             //get array by class name
             currClass = name;
             let students = []
@@ -216,28 +219,17 @@ input.nums{
             student3["awesomePoints"] = 68
             student3["goldenPoints"] = 8
             
-            students.push(student1)
-            students.push(student2)
-            students.push(student3)
+            //students.push(student1)
+            //students.push(student2)
+            //students.push(student3)
 
-            /*$.ajax({
-                url: "https://server/getStudentsByClass",
-                type: "POST", 
-                data: (email, password, name),
-                success: function(result){
-                    students = result;                
-                },
-                error: function(error){
-                    console.log("Error: " + error)
-                }
-            })*/
             fetch("/getStudentByClass", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "", // body data type must match "Content-Type" header
+                body: "username=" + email + "&password=" + password + "&className=" + className, // body data type must match "Content-Type" header
             })
             .then(function (result) {
                 students = result;
@@ -331,18 +323,19 @@ input.nums{
                 }
                 for(let i = 0; i < students.length; i++){
                     if(students[i]["name"] == student){
-                        /*$.ajax({
-                            url: "https://server/addPoints",
-                            type: "POST", 
-                            data: (email, password, student, num, true),
-                            success: function(result){
 
+                        fetch("/addPoints", {
+                            method: 'POST',
+                            headers: {
+                                //'Content-Type': 'application/url',
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            error: function(error){
-                                console.log("Error: " + error)
-                            }
-                        })*/
-                        students[i]["goldenPoints"] = students[i]["goldenPoints"] + num
+                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                        })
+                        .then(function (result) {
+
+                        })
+                        //students[i]["goldenPoints"] = students[i]["goldenPoints"] + num
                         break;
                     }
                 }
@@ -354,18 +347,20 @@ input.nums{
                 }
                 for(let i = 0; i < students.length; i++){
                     if(students[i]["name"] == student){
-                        /*$.ajax({
-                            url: "https://server/addPoints",
-                            type: "POST", 
-                            data: (email, password, student, num, false),
-                            success: function(result){
-                                                
+
+                        fetch("/addPoints", {
+                            method: 'POST',
+                            headers: {
+                                //'Content-Type': 'application/url',
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            error: function(error){
-                                console.log("Error: " + error)
-                            }
-                        })*/
-                        students[i]["awesomePoints"] = students[i]["awesomePoints"] + num
+                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                        })
+                        .then(function (result) {
+
+                        })
+
+                        //students[i]["awesomePoints"] = students[i]["awesomePoints"] + num
                         break;
                     }
                 }
@@ -382,18 +377,18 @@ input.nums{
                 }
                 for(let i = 0; i < students.length; i++){
                     if(students[i]["name"] == student){
-                        /*$.ajax({
-                            url: "https://server/addPoints",
-                            type: "POST", 
-                            data: (email, password, student, num*(-1), true),
-                            success: function(result){
-
+                        fetch("/addPoints", {
+                            method: 'POST',
+                            headers: {
+                                //'Content-Type': 'application/url',
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            error: function(error){
-                                console.log("Error: " + error)
-                            }
-                        })*/
-                        students[i]["goldenPoints"] = students[i]["goldenPoints"] - num
+                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num*-1 + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                        })
+                        .then(function (result) {
+
+                        })
+                        //students[i]["goldenPoints"] = students[i]["goldenPoints"] - num
                         break;
                     }
                 }
@@ -405,18 +400,18 @@ input.nums{
                 }
                 for(let i = 0; i < students.length; i++){
                     if(students[i]["name"] == student){
-                        /*$.ajax({
-                            url: "https://server/addPoints",
-                            type: "POST", 
-                            data: (email, password, student, num*(-1), false),
-                            success: function(result){
-
+                        fetch("/addPoints", {
+                            method: 'POST',
+                            headers: {
+                                //'Content-Type': 'application/url',
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            error: function(error){
-                                console.log("Error: " + error)
-                            }
-                        })*/
-                        students[i]["awesomePoints"] = students[i]["awesomePoints"] - num
+                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num*-1 + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                        })
+                        .then(function (result) {
+
+                        })
+                        //students[i]["awesomePoints"] = students[i]["awesomePoints"] - num
                         break;
                     }
                 }
@@ -434,18 +429,20 @@ input.nums{
                 }
                 for(let i = 0; i < students.length; i++){
                     if(students[i]["name"] == student){
-                        /*$.ajax({
-                            url: "https://server/setPoints",
-                            type: "POST", 
-                            data: (email, password, student, AWESOME, num),
-                            success: function(result){
 
+                        fetch("/setPoints", {
+                            method: 'POST',
+                            headers: {
+                                //'Content-Type': 'application/url',
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            error: function(error){
-                                console.log("Error: " + error)
-                            }
-                        })*/
-                        students[i]["goldenPoints"] = num
+                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                        })
+                        .then(function (result) {
+
+                        })
+
+                        //students[i]["goldenPoints"] = num
                         break;
                     }
                 }
@@ -457,18 +454,19 @@ input.nums{
                 }
                 for(let i = 0; i < students.length; i++){
                     if(students[i]["name"] == student){
-                        /*$.ajax({
-                            url: "https://server/setPoints",
-                            type: "POST", 
-                            data: (email, password, student, num, GOLDEN),
-                            success: function(result){
-
+                        fetch("/setPoints", {
+                            method: 'POST',
+                            headers: {
+                                //'Content-Type': 'application/url',
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            error: function(error){
-                                console.log("Error: " + error)
-                            }
-                        })*/
-                        students[i]["awesomePoints"] = num
+                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                        })
+                        .then(function (result) {
+
+                        })
+                        
+                        //students[i]["awesomePoints"] = num
                         break;
                     }
                 }

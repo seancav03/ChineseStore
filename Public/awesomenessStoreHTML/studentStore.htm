@@ -126,7 +126,9 @@
             }
             email = data["email"]
             password = data["psw"]
-            console.log(email + "   " + password)
+            if (email == "" || email == "undefined" || password == "" || password == "undefined") {
+                document.location.href = 'login.htm'
+            }
 
             let items = []
 
@@ -157,9 +159,9 @@
             newItem3["awesomeCost"] = 30
             newItem3["goldenCost"] = 0
 
-            items.push(newItem1)
-            items.push(newItem2)
-            items.push(newItem3)
+            //items.push(newItem1)
+            //items.push(newItem2)
+            //items.push(newItem3)
 
             let main = document.getElementById("main")
 
@@ -258,9 +260,11 @@
             body: "email=" + email + "&password=" + password + "&itemName=" + itemName, // body data type must match "Content-Type" header
             })
             .then(function(result) {
-                if(!result){
+                if(result){
+                    alert("Success")
+                } else{
                     alert("Not Enough Currency")
-                } 
+                }
             })
         }
     </script>
