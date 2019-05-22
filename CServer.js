@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({limit: '50mb', extended:false}));
 
 //static directory prep
-app.use(express.static('public'));
+app.use('/static', express.static('Public'));
 
 
 app.post('/authenticateAdmin', function(req, res) {
