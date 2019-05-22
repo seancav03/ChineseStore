@@ -5,7 +5,7 @@ const sequelize = new Sequelize('null', 'null', 'null', {
 })
 
 //Admin Username and Password
-const AU = 'Hugo123';
+const AU = 'hxiong@headroyce.org';
 const AP = 'Xiong123';
 
 //define students table

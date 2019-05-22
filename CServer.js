@@ -44,7 +44,6 @@ app.post('/login', function(req, res) {
     let username = req.body.username;
     let password = req.body.password;
     console.log(username + " " + password);
-    console.log(req);
     
     let promise = database.login(username, password);
     promise.then(result => {
