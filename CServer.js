@@ -22,9 +22,9 @@ app.post('/authenticateAdmin', function(req, res) {
 
 app.post('/newStudent', function(req, res) {
     let email = req.body.email;
-    let name = req.body.RealName;
+    let name = req.body.name;
     let password = password;
-    let classLevel = req.body.Class;
+    let classLevel = req.body.className;
     
     let r = database.newStudent(email, name, password, classLevel);
     res.send(r);

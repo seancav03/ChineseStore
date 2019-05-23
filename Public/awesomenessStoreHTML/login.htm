@@ -113,11 +113,11 @@ div.bolded{
                 answer = result2
                 
                 console.log('+=+' + answer);
-                if(answer == "true"){
-                    if(email == "hxiong@headroyce.org" && password == "maomaoiscool"){
-                        //document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
-                    }
-                    //document.location.href = 'studentStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
+                if(email == "hxiong@headroyce.org" && password == "maomaoiscool"){
+                        document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
+                } else if(answer == "true"){
+                    
+                    document.location.href = 'studentStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
                     
                 }else{
                     let textName = document.getElementById('failed')
