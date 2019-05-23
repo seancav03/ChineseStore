@@ -91,12 +91,8 @@ app.post('/addItem', function(req, res) {
     let costAwesomes = req.body.CostAwesomes;
     let costGoldens = req.body.CostGoldens;
     
-    let promise = database.addItem(AdminU, AdminP, Item, costAwesomes, costGoldens);
-    promise.then(result => {
-        res.send(result)
-    }).catch( result => {
-        res.send(false);
-    })
+    let result = database.addItem(AdminU, AdminP, Item, costAwesomes, costGoldens);
+    res.send(result);
 });
 
 app.post('/removeItem', function(req, res) {
@@ -104,12 +100,8 @@ app.post('/removeItem', function(req, res) {
     let AdminP = req.body.AdminP;
     let Item = req.body.Item;
     
-    let promise = database.removeItem(AdminU, AdminP, Item);
-    promise.then(result => {
-        res.send(result)
-    }).catch( result => {
-        res.send(false);
-    })
+    let result = database.removeItem(AdminU, AdminP, Item);
+    res.send(result);
 });
 
 app.post('/buyItem', function(req, res) {
@@ -166,7 +158,7 @@ app.post('/getStudent', function(req, res) {
 app.post('/getStore', function(req, res) {
     let promise = database.getStore();
     promise.then(result => {
-        res.send(result)
+        res.send(JSON.stringify({ data: result}))
     }).catch( result => {
         res.send([]);
     })
