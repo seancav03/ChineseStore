@@ -170,60 +170,71 @@
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "email=" + email + "&password=" + password, // body data type must match "Content-Type" header
+                body: "username=" + email + "&password=" + password, // body data type must match "Content-Type" header
             })
             .then(function (result) {
-                awesomePoints = result["awesomeCards"]
-                goldenPoints = result["goldenCards"]
-                name = result["realName"]
-                className = result["class"]
+                result.json().then(function(result2){
+
+                    // awesomePoints = result2["awesomeCards"]
+                    // goldenPoints = result2["goldenCards"]
+                    // name = result2["realName"]
+                    // className = result2["class"]
+                    awesomePoints = result2[4]
+                    goldenPoints = result2[5]
+                    name = result2[1]
+                    className = result2[3]
+
+                    let awePoints = document.getElementById("awesomePoints")
+                    let golPoints = document.getElementById("goldenPoints")
+
+                    let awesome = document.createElement('div')
+                    awesome.textContent = awesomePoints
+
+                    let golden = document.createElement('div')
+                    golden.textContent = goldenPoints
+
+                    awePoints.appendChild(awesome)
+                    golPoints.appendChild(golden)
+
+                    let info = document.getElementById("info")
+
+                    let nameLabel = document.createElement('div')
+                    nameLabel.className = 'col-6 text-center info'
+                    nameLabel.textContent = "Name:"
+
+                    let nameContent = document.createElement('div')
+                    nameContent.className = 'col-6 text-center info'
+                    nameContent.textContent = name
+
+                    let classLabel = document.createElement('div')
+                    classLabel.className = 'col-6 text-center info'
+                    classLabel.textContent = "Class:"
+
+                    let classContent = document.createElement('div')
+                    classContent.className = 'col-6 text-center info'
+                    classContent.textContent = className
+
+                    let emailLabel = document.createElement('div')
+                    emailLabel.className = 'col-6 text-center info'
+                    emailLabel.textContent = "Email:"
+
+                    let emailContent = document.createElement('div')
+                    emailContent.className = 'col-6 text-center info'
+                    emailContent.textContent = email
+
+
+                    info.appendChild(nameLabel)
+                    info.appendChild(nameContent)
+                    info.appendChild(classLabel)
+                    info.appendChild(classContent)
+                    info.appendChild(emailLabel)
+                    info.appendChild(emailContent)
+
+                })
+                
             })
 
-            let awePoints = document.getElementById("awesomePoints")
-            let golPoints = document.getElementById("goldenPoints")
-
-            let awesome = document.createElement('div')
-            awesome.textContent = awesomePoints
-
-            let golden = document.createElement('div')
-            golden.textContent = goldenPoints
-
-            awePoints.appendChild(awesome)
-            golPoints.appendChild(golden)
-
-            let info = document.getElementById("info")
-
-            let nameLabel = document.createElement('div')
-            nameLabel.className = 'col-6 text-center info'
-            nameLabel.textContent = "Name:"
-
-            let nameContent = document.createElement('div')
-            nameContent.className = 'col-6 text-center info'
-            nameContent.textContent = name
-
-            let classLabel = document.createElement('div')
-            classLabel.className = 'col-6 text-center info'
-            classLabel.textContent = "Class:"
-
-            let classContent = document.createElement('div')
-            classContent.className = 'col-6 text-center info'
-            classContent.textContent = className
-
-            let emailLabel = document.createElement('div')
-            emailLabel.className = 'col-6 text-center info'
-            emailLabel.textContent = "Email:"
-
-            let emailContent = document.createElement('div')
-            emailContent.className = 'col-6 text-center info'
-            emailContent.textContent = email
-
-
-            info.appendChild(nameLabel)
-            info.appendChild(nameContent)
-            info.appendChild(classLabel)
-            info.appendChild(classContent)
-            info.appendChild(emailLabel)
-            info.appendChild(emailContent)
+            
 
 
         }

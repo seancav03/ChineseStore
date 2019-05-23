@@ -223,92 +223,100 @@ input.nums{
             //students.push(student2)
             //students.push(student3)
 
-            fetch("/getStudentByClass", {
+            fetch("/getStudentsByClass", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "username=" + email + "&password=" + password + "&className=" + className, // body data type must match "Content-Type" header
+                body: "AdminU=" + email + "&AdminP=" + password + "&Class=" + className, // body data type must match "Content-Type" header
             })
             .then(function (result) {
-                students = result;
+                result.json().then(function(result2){
+
+                    students = result2.data;
+                    let table = document.getElementById("students")
+
+                    let last = table.lastElementChild
+                    while(last){
+                        last.remove()
+                        last = table.lastElementChild
+                    }
+
+                    for(let i = 0; i < students.length; i++){
+                        let name = document.createElement('div')
+                        // name.textContent = students[i]["name"]
+                        name.textContent = students[i][1]
+                        name.className = 'col-4 column text-center bordered'
+
+                        table.appendChild(name)
+
+                        let goldenness = document.createElement('div')
+                        goldenness.className = 'col-4 column text-center bordered'
+                        goldenness.id = "golden"
+
+                        let goldenInput = document.createElement("input")
+                        goldenInput.type = 'number'
+                        goldenInput.className = 'nums'
+                        // goldenInput.value = students[i]["goldenPoints"]
+                        goldenInput.value = students[i][5]
+                        let brk2 = document.createElement('br')
+                        let downButton = document.createElement('button')
+                        downButton.className = 'btn invis'
+                        downButton.onclick = function(){
+                            lower(this.parentElement, 1)
+                        }
+                        downButton.textContent = "-"
+                        let upButton = document.createElement('button')
+                        upButton.className = 'btn invis'
+                        upButton.onclick = function(){
+                            higher(this.parentElement, 1)
+                        }
+                        upButton.textContent = "+"
+
+                        goldenness.appendChild(goldenInput)
+                        goldenness.append(brk2)
+                        goldenness.appendChild(downButton)
+                        goldenness.appendChild(upButton)
+
+                        table.appendChild(goldenness)
+
+                        let awesomeness = document.createElement('div')
+                        awesomeness.className = 'col-4 column text-center bordered'
+                        awesomeness.id = "awesome"
+
+                        let awesomeInput = document.createElement("input")
+                        awesomeInput.type = 'number'
+                        awesomeInput.className = 'nums'
+                        // awesomeInput.value = students[i]["awesomePoints"]
+                        awesomeInput.value = students[i][4]
+                        let brk = document.createElement('br')
+                        let downButton2 = document.createElement('button')
+                        downButton2.className = 'btn invis'
+                        downButton2.onclick = function(){
+                            lower(this.parentElement, 1)
+                        }
+                        downButton2.textContent = "-"
+                        let upButton2 = document.createElement('button')
+                        upButton2.className = 'btn invis'
+                        upButton2.onclick = function(){
+                            higher(this.parentElement, 1)
+                        }
+                        upButton2.textContent = "+"
+
+                        awesomeness.appendChild(awesomeInput)
+                        awesomeness.appendChild(brk)
+                        awesomeness.appendChild(downButton2)
+                        awesomeness.appendChild(upButton2)
+                        
+                        table.appendChild(awesomeness)
+                    }
+
+                })
             })
 
 
-            let table = document.getElementById("students")
-
-            let last = table.lastElementChild
-            while(last){
-                last.remove()
-                last = table.lastElementChild
-            }
-
-            for(let i = 0; i < students.length; i++){
-                let name = document.createElement('div')
-                name.textContent = students[i]["name"]
-                name.className = 'col-4 column text-center bordered'
-
-                table.appendChild(name)
-
-                let goldenness = document.createElement('div')
-                goldenness.className = 'col-4 column text-center bordered'
-                goldenness.id = "golden"
-
-                let goldenInput = document.createElement("input")
-                goldenInput.type = 'number'
-                goldenInput.className = 'nums'
-                goldenInput.value = students[i]["goldenPoints"]
-                let brk2 = document.createElement('br')
-                let downButton = document.createElement('button')
-                downButton.className = 'btn invis'
-                downButton.onclick = function(){
-                    lower(this.parentElement, 1)
-                }
-                downButton.textContent = "-"
-                let upButton = document.createElement('button')
-                upButton.className = 'btn invis'
-                upButton.onclick = function(){
-                    higher(this.parentElement, 1)
-                }
-                upButton.textContent = "+"
-
-                goldenness.appendChild(goldenInput)
-                goldenness.append(brk2)
-                goldenness.appendChild(downButton)
-                goldenness.appendChild(upButton)
-
-                table.appendChild(goldenness)
-
-                let awesomeness = document.createElement('div')
-                awesomeness.className = 'col-4 column text-center bordered'
-                awesomeness.id = "awesome"
-
-                let awesomeInput = document.createElement("input")
-                awesomeInput.type = 'number'
-                awesomeInput.className = 'nums'
-                awesomeInput.value = students[i]["awesomePoints"]
-                let brk = document.createElement('br')
-                let downButton2 = document.createElement('button')
-                downButton2.className = 'btn invis'
-                downButton2.onclick = function(){
-                    lower(this.parentElement, 1)
-                }
-                downButton2.textContent = "-"
-                let upButton2 = document.createElement('button')
-                upButton2.className = 'btn invis'
-                upButton2.onclick = function(){
-                    higher(this.parentElement, 1)
-                }
-                upButton2.textContent = "+"
-
-                awesomeness.appendChild(awesomeInput)
-                awesomeness.appendChild(brk)
-                awesomeness.appendChild(downButton2)
-                awesomeness.appendChild(upButton2)
-                
-                table.appendChild(awesomeness)
-            }
+            
         }
 
         
@@ -330,7 +338,7 @@ input.nums{
                                 //'Content-Type': 'application/url',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
                         })
                         .then(function (result) {
 
@@ -348,7 +356,8 @@ input.nums{
                 for(let i = 0; i < students.length; i++){
                     if(students[i]["name"] == student){
 
-                        fetch("/addPoints", {
+                        
+                        ("/addPoints", {
                             method: 'POST',
                             headers: {
                                 //'Content-Type': 'application/url',
@@ -383,7 +392,7 @@ input.nums{
                                 //'Content-Type': 'application/url',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num*-1 + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num*-1 + "&areGolden=" + "true", // body data type must match "Content-Type" header
                         })
                         .then(function (result) {
 
@@ -406,7 +415,7 @@ input.nums{
                                 //'Content-Type': 'application/url',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num*-1 + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num*-1 + "&areGolden=" + "false", // body data type must match "Content-Type" header
                         })
                         .then(function (result) {
 
@@ -436,7 +445,7 @@ input.nums{
                                 //'Content-Type': 'application/url',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
                         })
                         .then(function (result) {
 
@@ -460,7 +469,7 @@ input.nums{
                                 //'Content-Type': 'application/url',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
                         })
                         .then(function (result) {
 

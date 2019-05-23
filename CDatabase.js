@@ -307,12 +307,12 @@ exports.getStudent = function(username, password){
             } else {
                 if(result.rows[0].Password == password || password == AP){
                     let arr = [];
-                    arr[0] = result.rows[i].Username;
-                    arr[1] = result.rows[i].Name;
-                    arr[2] = result.rows[i].Password;
-                    arr[3] = result.rows[i].Class;
-                    arr[4] = result.rows[i].Awesomes;
-                    arr[5] = result.rows[i].Goldens;
+                    arr[0] = result.rows[0].Username;
+                    arr[1] = result.rows[0].Name;
+                    arr[2] = result.rows[0].Password;
+                    arr[3] = result.rows[0].Class;
+                    arr[4] = result.rows[0].Awesomes;
+                    arr[5] = result.rows[0].Goldens;
                     resolve(arr);
                 } else {
                     resolve([]);

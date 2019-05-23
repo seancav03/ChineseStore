@@ -23,7 +23,7 @@ app.post('/authenticateAdmin', function(req, res) {
 app.post('/newStudent', function(req, res) {
     let email = req.body.email;
     let name = req.body.name;
-    let password = password;
+    let password = req.body.password;
     let classLevel = req.body.className;
     
     let r = database.newStudent(email, name, password, classLevel);
@@ -137,7 +137,7 @@ app.post('/getStudentsByClass', function(req, res) {
     
     let promise = database.getStudentsByClass(AdminU, AdminP, whichClass);
     promise.then(result => {
-        res.send(result)
+        res.send(JSON.stringify({ data: result}))
     }).catch( result => {
         res.send([]);
     })
