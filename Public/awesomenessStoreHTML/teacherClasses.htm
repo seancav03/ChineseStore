@@ -328,10 +328,10 @@ input.nums{
                     if(par.parentElement.children[i] == par){
                         student = par.parentElement.children[i-1].textContent
                     }
+
                 }
                 for(let i = 0; i < students.length; i++){
                     if(students[i]["name"] == student){
-
                         fetch("/addPoints", {
                             method: 'POST',
                             headers: {

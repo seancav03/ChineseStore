@@ -103,7 +103,9 @@ exports.addPoints = function(AdminU, AdminP, username, numPoints, areGolden){
                     Username: username
                 }
             }).then(result => {
+                if(result.length < 1) { resolve(false); }
                 if(areGolden){
+                    console.log(result.length);
                     let newVal = result[0].Goldens + numPoints;
                     Students.update(
                         {
