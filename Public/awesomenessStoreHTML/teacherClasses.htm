@@ -177,6 +177,7 @@ input.nums{
         let currClass
         let email
         let password
+        let allStudents
 
         $("div#content").on('focusout', 'input', function(){
             changeValue(event.target.parentElement, event.target.value)
@@ -201,23 +202,8 @@ input.nums{
         
         function toClass(className){
             //get array by class name
-            currClass = name;
+            currClass = className;
             let students = []
-
-            let student1 = []
-            student1["name"] = "Ethan Ash"
-            student1["awesomePoints"] = 34
-            student1["goldenPoints"] = 4
-
-            let student2 = []
-            student2["name"] = "Charlie Jones"
-            student2["awesomePoints"] = 50
-            student2["goldenPoints"] = 1
-
-            let student3 = []
-            student3["name"] = "Luca Snoey"
-            student3["awesomePoints"] = 68
-            student3["goldenPoints"] = 8
             
             //students.push(student1)
             //students.push(student2)
@@ -235,6 +221,7 @@ input.nums{
                 result.json().then(function(result2){
 
                     students = result2.data;
+                    allStudents = students
                     let table = document.getElementById("students")
 
                     let last = table.lastElementChild
@@ -314,116 +301,118 @@ input.nums{
 
                 })
             })
-
-
-            
         }
-
-        
-
         function higher(par, num){
-            let student = "";
+            let student = ""
+            let studentEmail = ""
             if((par.id) == "golden"){
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
                         student = par.parentElement.children[i-1].textContent
                     }
-
                 }
-                for(let i = 0; i < students.length; i++){
-                    if(students[i]["name"] == student){
-                        fetch("/addPoints", {
-                            method: 'POST',
-                            headers: {
-                                //'Content-Type': 'application/url',
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
-                        })
-                        .then(function (result) {
 
-                        })
-                        //students[i]["goldenPoints"] = students[i]["goldenPoints"] + num
-                        break;
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
+                        break
                     }
                 }
+
+                fetch("/addPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+
+                })
+                        
             }else{
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
                         student = par.parentElement.children[i-2].textContent
                     }
                 }
-                for(let i = 0; i < students.length; i++){
-                    if(students[i]["name"] == student){
 
-                        
-                        ("/addPoints", {
-                            method: 'POST',
-                            headers: {
-                                //'Content-Type': 'application/url',
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: "username=" + email + "&password=" + password + "&name=" + student + "&points=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
-                        })
-                        .then(function (result) {
-
-                        })
-
-                        //students[i]["awesomePoints"] = students[i]["awesomePoints"] + num
-                        break;
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
+                        break
                     }
                 }
+
+                fetch("/addPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+
+                })
+
             }
             toClass(currClass)
         }
         function lower(par, num){
-            let student = "";
+            let student = ""
+            let studentEmail = ""
             if((par.id) == "golden"){
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
                         student = par.parentElement.children[i-1].textContent
                     }
                 }
-                for(let i = 0; i < students.length; i++){
-                    if(students[i]["name"] == student){
-                        fetch("/addPoints", {
-                            method: 'POST',
-                            headers: {
-                                //'Content-Type': 'application/url',
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num*-1 + "&areGolden=" + "true", // body data type must match "Content-Type" header
-                        })
-                        .then(function (result) {
 
-                        })
-                        //students[i]["goldenPoints"] = students[i]["goldenPoints"] - num
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
                         break;
                     }
                 }
+
+                fetch("/addPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num*-1 + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+
+                })       
             }else{
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
                         student = par.parentElement.children[i-2].textContent
                     }
                 }
-                for(let i = 0; i < students.length; i++){
-                    if(students[i]["name"] == student){
-                        fetch("/addPoints", {
-                            method: 'POST',
-                            headers: {
-                                //'Content-Type': 'application/url',
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num*-1 + "&areGolden=" + "false", // body data type must match "Content-Type" header
-                        })
-                        .then(function (result) {
 
-                        })
-                        //students[i]["awesomePoints"] = students[i]["awesomePoints"] - num
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
                         break;
                     }
                 }
+
+                fetch("/addPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num*-1 + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+
+                })
             }
             toClass(currClass)
         }
@@ -436,51 +425,52 @@ input.nums{
                         student = par.parentElement.children[i-1].textContent
                     }
                 }
-                for(let i = 0; i < students.length; i++){
-                    if(students[i]["name"] == student){
 
-                        fetch("/setPoints", {
-                            method: 'POST',
-                            headers: {
-                                //'Content-Type': 'application/url',
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
-                        })
-                        .then(function (result) {
-
-                        })
-
-                        //students[i]["goldenPoints"] = num
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
                         break;
                     }
                 }
+
+                fetch("/setPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+
+                })
             }else{
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
                         student = par.parentElement.children[i-2].textContent
                     }
                 }
-                for(let i = 0; i < students.length; i++){
-                    if(students[i]["name"] == student){
-                        fetch("/setPoints", {
-                            method: 'POST',
-                            headers: {
-                                //'Content-Type': 'application/url',
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: "AdminU=" + email + "&AdminP=" + password + "&username=" + student + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
-                        })
-                        .then(function (result) {
 
-                        })
-                        
-                        //students[i]["awesomePoints"] = num
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
                         break;
                     }
                 }
+
+                fetch("/setPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+
+                })
             }
-            toClass("test")
+            toClass(currClass)
         }
     </script>
 </body>

@@ -184,17 +184,6 @@
             //items.push(newItem2)
             //items.push(newItem3)
 
-            /*$.ajax({
-                url: "https://server/getStore",
-                type: "POST", 
-                data: (),
-                success: function(result){
-                    items = result;                
-                },
-                error: function(error){
-                    console.log("Error: " + error)
-                }
-            })*/
 
             fetch("/getStore", {
                 method: 'POST',
@@ -219,8 +208,8 @@
 
                         let newItem1 = document.createElement('div')
 
-
-                        if (items[i]["name"] != "add") {
+                        
+                        if (items[i]["name"] != "ADD") {
                             newItem1.className = 'col-6 row-fluid parentCol'
 
                             let name1 = document.createElement('div')
@@ -261,7 +250,7 @@
                             newItem1.appendChild(buttonDiv1)
 
 
-                        } else {
+                        }else {
                             newItem1.className = 'col-6 row-fluid parentCol addBox'
                             let name1 = document.createElement('div')
                             name1.className = 'col-6 text-center named oneLine'
@@ -282,7 +271,7 @@
                             let button = document.createElement('button')
                             button.className = 'btn'
                             button.onclick = function () {
-                                edit(this);
+                                addNew(this);
                             }
 
                             let buttonText = document.createElement('div')
@@ -364,7 +353,7 @@
                                 let button = document.createElement('button')
                                 button.className = 'btn'
                                 button.onclick = function () {
-                                    edit(this);
+                                    addNew(this);
                                 }
 
                                 let buttonText = document.createElement('div')
@@ -392,6 +381,45 @@
             
         }
 
+        function addNew(button){
+            let par = button.parentElement.parentElement
+            let nameInput = document.createElement('input')
+            nameInput.type = 'text'
+            nameInput.id = 'nameInput'
+            par.children[0].textContent = ""
+            par.children[0].appendChild(nameInput)
+
+            let awesomeInput = document.createElement('input')
+            awesomeInput.type = 'number'
+            awesomeInput.id = 'awesomeInput'
+            par.children[1].textContent = "Cost (Awesome): "
+            par.children[1].appendChild(awesomeInput)
+
+            let goldenInput = document.createElement('input')
+            goldenInput.type = 'number'
+            goldenInput.id = 'goldenInput'
+            par.children[2].textContent = "Cost (Golden): "
+            par.children[2].appendChild(goldenInput)
+
+            button.textContent = "Done"
+            button.onclick = function () {
+                if(nameInput.value != ""){
+                    fetch("/addItem", {
+                        method: 'POST',
+                        headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + nameInput.value + "&CostAwesomes=" + awesomeInput.value + "&CostGoldens=" + goldenInput.value, // body data type must match "Content-Type" header
+                        //body: "username=" + email + "&password=" + password,
+                    })
+                    .then(function (result) {
+                        //check for repeats
+                    })
+                }
+                makeElements();
+            }
+        }
         function edit(button) {
             let par = button.parentElement.parentElement
 
@@ -417,37 +445,30 @@
             par.children[2].textContent = "Cost (Golden): "
             par.children[2].appendChild(goldenInput)
 
-            button.textContent = "Done";
+            button.textContent = "Done"
             button.onclick = function () {
-                change(nameInput.value, awesomeInput.value, goldenInput.value);
+                if(nameInput.value == ""){
+                    console.log("deleting" + par.children[0].textContent)
+                    fetch("/removeItem", {
+                        method: 'POST',
+                        headers: {
+                            //'Content-Type': 'application/url',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + oldItem, // body data type must match "Content-Type" header
+                    })
+                    .then(function (result) {
+                        makeElements()
+                    })
+                }else{
+                    change(nameInput.value, awesomeInput.value, goldenInput.value)
+                }
+                
             }
         }
 
         function change(name, awesome, golden) {
             //save the changes to the server
-            /*$.ajax({
-                url: "https://server/removeItem",
-                type: "POST", 
-                data: (email, password, oldItem),
-                success: function(result){
-                    //check whether name repeats            
-                },
-                error: function(error){
-                    console.log("Error: " + error)
-                }
-            })*/
-
-            /*$.ajax({
-                url: "https://server/addItem",
-                type: "POST", 
-                data: (email, password, name, awesome, golden),
-                success: function(result){
-                    //check whether name repeats            
-                },
-                error: function(error){
-                    console.log("Error: " + error)
-                }
-            })*/
 
             fetch("/removeItem", {
                 method: 'POST',
@@ -459,22 +480,29 @@
             })
             .then(function (result) {
                 //check for repeats
+                if(awesome == null){
+                awesome = 0
+                }
+                if(golden == null){
+                    golden == 0
+                }
+
+                fetch("/addItem", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + name + "&CostAwesomes=" + awesome + "&CostGoldens=" + golden, // body data type must match "Content-Type" header
+                    //body: "username=" + email + "&password=" + password,
+                })
+                .then(function (result) {
+                    makeElements()
+                    //check for repeats
+                })
             })
 
-            fetch("/addItem", {
-                method: 'POST',
-                headers: {
-                    //'Content-Type': 'application/url',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + name + "&CostAwesomes=" + awesome + "&CostGoldens=" + golden, // body data type must match "Content-Type" header
-                //body: "username=" + email + "&password=" + password,
-            })
-            .then(function (result) {
-                //check for repeats
-            })
-
-            makeElements();
+            
         }
     </script>
 </body>
