@@ -236,6 +236,9 @@
 
                             let button2 = document.createElement('button')
                             button2.className = 'btn'
+                            button2.onclick = function () {
+                            buy(name2.textContent)
+                        }
 
                             let buttonText2 = document.createElement('div')
                             buttonText2.textContent = "Buy"
@@ -269,11 +272,13 @@
             body: "username=" + email + "&password=" + password + "&Item=" + itemName, // body data type must match "Content-Type" header
             })
             .then(function(result) {
-                if(result){
+                result.json().then(function(result2){
+                    if(result2.data){
                     alert("Success")
                 } else{
                     alert("Not Enough Currency")
                 }
+                })
             })
         }
     </script>

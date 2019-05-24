@@ -159,75 +159,83 @@
                 }
             })*/
 
-            fetch("/getRedeemedAdmin", {
+            fetch("/getBuysAdmin", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "username=" + email + "&password=" + password, // body data type must match "Content-Type" header
+                body: "AdminU=" + email + "&AdminP=" + password, // body data type must match "Content-Type" header
             })
             .then(function (result) {
-                toRedeem = result;
+                result.json().then(function(result2){
+                    toRedeem = result2.data;
+
+                    let space = document.getElementById("space")
+
+                    let rewards = document.getElementById("rewards")
+
+                    let last = rewards.lastElementChild
+                    while (last != space) {
+                        last.remove()
+                        last = rewards.lastElementChild
+                    }
+
+                    for (let i = 0; i < toRedeem.length; i++) {
+                        let name = document.createElement('div')
+                        name.className = 'col-4 column text-center bordered'
+                        // name.textContent = toRedeem[i]["name"]
+                        name.textContent = toRedeem[i][0]
+
+                        let reward = document.createElement('div')
+                        reward.className = 'col-4 column text-center bordered'
+                        // reward.textContent = toRedeem[i]["reward"]
+                        reward.textContent = toRedeem[i][1]
+
+                        let redeemItem = document.createElement('div')
+                        redeemItem.className = 'col-4 column text-center bordered'
+
+                        let button = document.createElement('button')
+                        button.className = 'btn'
+                        button.textContent = "redeem"
+                        button.onclick = function () {
+                            redeem(this.parentElement, toRedeem[i][2]);
+                        }
+
+                        redeemItem.appendChild(button)
+
+                        rewards.appendChild(name)
+                        rewards.appendChild(reward)
+                        rewards.appendChild(redeemItem)
+
+                    }
+
+                })
+                
             })
 
-            let student1 = []
-            student1["name"] = "Ethan Ash"
-            student1["reward"] = "One-Day Homework Pass"
+            // let student1 = []
+            // student1["name"] = "Ethan Ash"
+            // student1["reward"] = "One-Day Homework Pass"
 
-            let student2 = []
-            student2["name"] = "Charlie Jones"
-            student2["reward"] = "Candy"
+            // let student2 = []
+            // student2["name"] = "Charlie Jones"
+            // student2["reward"] = "Candy"
 
-            let student3 = []
-            student3["name"] = "Luca Snoey"
-            student3["reward"] = "Homework Pass"
+            // let student3 = []
+            // student3["name"] = "Luca Snoey"
+            // student3["reward"] = "Homework Pass"
 
-            toRedeem.push(student1)
-            toRedeem.push(student2)
-            toRedeem.push(student3)
+            // toRedeem.push(student1)
+            // toRedeem.push(student2)
+            // toRedeem.push(student3)
 
-            let space = document.getElementById("space")
-
-            let rewards = document.getElementById("rewards")
-
-            let last = rewards.lastElementChild
-            while (last != space) {
-                last.remove()
-                last = rewards.lastElementChild
-            }
-
-            for (let i = 0; i < toRedeem.length; i++) {
-                let name = document.createElement('div')
-                name.className = 'col-4 column text-center bordered'
-                name.textContent = toRedeem[i]["name"]
-
-                let reward = document.createElement('div')
-                reward.className = 'col-4 column text-center bordered'
-                reward.textContent = toRedeem[i]["reward"]
-
-                let redeemItem = document.createElement('div')
-                redeemItem.className = 'col-4 column text-center bordered'
-
-                let button = document.createElement('button')
-                button.className = 'btn'
-                button.textContent = "redeem"
-                button.onclick = function () {
-                    redeem(this.parentElement)
-                }
-
-                redeemItem.appendChild(button)
-
-                rewards.appendChild(name)
-                rewards.appendChild(reward)
-                rewards.appendChild(redeemItem)
-
-            }
+            
 
 
         }
 
-        function redeem(par) {
+        function redeem(par, saleID) {
             /*let par2 = par.parentElement;
             let place = null;
             for (let i = 0; i < par2.children.length; i++) {
@@ -249,7 +257,7 @@
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "username=" + email + "&password=" + password + "&itemName=" + (par2.children[place - 1].textContent), // body data type must match "Content-Type" header
+                body: "AdminU=" + email + "&AdminP=" + password + "&saleID=" + saleID, // body data type must match "Content-Type" header
             })
             .then(function (result) {
                 items = result;

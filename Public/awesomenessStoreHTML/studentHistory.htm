@@ -128,15 +128,37 @@ body{
                 //'Content-Type': 'application/url',
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: "email=" + email + "&password=" + password, // body data type must match "Content-Type" header
+            body: "username=" + email + "&password=" + password, // body data type must match "Content-Type" header
             })
             .then(function(result) {
-                for(let i = 0; i < result.length; i++){
-                    let item = []
-                    item["reward"] = result[i]
-                    item["isUsed"] = true;
-                    history.push(item)     
-                }
+                result.json().then(function(result2){
+                    for(let i = 0; i < result2.data.length; i++){
+                        let item = []
+                        item["reward"] = result2.data[i][1]
+                        item["isUsed"] = true;
+                        history.push(item)
+
+                        let items = document.getElementById("items")
+
+                    }     
+                    for(let i = 0; i < history.length; i++){
+                            let reward = document.createElement('div')
+                            reward.className = 'col-6 text-center'
+                            reward.textContent = history[i]["reward"]
+                            
+                            let status = document.createElement('div')
+                            if(history[i]["isUsed"]){
+                                status.className = 'col-6 text-center used'
+                                status.textContent = "Used"
+                            }else{
+                                status.className = 'col-6 text-center availible'
+                                status.textContent = "Bought"
+                            }
+
+                            items.appendChild(reward)
+                            items.appendChild(status)
+                    }
+                })
             })
 
             //connecting to server to get buys that haven't been redeemed yet
@@ -146,15 +168,38 @@ body{
                 //'Content-Type': 'application/url',
                 'Content-Type': 'application/x-www-form-urlencoded',
             }, 
-            body: "email=" + email + "&password=" + password, // body data type must match "Content-Type" header
+            body: "username=" + email + "&password=" + password, // body data type must match "Content-Type" header
             })
             .then(function(result) {
-                for(let i = 0; i < result.length; i++){
-                    let item = []
-                    item["reward"] = result[i]
-                    item["isUsed"] = false;
-                    history.push(item)     
-                }
+                result.json().then(function(result2){
+                    for(let i = 0; i < result2.data.length; i++){
+                        let item = []
+                        item["reward"] = result2.data[i][1]
+                        item["isUsed"] = false;
+                        history.push(item)     
+
+                        let items = document.getElementById("items")
+
+                        
+                    }
+                    for(let i = 0; i < history.length; i++){
+                            let reward = document.createElement('div')
+                            reward.className = 'col-6 text-center'
+                            reward.textContent = history[i]["reward"]
+                            
+                            let status = document.createElement('div')
+                            if(history[i]["isUsed"]){
+                                status.className = 'col-6 text-center used'
+                                status.textContent = "Used"
+                            }else{
+                                status.className = 'col-6 text-center availible'
+                                status.textContent = "Bought"
+                            }
+
+                            items.appendChild(reward)
+                            items.appendChild(status)
+                        }
+                })
             })
 
             let item1 = []
@@ -173,25 +218,7 @@ body{
             //history.push(item2)
             //history.push(item3)
 
-            let items = document.getElementById("items")
-
-            for(let i = 0; i < history.length; i++){
-                let reward = document.createElement('div')
-                reward.className = 'col-6 text-center'
-                reward.textContent = history[i]["reward"]
-                
-                let status = document.createElement('div')
-                if(history[i]["isUsed"]){
-                    status.className = 'col-6 text-center used'
-                    status.textContent = "Used"
-                }else{
-                    status.className = 'col-6 text-center availible'
-                    status.textContent = "Bought"
-                }
-
-                items.appendChild(reward)
-                items.appendChild(status)
-            }
+            
         }
     </script>
 </body>

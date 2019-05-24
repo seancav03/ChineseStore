@@ -3,7 +3,7 @@ const app = express();
 
 const database = require('./CDatabase');
 
-let port  = /*process.env.PORT ||*/ 3775;
+let port  = process.env.PORT || 3775;
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({limit: '50mb', extended:false}));
@@ -40,14 +40,11 @@ app.post('/removeStudent', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-    console.log("HERE++++++");
     let username = req.body.username;
     let password = req.body.password;
-    console.log(username + " " + password);
     
     let promise = database.login(username, password);
     promise.then(result => {
-        console.log("+=+" + result);
         res.send(result)
     }).catch( result => {
         res.send(false);
@@ -111,7 +108,7 @@ app.post('/buyItem', function(req, res) {
     
     let promise = database.buyItem(username, password, Item);
     promise.then(result => {
-        res.send(result)
+        res.send(JSON.stringify({ data: result}))
     }).catch( result => {
         res.send(false);
     })
@@ -122,12 +119,8 @@ app.post('/redeemItem', function(req, res) {
     let AdminP = req.body.AdminP;
     let saleID = req.body.saleID;
     
-    let promise = database.redeemItem(AdminU, AdminP, saleID);
-    promise.then(result => {
-        res.send(result)
-    }).catch( result => {
-        res.send(false);
-    })
+    let result = database.redeemItem(AdminU, AdminP, saleID);
+    res.send(JSON.stringify({ data: result}));
 });
 
 app.post('/getStudentsByClass', function(req, res) {
@@ -170,7 +163,8 @@ app.post('/getMyBuys', function(req, res) {
     
     let promise = database.getMyBuys(username, password);
     promise.then(result => {
-        res.send(result)
+        
+        res.send(JSON.stringify({ data: result}))
     }).catch( result => {
         res.send([]);
     })
@@ -182,7 +176,7 @@ app.post('/getMyRedeemed', function(req, res) {
     
     let promise = database.getMyRedeemed(username, password);
     promise.then(result => {
-        res.send(result)
+        res.send(JSON.stringify({ data: result}))
     }).catch( result => {
         res.send([]);
     })
@@ -194,7 +188,7 @@ app.post('/getBuysAdmin', function(req, res) {
     
     let promise = database.getBuysAdmin(AdminU, AdminP);
     promise.then(result => {
-        res.send(result)
+        res.send(JSON.stringify({ data: result}))
     }).catch( result => {
         res.send([]);
     })
@@ -206,7 +200,7 @@ app.post('/getRedeemedAdmin', function(req, res) {
     
     let promise = database.getRedeemedAdmin(AdminU, AdminP);
     promise.then(result => {
-        res.send(result)
+        res.send(JSON.stringify({ data: result}))
     }).catch( result => {
         res.send([]);
     })

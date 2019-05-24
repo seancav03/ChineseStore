@@ -85,10 +85,8 @@ exports.login = function(username, password){
         }).then(result => {
             let num = result.count;
             if(num > 0){
-                console.log("TRUE");
                 resolve(true);
             } else {
-                console.log("FALSE");
                 resolve(false);
             }
         })
@@ -211,20 +209,14 @@ exports.buyItem = function(username, password, Item){
         }).then(result2 => {
             let num = result2.count;
             if(num > 0){
-                console.log("+++ Student Found");
                 let awes = result2.rows[0].Awesomes;
-                console.log("+++ Awes: " + awes);
                 let golds = result2.rows[0].Goldens;
-                console.log("+++ Golds: " + golds);
                 Store.findAndCountAll({
                     where: {
                         Reward: Item
                     }
                 }).then(result => {
-                    console.log("+++ Checking Item");
-                    console.log(result.rows[0].AwesomeCost +", " + awes + ", " + result.rows[0].GoldenCost + ", " + golds);
                     if(result2.count > 0 && result.rows[0].AwesomeCost <= awes && result.rows[0].GoldenCost <= golds){
-                        console.log("+++ Item Found");
                         //take away awesome and golden points
                         exports.addPoints(AU, AP, username, result.rows[0].AwesomeCost*(-1), false);
                         exports.addPoints(AU, AP, username, result.rows[0].GoldenCost*(-1), true);
