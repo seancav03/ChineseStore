@@ -106,7 +106,7 @@ exports.addPoints = function(AdminU, AdminP, username, numPoints, areGolden){
                 if(result.length < 1) { resolve(false); }
                 if(areGolden){
                     console.log(result.length);
-                    let newVal = result[0].Goldens + numPoints;
+                    let newVal = parseInt(result[0].Goldens) + parseInt(numPoints);
                     Students.update(
                         {
                             Goldens: newVal
@@ -117,7 +117,7 @@ exports.addPoints = function(AdminU, AdminP, username, numPoints, areGolden){
                     );
                     resolve(true);
                 } else {
-                    let newVal = result[0].Awesomes + numPoints;
+                    let newVal = parseInt(result[0].Awesomes) + parseInt(numPoints);
                     Students.update(
                         {
                             Awesomes: newVal
@@ -142,7 +142,7 @@ exports.setPoints = function(AdminU, AdminP, username, numPoints, areGolden){
     let promise = new Promise(function(resolve, reject){
         if(AdminU == AU && AdminP == AP){
             if(areGolden){
-                let newVal = numPoints;
+                let newVal = parseInt(numPoints);
                 Students.update(
                     {
                         Goldens: newVal

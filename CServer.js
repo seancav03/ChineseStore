@@ -57,8 +57,10 @@ app.post('/addPoints', function(req, res) {
     let username = req.body.username;
     let numPoints = req.body.numPoints;
     let areGolden = req.body.areGolden;
+
+    let areGoldenBool = (areGolden == "true")
     
-    let promise = database.addPoints(AdminU, AdminP, username, numPoints, areGolden);
+    let promise = database.addPoints(AdminU, AdminP, username, numPoints, areGoldenBool);
     promise.then(result => {
         res.send(result)
     }).catch( result => {
@@ -72,8 +74,10 @@ app.post('/setPoints', function(req, res) {
     let username = req.body.username;
     let numPoints = req.body.numPoints;
     let areGolden = req.body.areGolden;
+
+    let areGoldenBool = (areGolden == "true")
     
-    let promise = database.setPoints(AdminU, AdminP, username, numPoints, areGolden);
+    let promise = database.setPoints(AdminU, AdminP, username, numPoints, areGoldenBool);
     promise.then(result => {
         res.send(result)
     }).catch( result => {
