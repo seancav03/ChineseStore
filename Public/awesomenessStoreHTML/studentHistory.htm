@@ -120,6 +120,7 @@ body{
             }
             
             let history = [];
+            let history2 = [];
 
             //connecting to server to get redeemed
             fetch("/getMyRedeemed", {
@@ -176,19 +177,19 @@ body{
                         let item = []
                         item["reward"] = result2.data[i][1]
                         item["isUsed"] = false;
-                        history.push(item)     
+                        history2.push(item)     
 
                         let items = document.getElementById("items")
 
                         
                     }
-                    for(let i = 0; i < history.length; i++){
+                    for(let i = 0; i < history2.length; i++){
                             let reward = document.createElement('div')
                             reward.className = 'col-6 text-center'
-                            reward.textContent = history[i]["reward"]
+                            reward.textContent = history2[i]["reward"]
                             
                             let status = document.createElement('div')
-                            if(history[i]["isUsed"]){
+                            if(history2[i]["isUsed"]){
                                 status.className = 'col-6 text-center used'
                                 status.textContent = "Used"
                             }else{
