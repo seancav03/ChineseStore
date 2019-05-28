@@ -217,11 +217,11 @@ exports.buyItem = function(username, password, Item){
                     where: {
                         Reward: Item
                     }
-                }).then(result => {
-                    if(result2.count > 0 && result.rows[0].AwesomeCost <= awes && result.rows[0].GoldenCost <= golds){
+                }).then(({ rows }) => {
+                    if(result2.count > 0 && rows[0].AwesomeCost <= awes && rows[0].GoldenCost <= golds){
                         //take away awesome and golden points
-                        exports.addPoints(AU, AP, username, result.rows[0].AwesomeCost*(-1), false);
-                        exports.addPoints(AU, AP, username, result.rows[0].GoldenCost*(-1), true);
+                        exports.addPoints(AU, AP, username, rows[0].AwesomeCost*(-1), false);
+                        exports.addPoints(AU, AP, username, rows[0].GoldenCost*(-1), true);
                         //add to table to mark transaction
                         Buys.create({
                             Student: username,
@@ -407,6 +407,9 @@ exports.getMyRedeemed = function(username, password){
 };
 
 //get all student buys. gives saleID as well so item can be redeemed
+export const getBuysAdmin = (AdminU, AdminP) => {
+
+};
 exports.getBuysAdmin = function(AdminU, AdminP){
     let promise = new Promise(function(resolve, reject){
         if(AdminU ==  AU && AdminP == AP){
