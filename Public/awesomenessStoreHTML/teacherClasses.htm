@@ -133,14 +133,14 @@ input.nums{
         </div>
         <div class="row text-center seperate">
             <div class="text-center column">
-                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 2</button>
+                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 3</button>
             </div>
 
             <div class="text-center column">
-                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 3</button>
+                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 4</button>
             </div>
             <div class="text-center column">
-                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 4</button>
+                <button class="btn classes" onclick="toClass(this.innerText)">Chinese 5</button>
             </div>
     
             <div class="text-center column">
@@ -195,7 +195,7 @@ input.nums{
             email = data["email"]
             password = data["psw"]
             
-            if (email == "" || email == "undefined" || password == "" || password == "undefined") {
+            if (email == "" || email == undefined || password == "" || password == undefined) {
                 document.location.href = 'login.htm'
             }
         }

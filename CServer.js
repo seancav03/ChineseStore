@@ -12,11 +12,10 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended:false}));
 app.use('/static', express.static('Public'));
 
 
-app.post('/authenticateAdmin', function(req, res) {
-    let AdminU = req.body.AdminU;
-    let AdminP = req.body.AdminP;
+app.post('/authenticateAdmin', (req, res) => {
+    const { AdminU, AdminP } = req.body;
     
-    let r = database.authenticateAdmin(AdminU, AdminP);
+    const r = database.authenticateAdmin(AdminU, AdminP);
     res.send(r);
 });
 
