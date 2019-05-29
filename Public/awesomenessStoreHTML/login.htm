@@ -109,17 +109,17 @@ div.bolded{
         .then(function(result) {
             let answer
             
-            result.text().then(function(result2){
+            result.json().then(function(result2){
                 answer = result2
                 
                 console.log('+=+' + answer);
-                if(email == "hxiong@headroyce.org" && password == "maomaoiscool"){
+                if(answer.data == true && answer.admin == true){
                         document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
-                } else if(answer == "true"){
+                } else if(answer.data == true){
                     
                     document.location.href = 'studentStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
                     
-                }else{
+                } else {
                     let textName = document.getElementById('failed')
                     textName.innerHTML = "Wrong Email or Password"
                 }

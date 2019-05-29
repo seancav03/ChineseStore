@@ -85,9 +85,14 @@ exports.login = function(username, password){
         }).then(result => {
             let num = result.count;
             if(num > 0){
-                resolve(true);
+                resolve(1);
             } else {
-                resolve(false);
+                if(username == AU && password == AP){
+                    resolve(2)
+                } else {
+                    resolve(0);
+                }
+                
             }
         })
     })
@@ -273,7 +278,7 @@ exports.getStudentsByClass = function(AdminU, AdminP, whichClass){
                     let arr = [];
                     arr[0] = result.rows[i].Username;
                     arr[1] = result.rows[i].Name;
-                    arr[2] = result.rows[i].Password;
+                    arr[2] = "Nice Try Chris!";
                     arr[3] = result.rows[i].Class;
                     arr[4] = result.rows[i].Awesomes;
                     arr[5] = result.rows[i].Goldens;
@@ -407,9 +412,6 @@ exports.getMyRedeemed = function(username, password){
 };
 
 //get all student buys. gives saleID as well so item can be redeemed
-export const getBuysAdmin = (AdminU, AdminP) => {
-
-};
 exports.getBuysAdmin = function(AdminU, AdminP){
     let promise = new Promise(function(resolve, reject){
         if(AdminU ==  AU && AdminP == AP){

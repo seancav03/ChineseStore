@@ -44,9 +44,16 @@ app.post('/login', function(req, res) {
     
     let promise = database.login(username, password);
     promise.then(result => {
+        if(result == 1){
+            res.send(JSON.stringify({data: true, admin: false}))
+        } else if (result == 2){
+            res.send(JSON.stringify({data: true, admin: true}))
+        } else {
+            res.send(JSON.stringify({data: false, admin: false}))
+        }
         res.send(result)
     }).catch( result => {
-        res.send(false);
+        res.send(JSON.stringify({data: false, admin: false}))
     })
 });
 
