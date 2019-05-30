@@ -109,12 +109,13 @@ div.bolded{
         .then(function(result) {
             let answer
             
+            
             result.json().then(function(result2){
                 answer = result2
                 
                 console.log('+=+' + answer);
                 if(answer.data == true && answer.admin == true){
-                        document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
+                        document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?filler=' + encodeURIComponent("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") +  '?psw=' + encodeURIComponent(password)
                 } else if(answer.data == true){
                     
                     document.location.href = 'studentStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
