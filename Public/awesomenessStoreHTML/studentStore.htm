@@ -115,149 +115,164 @@
         let email
         let password
 
+        function getCredentials(){
+            let promise = new Promise(function(resolve, reject){
+                fetch("/cookieAuthenticate", {
+                method: 'POST', 
+                }).then(result => {
+                    result.json().then(result2 => {
+                        if(result2.LoggedIn == false){
+                            document.location.href = 'login.htm'
+                        } else {
+                            resolve(result2);
+                        }
+                    }).catch(result => {
+                    console.log("ERROR - parsing JSON")
+                })
+                }).catch(result => {
+                    console.log("ERROR - getting cookieAuthenticate")
+                })
+            })
+            return promise;
+        } 
+
         function makeElements() {
-            let url = document.location.href
-            let params = url.split('?')
-            let data = {}
-            let tmp
-            for (let i = 0; i < params.length; i++) {
-                tmp = params[i].split('=')
-                data[tmp[0]] = decodeURIComponent(tmp[1])
-            }
-            email = data["email"]
-            password = data["psw"]
-            if (email == "" || email == undefined || password == "" || password == undefined) {
-                document.location.href = 'login.htm'
-            }
+            
+            let promise = getCredentials();
+            promise.then(creds => {
+                email = creds.Username;
+                password = creds.Password;
 
-            let items = []
+                let items = []
 
-            fetch("/getStore", {
-                method: 'POST',
-                headers: {
-                    //'Content-Type': 'application/url',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: "", // body data type must match "Content-Type" header
+                fetch("/getStore", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+                    result.json().then(function(result2){
+                        items = result2.data;
+
+                        let newItem1 = []
+                        newItem1["name"] = "Candy"
+                        newItem1["awesomeCost"] = 5
+                        newItem1["goldenCost"] = 0
+
+                        let newItem2 = []
+                        newItem2["name"] = "1-Day Class Pass"
+                        newItem2["awesomeCost"] = 50
+                        newItem2["goldenCost"] = 1
+
+                        let newItem3 = []
+                        newItem3["name"] = "Homework Pass"
+                        newItem3["awesomeCost"] = 30
+                        newItem3["goldenCost"] = 0
+
+                        //items.push(newItem1)
+                        //items.push(newItem2)
+                        //items.push(newItem3)
+
+                        let main = document.getElementById("main")
+
+                        for (let i = 0; i < items.length; i = i + 2) {
+                            let newRow = document.createElement('div')
+                            newRow.className = 'row text-center'
+
+                            let newItem1 = document.createElement('div')
+                            newItem1.className = 'col-6 row-fluid parentCol'
+
+                            let name1 = document.createElement('div')
+                            name1.className = 'col-6 text-center named oneLine'
+                            // name1.textContent = items[i]["name"]
+                            name1.textContent = items[i][0]
+
+                            let costAwesome1 = document.createElement('div')
+                            costAwesome1.className = 'col-6 text-center oneLine'
+                            // costAwesome1.textContent = "Cost (Awesome): " + items[i]["awesomeCost"]
+                            costAwesome1.textContent = "Cost (Awesome): " + items[i][1]
+
+                            let costGolden1 = document.createElement('div')
+                            costGolden1.className = 'col-6 text-center oneLine'
+                            // costGolden1.textContent = "Cost (Golden): " + items[i]["goldenCost"]
+                            costGolden1.textContent = "Cost (Golden): " + items[i][2]
+
+
+                            let buttonDiv1 = document.createElement('div')
+                            buttonDiv1.className = 'col-6 text-center'
+
+                            let button1 = document.createElement('button')
+                            button1.className = 'btn'
+                            button1.onclick = function () {
+                                buy(name1.textContent)
+                            }
+
+                            let buttonText1 = document.createElement('div')
+                            buttonText1.textContent = "Buy"
+
+                            button1.appendChild(buttonText1)
+                            buttonDiv1.appendChild(button1)
+
+
+                            newItem1.appendChild(name1)
+                            newItem1.appendChild(costAwesome1)
+                            newItem1.appendChild(costGolden1)
+                            newItem1.appendChild(buttonDiv1)
+
+                            newRow.appendChild(newItem1)
+
+                            if (i + 1 < items.length) {
+                                let newItem2 = document.createElement('div')
+                                newItem2.className = 'col-6 row-fluid parentCol'
+
+                                let name2 = document.createElement('div')
+                                name2.className = 'col-6 text-center named oneLine'
+                                // name2.textContent = items[i + 1]["name"]
+                                name2.textContent = items[i + 1][0]
+
+                                let costAwesome2 = document.createElement('div')
+                                costAwesome2.className = 'col-6 text-center oneLine'
+                                // costAwesome2.textContent = "Cost (Awesome): " + items[i + 1]["awesomeCost"]
+                                costAwesome2.textContent = "Cost (Awesome): " + items[i + 1][1]
+
+                                let costGolden2 = document.createElement('div')
+                                costGolden2.className = 'col-6 text-center oneLine'
+                                // costGolden2.textContent = "Cost (Golden): " + items[i + 1]["goldenCost"]
+                                costGolden2.textContent = "Cost (Golden): " + items[i + 1][2]
+
+
+                                let buttonDiv2 = document.createElement('div')
+                                buttonDiv2.className = 'col-6 text-center'
+
+                                let button2 = document.createElement('button')
+                                button2.className = 'btn'
+                                button2.onclick = function () {
+                                buy(name2.textContent)
+                            }
+
+                                let buttonText2 = document.createElement('div')
+                                buttonText2.textContent = "Buy"
+
+                                button2.appendChild(buttonText2)
+                                buttonDiv2.appendChild(button2)
+
+
+                                newItem2.appendChild(name2)
+                                newItem2.appendChild(costAwesome2)
+                                newItem2.appendChild(costGolden2)
+                                newItem2.appendChild(buttonDiv2)
+
+                                newRow.appendChild(newItem2)
+                            }
+                            main.appendChild(newRow)
+                        }
+                    });
+                })
             })
-            .then(function (result) {
-                result.json().then(function(result2){
-                    items = result2.data;
-
-                    let newItem1 = []
-                    newItem1["name"] = "Candy"
-                    newItem1["awesomeCost"] = 5
-                    newItem1["goldenCost"] = 0
-
-                    let newItem2 = []
-                    newItem2["name"] = "1-Day Class Pass"
-                    newItem2["awesomeCost"] = 50
-                    newItem2["goldenCost"] = 1
-
-                    let newItem3 = []
-                    newItem3["name"] = "Homework Pass"
-                    newItem3["awesomeCost"] = 30
-                    newItem3["goldenCost"] = 0
-
-                    //items.push(newItem1)
-                    //items.push(newItem2)
-                    //items.push(newItem3)
-
-                    let main = document.getElementById("main")
-
-                    for (let i = 0; i < items.length; i = i + 2) {
-                        let newRow = document.createElement('div')
-                        newRow.className = 'row text-center'
-
-                        let newItem1 = document.createElement('div')
-                        newItem1.className = 'col-6 row-fluid parentCol'
-
-                        let name1 = document.createElement('div')
-                        name1.className = 'col-6 text-center named oneLine'
-                        // name1.textContent = items[i]["name"]
-                        name1.textContent = items[i][0]
-
-                        let costAwesome1 = document.createElement('div')
-                        costAwesome1.className = 'col-6 text-center oneLine'
-                        // costAwesome1.textContent = "Cost (Awesome): " + items[i]["awesomeCost"]
-                        costAwesome1.textContent = "Cost (Awesome): " + items[i][1]
-
-                        let costGolden1 = document.createElement('div')
-                        costGolden1.className = 'col-6 text-center oneLine'
-                        // costGolden1.textContent = "Cost (Golden): " + items[i]["goldenCost"]
-                        costGolden1.textContent = "Cost (Golden): " + items[i][2]
-
-
-                        let buttonDiv1 = document.createElement('div')
-                        buttonDiv1.className = 'col-6 text-center'
-
-                        let button1 = document.createElement('button')
-                        button1.className = 'btn'
-                        button1.onclick = function () {
-                            buy(name1.textContent)
-                        }
-
-                        let buttonText1 = document.createElement('div')
-                        buttonText1.textContent = "Buy"
-
-                        button1.appendChild(buttonText1)
-                        buttonDiv1.appendChild(button1)
-
-
-                        newItem1.appendChild(name1)
-                        newItem1.appendChild(costAwesome1)
-                        newItem1.appendChild(costGolden1)
-                        newItem1.appendChild(buttonDiv1)
-
-                        newRow.appendChild(newItem1)
-
-                        if (i + 1 < items.length) {
-                            let newItem2 = document.createElement('div')
-                            newItem2.className = 'col-6 row-fluid parentCol'
-
-                            let name2 = document.createElement('div')
-                            name2.className = 'col-6 text-center named oneLine'
-                            // name2.textContent = items[i + 1]["name"]
-                            name2.textContent = items[i + 1][0]
-
-                            let costAwesome2 = document.createElement('div')
-                            costAwesome2.className = 'col-6 text-center oneLine'
-                            // costAwesome2.textContent = "Cost (Awesome): " + items[i + 1]["awesomeCost"]
-                            costAwesome2.textContent = "Cost (Awesome): " + items[i + 1][1]
-
-                            let costGolden2 = document.createElement('div')
-                            costGolden2.className = 'col-6 text-center oneLine'
-                            // costGolden2.textContent = "Cost (Golden): " + items[i + 1]["goldenCost"]
-                            costGolden2.textContent = "Cost (Golden): " + items[i + 1][2]
-
-
-                            let buttonDiv2 = document.createElement('div')
-                            buttonDiv2.className = 'col-6 text-center'
-
-                            let button2 = document.createElement('button')
-                            button2.className = 'btn'
-                            button2.onclick = function () {
-                            buy(name2.textContent)
-                        }
-
-                            let buttonText2 = document.createElement('div')
-                            buttonText2.textContent = "Buy"
-
-                            button2.appendChild(buttonText2)
-                            buttonDiv2.appendChild(button2)
-
-
-                            newItem2.appendChild(name2)
-                            newItem2.appendChild(costAwesome2)
-                            newItem2.appendChild(costGolden2)
-                            newItem2.appendChild(buttonDiv2)
-
-                            newRow.appendChild(newItem2)
-                        }
-                        main.appendChild(newRow)
-                    }
-                });
-            })
+            
 
         }
 

@@ -120,9 +120,9 @@ input.nums{
         </button>
         <div class="navbar-collapse collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="javascript:document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?filler=' + encodeURIComponent('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') + '?psw=' + encodeURIComponent(password)">Store</a>
+                <a class="nav-item nav-link" href="javascript:document.location.href = 'teacherStore.htm'">Store</a>
                 <a class="nav-item nav-link active" href="">Classes<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="javascript:document.location.href = 'teacherPendingRewards.htm?email=' + encodeURIComponent(email) + '?filler=' + encodeURIComponent('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') + '?psw=' + encodeURIComponent(password)">Pending Rewards</a>
+                <a class="nav-item nav-link" href="javascript:document.location.href = 'teacherPendingRewards.htm'">Pending Rewards</a>
             </div>
         </div>
     </nav>
@@ -179,25 +179,37 @@ input.nums{
         let password
         let allStudents
 
+        function getCredentials(){
+            let promise = new Promise(function(resolve, reject){
+                fetch("/cookieAuthenticate", {
+                method: 'POST', 
+                }).then(result => {
+                    result.json().then(result2 => {
+                        if(result2.LoggedIn == false || result2.isAdmin == false){
+                            document.location.href = 'login.htm'
+                        } else {
+                            resolve(result2);
+                        }
+                    }).catch(result => {
+                    console.log("ERROR - parsing JSON")
+                    })
+                }).catch(result => {
+                    console.log("ERROR - getting cookieAuthenticate")
+                })
+            })
+            return promise;
+        } 
+
         $("div#content").on('focusout', 'input', function(){
             changeValue(event.target.parentElement, event.target.value)
         })
 
         window.onload = function(){
-            let url = document.location.href
-            let params = url.split('?')
-            let data = {}
-            let tmp
-            for (let i = 0; i < params.length; i++) {
-                tmp = params[i].split('=')
-                data[tmp[0]] = decodeURIComponent(tmp[1])
-            }
-            email = data["email"]
-            password = data["psw"]
-            
-            if (email == "" || email == undefined || password == "" || password == undefined) {
-                document.location.href = 'login.htm'
-            }
+            let promise = getCredentials();
+            promise.then(creds => {
+                email = creds.Username;
+                password = creds.Password;
+            })
         }
         
         function toClass(className){

@@ -89,12 +89,34 @@ div.bolded{
 
     <script type='text/javascript'>
 
+    //check cookies on server before asking for login credentials
+    function autoLogin(){
+        console.log("HERE - autoLogin")
+        fetch("/checkCookie", {
+            method: 'POST', 
+        }).then(result => {
+            result.json().then(result2 => {
+                if(result2.Redirect){
+                    if(result2.isAdmin){
+                        document.location.href = 'teacherStore.htm'
+                    } else {
+                        document.location.href = 'studentStore.htm'
+                    }
+                }
+            })
+        })
+    };
+    //call it
+    autoLogin();
+
     $('#myform').submit(function(e){
         e.preventDefault();
         let email = (document.getElementById("inputEmail")).value
         let password = (document.getElementById("inputPassword")).value
         logIn(email, password)
     })
+
+    
 
     function logIn(email, password){
         fetch("/login", {
@@ -115,10 +137,10 @@ div.bolded{
                 
                 console.log('+=+' + answer);
                 if(answer.data == true && answer.admin == true){
-                        document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?filler=' + encodeURIComponent("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") +  '?psw=' + encodeURIComponent(password)
+                        document.location.href = 'teacherStore.htm'
                 } else if(answer.data == true){
                     
-                    document.location.href = 'studentStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
+                    document.location.href = 'studentStore.htm'
                     
                 } else {
                     let textName = document.getElementById('failed')

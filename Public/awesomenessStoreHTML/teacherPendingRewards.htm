@@ -85,9 +85,9 @@
         <div class="navbar-collapse collapse" id="navbarCollapse">
             <div class="navbar-nav">
                 <a class="nav-item nav-link"
-                    href="javascript:document.location.href = 'teacherStore.htm?email=' + encodeURIComponent(email) + '?filler=' + encodeURIComponent('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') + '?psw=' + encodeURIComponent(password)">Store</a>
+                    href="javascript:document.location.href = 'teacherStore.htm'">Store</a>
                 <a class="nav-item nav-link"
-                    href="javascript:document.location.href = 'teacherClasses.htm?email=' + encodeURIComponent(email) + '?filler=' + encodeURIComponent('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') + '?psw=' + encodeURIComponent(password)">Classes</a>
+                    href="javascript:document.location.href = 'teacherClasses.htm'">Classes</a>
                 <a class="nav-item nav-link active" href="">Pending Rewards<span class="sr-only">(current)</span></a>
             </div>
         </div>
@@ -128,111 +128,122 @@
     <script type='text/javascript'>
         let email
         let password
+
+        function getCredentials(){
+            let promise = new Promise(function(resolve, reject){
+                fetch("/cookieAuthenticate", {
+                method: 'POST', 
+                }).then(result => {
+                    result.json().then(result2 => {
+                        if(result2.LoggedIn == false || result2.isAdmin == false){
+                            document.location.href = 'login.htm'
+                        } else {
+                            resolve(result2);
+                        }
+                    }).catch(result => {
+                    console.log("ERROR - parsing JSON")
+                    })
+                }).catch(result => {
+                    console.log("ERROR - getting cookieAuthenticate")
+                })
+            })
+            return promise;
+        } 
         
         function makeElements() {
-            let url = document.location.href
-            let params = url.split('?')
-            let data = {}
-            let tmp
-            for (let i = 0; i < params.length; i++) {
-                tmp = params[i].split('=')
-                data[tmp[0]] = decodeURIComponent(tmp[1])
-            }
-            email = data["email"]
-            password = data["psw"]
+            let promise = getCredentials();
+            promise.then(creds => {
+                email = creds.Username;
+                password = creds.Password;
 
-            if (email == "" || email == "undefined" || password == "" || password == "undefined") {
-                document.location.href = 'login.htm'
-            }
+                let toRedeem = [];
 
-            let toRedeem = [];
-
-            /*$.ajax({
-                url: "https://server/getRedeemedAdmin",
-                type: "POST", 
-                data: (email, password),
-                success: function(result){
-                    toRedeem = result
-                },
-                error: function(error){
-                    console.log("Error: " + error)
-                }
-            })*/
-
-            fetch("/getBuysAdmin", {
-                method: 'POST',
-                headers: {
-                    //'Content-Type': 'application/url',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: "AdminU=" + email + "&AdminP=" + password, // body data type must match "Content-Type" header
-            })
-            .then(function (result) {
-                result.json().then(function(result2){
-                    toRedeem = result2.data;
-
-                    let space = document.getElementById("space")
-
-                    let rewards = document.getElementById("rewards")
-
-                    let last = rewards.lastElementChild
-                    while (last != space) {
-                        last.remove()
-                        last = rewards.lastElementChild
+                /*$.ajax({
+                    url: "https://server/getRedeemedAdmin",
+                    type: "POST", 
+                    data: (email, password),
+                    success: function(result){
+                        toRedeem = result
+                    },
+                    error: function(error){
+                        console.log("Error: " + error)
                     }
+                })*/
 
-                    for (let i = 0; i < toRedeem.length; i++) {
-                        let name = document.createElement('div')
-                        name.className = 'col-4 column text-center bordered'
-                        // name.textContent = toRedeem[i]["name"]
-                        name.textContent = toRedeem[i][0]
+                fetch("/getBuysAdmin", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password, // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+                    result.json().then(function(result2){
+                        toRedeem = result2.data;
 
-                        let reward = document.createElement('div')
-                        reward.className = 'col-4 column text-center bordered'
-                        // reward.textContent = toRedeem[i]["reward"]
-                        reward.textContent = toRedeem[i][1]
+                        let space = document.getElementById("space")
 
-                        let redeemItem = document.createElement('div')
-                        redeemItem.className = 'col-4 column text-center bordered'
+                        let rewards = document.getElementById("rewards")
 
-                        let button = document.createElement('button')
-                        button.className = 'btn'
-                        button.textContent = "redeem"
-                        button.onclick = function () {
-                            redeem(this.parentElement, toRedeem[i][2]);
+                        let last = rewards.lastElementChild
+                        while (last != space) {
+                            last.remove()
+                            last = rewards.lastElementChild
                         }
 
-                        redeemItem.appendChild(button)
+                        for (let i = 0; i < toRedeem.length; i++) {
+                            let name = document.createElement('div')
+                            name.className = 'col-4 column text-center bordered'
+                            // name.textContent = toRedeem[i]["name"]
+                            name.textContent = toRedeem[i][0]
 
-                        rewards.appendChild(name)
-                        rewards.appendChild(reward)
-                        rewards.appendChild(redeemItem)
+                            let reward = document.createElement('div')
+                            reward.className = 'col-4 column text-center bordered'
+                            // reward.textContent = toRedeem[i]["reward"]
+                            reward.textContent = toRedeem[i][1]
 
-                    }
+                            let redeemItem = document.createElement('div')
+                            redeemItem.className = 'col-4 column text-center bordered'
 
+                            let button = document.createElement('button')
+                            button.className = 'btn'
+                            button.textContent = "redeem"
+                            button.onclick = function () {
+                                redeem(this.parentElement, toRedeem[i][2]);
+                            }
+
+                            redeemItem.appendChild(button)
+
+                            rewards.appendChild(name)
+                            rewards.appendChild(reward)
+                            rewards.appendChild(redeemItem)
+
+                        }
+
+                    })
+                    
                 })
+
+                // let student1 = []
+                // student1["name"] = "Ethan Ash"
+                // student1["reward"] = "One-Day Homework Pass"
+
+                // let student2 = []
+                // student2["name"] = "Charlie Jones"
+                // student2["reward"] = "Candy"
+
+                // let student3 = []
+                // student3["name"] = "Luca Snoey"
+                // student3["reward"] = "Homework Pass"
+
+                // toRedeem.push(student1)
+                // toRedeem.push(student2)
+                // toRedeem.push(student3)
+
                 
+
             })
-
-            // let student1 = []
-            // student1["name"] = "Ethan Ash"
-            // student1["reward"] = "One-Day Homework Pass"
-
-            // let student2 = []
-            // student2["name"] = "Charlie Jones"
-            // student2["reward"] = "Candy"
-
-            // let student3 = []
-            // student3["name"] = "Luca Snoey"
-            // student3["reward"] = "Homework Pass"
-
-            // toRedeem.push(student1)
-            // toRedeem.push(student2)
-            // toRedeem.push(student3)
-
-            
-
-
         }
 
         function redeem(par, saleID) {

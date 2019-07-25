@@ -8,16 +8,87 @@ let port  = process.env.PORT || 3775;
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({limit: '50mb', extended:false}));
 
-//static directory prep
-app.use('/static', express.static('Public'));
+//Start cookie storage Settup
+const session = require('express-session');
+const redis = require('redis');
+const redisClient = redis.createClient();
+const redisStore = require('connect-redis')(session);
 
-
-app.post('/authenticateAdmin', (req, res) => {
-    const { AdminU, AdminP } = req.body;
-    
-    const r = database.authenticateAdmin(AdminU, AdminP);
-    res.send(r);
+redisClient.on('error', (err) => {
+    console.log('Redis error: ', err);
 });
+
+app.use(session({
+    secret: 'random3 se2cret-use4d forXall 6so8rts 0f stu5ff',
+    store: new redisStore({ host: 'localhost', port: 2828, client: redisClient}),
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false , maxAge: 1000*60*10, rolling: true},
+    //for herpku, set to process.env.WHATEVER_IS_NEEDED below
+    store: new redisStore({ host: process.env || 'localhost', port: 6379, client: redisClient })
+}));
+//Finish cookie storage settup
+
+//make object for cookie
+app.use(function (req, res, next) {
+    if (req.session.user == null) {
+      req.session.user = {Username: null, Password: null};
+    }
+    next();
+})
+
+//get cookie credientials
+app.post('/cookieAuthenticate', function(req, res) {
+    if(req.session.user) {
+        let promise = database.login(req.session.user.Username, req.session.user.Password);
+        promise.then(result => {
+            if(result == 1){
+                res.send( JSON.stringify({LoggedIn: true, Username: req.session.user.Username, Password: req.session.user.Password, isAdmin: false}) )
+            } else if(result == 2) {
+                res.send( JSON.stringify({LoggedIn: true, Username: req.session.user.Username, Password: req.session.user.Password, isAdmin: true}) )
+            } else {
+                //redirect to login
+                res.send( JSON.stringify({LoggedIn: false, Username: null, Password: null, isAdmin: false}));
+            }
+        }).catch( result => {
+            //redirect to login
+            res.send( JSON.stringify({LoggedIn: false, Username: null, Password: null, isAdmin: false}));
+        })
+    } else {
+        //redirect to login
+        res.send( JSON.stringify({LoggedIn: false, Username: null, Password: null, isAdmin: false}));
+    }
+});
+
+//log users in instantly if possible
+app.post('/checkCookie', function(req, res) {
+    console.log("HERE - redirectHome");
+    if(req.session.user) {
+        let promise = database.login(req.session.user.Username, req.session.user.Password);
+        promise.then(result => {
+            if(result == 1){
+                console.log("student found")
+                //attempt to redirect
+                res.send(JSON.stringify({Redirect: true, isAdmin: false}));
+            } else if (result == 2){
+                console.log("teacher found")
+                //attempt to redirect
+                res.send(JSON.stringify({Redirect: true, isAdmin: true}));
+            } else {
+                console.log("none found")
+                res.send(JSON.stringify({Redirect: false, isAdmin: false}));
+            }
+        }).catch( result => {
+            res.send(JSON.stringify({Redirect: false, isAdmin: false}));
+        })
+    } else {
+        res.send(JSON.stringify({Redirect: false, isAdmin: false}));
+    }
+});
+
+//static directory prep
+app.use('/store', express.static('Public/awesomenessStoreHTML'));
+
 
 app.post('/newStudent', function(req, res) {
     let email = req.body.email;
@@ -44,6 +115,14 @@ app.post('/login', function(req, res) {
     
     let promise = database.login(username, password);
     promise.then(result => {
+        if(result != 0){
+            //SET COOKIE to remember credentials
+            console.log("Setting Cookie")
+            req.session.user.Username = username;
+            req.session.user.Password = password;
+            console.log("Cookie: " + req.session.user.Username)
+        }
+        console.log("Done")
         if(result == 1){
             res.send(JSON.stringify({data: true, admin: false}))
         } else if (result == 2){
@@ -51,7 +130,6 @@ app.post('/login', function(req, res) {
         } else {
             res.send(JSON.stringify({data: false, admin: false}))
         }
-        res.send(result)
     }).catch( result => {
         res.send(JSON.stringify({data: false, admin: false}))
     })
