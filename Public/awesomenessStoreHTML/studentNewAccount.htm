@@ -122,21 +122,53 @@ input.spaces{
     })
 
     function makeAccount(email, name, password, className){
-        
+        console.log('---------making account');
         fetch("/newStudent", {
         method: 'POST', 
         headers: {
             //'Content-Type': 'application/url',
             'Content-Type': 'application/x-www-form-urlencoded',
         }, 
-        body: "email=" + email + "&name=" + name + "&password=" + password + "&className=" + className, // body data type must match "Content-Type" header
+            body: "email=" + email + "&name=" + name + "&password=" + password + "&className=" + className, // body data type must match "Content-Type" header
         })
-        .then(function(result) {
-            if(result){
-                    document.location.href = 'studentStore.htm?email=' + encodeURIComponent(email) + '?psw=' + encodeURIComponent(password)
-            }else{
-                //didn't work
-            } 
+        .then(function(resulting) {
+            resulting.json().then(function(result2) {
+                if(result2.status == 2){
+                    console.log('-----------Success');
+                    //success - login to set cookie and go to correct page
+                    fetch("/login", {
+                        method: 'POST', 
+                        headers: {
+                           //'Content-Type': 'application/url',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        
+                        },
+                        body: "username=" + email + "&password=" + password, // body data type must match "Content-Type" header
+                    }).then(function(after) {   
+                        after.json().then(function(after2){
+                            if(after2.data == true && after2.admin == true){
+                                    document.location.href = 'teacherStore.htm'
+                            } else if(after2.data == true){
+                                
+                                document.location.href = 'studentStore.htm'
+                                
+                            } else {
+                                //failed to log in (this should be impossible in this case as account was just created with these credentials)
+                            }
+                        })
+                    })
+                } else if(result2.status == 1){
+                    console.log('-------------Failed: Username already taken');
+                    //USERNAME ALREADY TAKEN!!!
+                    alert('Email already taken. Speak with your teacher to find fraudulent account if you do not already have an account created');
+                } else if(result2.status == 0){
+                    //error somewhere. Oops
+                    console.log('-------------Failed: database error');
+                    alert('Database Error. Please try again later');
+                }
+            });
+        }).catch(nah => {
+            console.log('---Failed');
         })
     }
     

@@ -97,7 +97,10 @@ app.post('/newStudent', function(req, res) {
     let classLevel = req.body.className;
     
     let r = database.newStudent(email, name, password, classLevel);
-    res.send(r);
+    r.then(result => {
+        res.send(JSON.stringify({status: result}));
+    })
+    
 });
 
 app.post('/removeStudent', function(req, res) {
@@ -105,8 +108,11 @@ app.post('/removeStudent', function(req, res) {
     let AdminP = req.body.AdminP;
     let studentName = req.body.studentName;
     
-    let r = database.removeStudent(AdminU, AdminP, studentName);
-    res.send(r);
+    let promise = database.removeStudent(AdminU, AdminP, studentName);
+    promise.then(r => {
+        //This is sent as a literal boolean. It should be changed to a strigified JSON
+        res.send(r);
+    })
 });
 
 app.post('/login', function(req, res) {
@@ -176,8 +182,10 @@ app.post('/addItem', function(req, res) {
     let costAwesomes = req.body.CostAwesomes;
     let costGoldens = req.body.CostGoldens;
     
-    let result = database.addItem(AdminU, AdminP, Item, costAwesomes, costGoldens);
-    res.send(result);
+    let promise = database.addItem(AdminU, AdminP, Item, costAwesomes, costGoldens);
+    promise.then(result => {
+        res.send(result);
+    })
 });
 
 app.post('/removeItem', function(req, res) {
@@ -185,8 +193,11 @@ app.post('/removeItem', function(req, res) {
     let AdminP = req.body.AdminP;
     let Item = req.body.Item;
     
-    let result = database.removeItem(AdminU, AdminP, Item);
-    res.send(result);
+    let promise = database.removeItem(AdminU, AdminP, Item);
+    promise.then(result => {
+        res.send(result);
+    })
+    
 });
 
 app.post('/buyItem', function(req, res) {
@@ -207,8 +218,10 @@ app.post('/redeemItem', function(req, res) {
     let AdminP = req.body.AdminP;
     let saleID = req.body.saleID;
     
-    let result = database.redeemItem(AdminU, AdminP, saleID);
-    res.send(JSON.stringify({ data: result}));
+    let promise = database.redeemItem(AdminU, AdminP, saleID);
+    promise.then(result => {
+        res.send(JSON.stringify({ data: result}));
+    })
 });
 
 app.post('/getStudentsByClass', function(req, res) {
