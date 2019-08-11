@@ -195,8 +195,7 @@ input.nums{
                 </div>
             </div>
             
-            <div id="students" class="row centered">
-                
+            <div id="students" class="row centered">               
 
             </div>
         </div>
@@ -361,6 +360,7 @@ input.nums{
                             })
                             .then(function (result) {
                                 result.json().then(function(result2){
+                                    console.log(result2)
                                     studentInfo = result2.data;
                                     oldPsw = studentInfo[2]
                                 })

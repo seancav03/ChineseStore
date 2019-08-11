@@ -1,142 +1,206 @@
 <html lang="en" class="gr__getbootstrap_com">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/navbar-top-fixed.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/4.0/examples/grid/grid.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/navbar-top-fixed.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/4.0/examples/grid/grid.css" rel="stylesheet">
+<style type="text/css">
 
-    <style type="text/css">
-        div.col-6 {
-            max-width: 100% !important;
-            border: 0px !important;
-        }
+div.parentCol{
+    background-color: rgb(255, 255, 255);
+}
 
-        div.maxHeight {
-            max-height: 68;
-        }
+main.offtop{
+    margin-top: 110px;
+}
 
-        div.oneLine {
-            display: flex;
-            justify-content: space-evenly;
-            white-space: nowrap;
-        }
+h1.number{
+    font-size: 1rem;
+    font-weight: 400;
+}
 
-        div.parentCol {
-            background-color: rgb(255, 255, 255);
-        }
+div.labels{
+    font-size: 1.25rem;
+    font-weight: 500;
+}
 
-        main.offtop {
-            margin-top: 110px;
-        }
+div.column{
+    float: left;
+    width: 25%;
+}
 
-        div.named {
-            font-size: 1.5rem;
-            font-weight: 600 !important;
-        }
+div.named{
+    font-size: 1.5rem;
+    font-weight: 600!important;
+}
 
-        div.flex {
-            display: flex;
-        }
+div.centerChanges{
 
-        div.text {
-            background-color: rgb(73, 31, 75);
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.75rem;
-            font-weight: 400 !important;
-            font-family: sans-serif;
-        }
+}
 
-        div#elements {
-            border: 5px !important;
-            border-color: rgb(73, 31, 75) !important;
-        }
+button.invis{
+    background-color: transparent!important;
+    border: 1px solid rgba(86, 61, 124, .3);
 
-        div.title {
-            font-size: 2.7rem;
-            font-weight: 500 !important;
-            margin-bottom: 15px;
-        }
+}
 
-        a.bolded {
-            font-size: 1.75rem !important;
-        }
+button.edit{
+    background-color: transparent!important;
+    border: 0px solid rgba(86, 61, 124, .3);
+    color: rgb(45, 42, 235);
+}
 
-        nav.theme {
-            background-color: rgb(73, 31, 75) !important;
-        }
+button.classes{
+    background-color: rgba(86, 61, 124, .5);;
+    border: 1px solid rgba(86, 61, 124, .6);
+    font-size: 1.5rem;
+}
 
-        div#title {
-            color: rgb(253, 253, 253);
-        }
+div.bordered{
+    background-color: rgba(86, 61, 124, .15);
+    border: 1px solid rgba(86, 61, 124, .2);
+}
 
-        div.addBox {
-            background-color: rgba(86, 61, 124, .15);
-            background-clip: content-box;
-        }
+div.text{
+    background-color: rgb(73, 31, 75);
+    margin-bottom: 20px;
+    text-align:center;
+    font-size: 1.75rem;
+    font-weight: 400!important;
+    font-family: sans-serif;
+}
 
-        div.addBox>div {
-            background-color: rgba(255, 255, 255, 0);
-        }
+div.seperate{
+    margin-bottom: 50px;
+    margin-top: 25px;
+}
 
-        div.plusButton {
-            font-size: 1.3rem;
-        }
+div#elements{
+    border: 5px!important;
+    border-color: rgb(73, 31, 75)!important;
+}
 
-        body {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+div.title{
+    font-size: 2.7rem;
+    font-weight: 500!important;
+    margin-bottom: 15px;
+}
+
+div.changeBox{
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%; /* Could be more or less, depending on screen size */
+    text-align: center
+}
+
+div.popup{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w*/
+}
+
+a.bolded{
+    font-size: 1.75rem!important;
+}
+
+nav.theme{
+    background-color: rgb(73, 31, 75)!important;
+}
+div#title{
+    color: rgb(253, 253, 253);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input.nums{
+    max-width: 40;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+</style>
 
 
 
 </head>
-
-<body onload="makeElements()">
+<body >
     <nav class="navbar navbar-expand-md navbar-dark fixed-top theme">
         <a class="navbar-brand bolded" href="#">Awesomeness Store</a>
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="">Store<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link"
-                    href="javascript:document.location.href = 'teacherClasses.htm'">Classes</a>
-                <a class="nav-item nav-link"
-                    href="javascript:document.location.href = 'teacherPendingRewards.htm?'">Pending
-                    Rewards</a>
+                    <a class="nav-item nav-link active" href="">Store<span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link"
+                        href="javascript:document.location.href = 'teacherClasses.htm'">Classes</a>
+                    <a class="nav-item nav-link"
+                        href="javascript:document.location.href = 'teacherPendingRewards.htm?'">Pending
+                        Rewards</a>
             </div>
         </div>
     </nav>
 
     <main role="main" class="container offtop" id="main">
         <div class="text-center title">
-            Store
+                Store
         </div>
+        
+        <div id="content">
+            <div class="row centered">
+                <div class="col-4 column text-center bordered labels">
+                    Item Name 
+                </div>
+            
+                <div class="col-4 column text-center bordered labels">
+                    Golden Cost
+                </div>
 
+                <div class=" col-4 column text-center bordered labels">
+                    Awesome Cost
+                </div>
+            </div>
+            
+            <div id="items" class="row centered">       
+
+            </div>
+        </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script type='text/javascript'>
-        let oldItem;
-        let email;
-        let password;
+        let currClass
+        let email
+        let password
+        let allStudents
+        let currForm
+        let studentEdit
+        let studentEditEmail
 
         function getCredentials(){
             let promise = new Promise(function(resolve, reject){
@@ -159,363 +223,319 @@
             return promise;
         } 
 
-        function makeElements() {
+        $("div#content").on('focusout', '.nums', function(){
+            changeValue(event.target.parentElement, event.target.value)
+        })
+
+        window.onload = function(){
             let promise = getCredentials();
             promise.then(creds => {
                 email = creds.Username;
                 password = creds.Password;
-
-
-                let main = document.getElementById("main")
-
-                let last = main.lastElementChild
-                while (last != main.firstElementChild) {
-                    last.remove()
-                    last = main.lastElementChild
-                }
-
-                let items = []
-
-                let newItem1 = []
-                newItem1["name"] = "Candy"
-                newItem1["awesomeCost"] = 5
-                newItem1["goldenCost"] = 0
-
-                let newItem2 = []
-                newItem2["name"] = "1-Day Class Pass"
-                newItem2["awesomeCost"] = 50
-                newItem2["goldenCost"] = 1
-
-                let newItem3 = []
-                newItem3["name"] = "Homework Pass"
-                newItem3["awesomeCost"] = 30
-                newItem3["goldenCost"] = 0
-
-                //items.push(newItem1)
-                //items.push(newItem2)
-                //items.push(newItem3)
-
-
-                fetch("/getStore", {
-                    method: 'POST',
-                    headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: "", // body data type must match "Content-Type" header
-                })
-                .then(function (result) {
-                    result.json().then(function(result2){
-                        items = result2.data;
-                        let makeNew = []
-                        makeNew["name"] = "ADD"
-
-                        items.push(makeNew)
-
-
-                        for (let i = 0; i < items.length; i = i + 2) {
-                            let newRow = document.createElement('div')
-                            newRow.className = 'row text-center'
-
-                            let newItem1 = document.createElement('div')
-
-                            
-                            if (items[i]["name"] != "ADD") {
-                                newItem1.className = 'col-6 row-fluid parentCol'
-
-                                let name1 = document.createElement('div')
-                                name1.className = 'col-6 text-center named oneLine'
-                                // name1.textContent = items[i]["name"]
-                                name1.textContent = items[i][0]
-
-                                let costAwesome1 = document.createElement('div')
-                                costAwesome1.className = 'col-6 text-center oneLine'
-                                // costAwesome1.textContent = "Cost (Awesome): " + items[i]["awesomeCost"]
-                                costAwesome1.textContent = "Cost (Awesome): " + items[i][1]
-
-                                let costGolden1 = document.createElement('div')
-                                costGolden1.className = 'col-6 text-center oneLine'
-                                // costGolden1.textContent = "Cost (Golden): " + items[i]["goldenCost"]
-                                costGolden1.textContent = "Cost (Golden): " + items[i][2]
-
-
-                                let buttonDiv1 = document.createElement('div')
-                                buttonDiv1.className = 'col-6 text-center'
-
-                                let button1 = document.createElement('button')
-                                button1.className = 'btn'
-                                button1.onclick = function () {
-                                    edit(this);
-                                }
-
-                                let buttonText1 = document.createElement('div')
-                                buttonText1.textContent = "Edit"
-
-                                button1.appendChild(buttonText1)
-                                buttonDiv1.appendChild(button1)
-
-
-                                newItem1.appendChild(name1)
-                                newItem1.appendChild(costAwesome1)
-                                newItem1.appendChild(costGolden1)
-                                newItem1.appendChild(buttonDiv1)
-
-
-                            }else {
-                                newItem1.className = 'col-6 row-fluid parentCol addBox'
-                                let name1 = document.createElement('div')
-                                name1.className = 'col-6 text-center named oneLine'
-                                name1.textContent = ''
-
-                                let costAwesome1 = document.createElement('div')
-                                costAwesome1.className = 'col-6 text-center oneLine'
-                                costAwesome1.textContent = ''
-
-                                let costGolden1 = document.createElement('div')
-                                costGolden1.className = 'col-6 text-center oneLine'
-                                costGolden1.textContent = ''
-
-
-                                let buttonDiv1 = document.createElement('div')
-                                buttonDiv1.className = 'col-6 text-center'
-
-                                let button = document.createElement('button')
-                                button.className = 'btn'
-                                button.onclick = function () {
-                                    addNew(this);
-                                }
-
-                                let buttonText = document.createElement('div')
-                                buttonText.className = 'plusButton'
-                                buttonText.textContent = "+"
-
-                                button.appendChild(buttonText)
-                                buttonDiv1.appendChild(button)
-
-
-                                newItem1.appendChild(name1)
-                                newItem1.appendChild(costAwesome1)
-                                newItem1.appendChild(costGolden1)
-                                newItem1.appendChild(buttonDiv1)
-                            }
-
-                            newRow.appendChild(newItem1)
-
-                            if (i + 1 < items.length) {
-                                let newItem2 = document.createElement('div')
-
-
-                                if (items[i + 1]["name"] != "ADD") {
-                                    newItem2.className = 'col-6 row-fluid parentCol'
-                                    let name2 = document.createElement('div')
-                                    name2.className = 'col-6 text-center named oneLine'
-                                    // name2.textContent = items[i + 1]["name"]
-                                    name2.textContent = items[i + 1][0]
-
-                                    let costAwesome2 = document.createElement('div')
-                                    costAwesome2.className = 'col-6 text-center oneLine'
-                                    // costAwesome2.textContent = "Cost (Awesome): " + items[i + 1]["awesomeCost"]
-                                    costAwesome2.textContent = "Cost (Awesome): " + items[i + 1][1]
-
-                                    let costGolden2 = document.createElement('div')
-                                    costGolden2.className = 'col-6 text-center oneLine'
-                                    // costGolden2.textContent = "Cost (Golden): " + items[i + 1]["goldenCost"]
-                                    costGolden2.textContent = "Cost (Golden): " + items[i + 1][2]
-
-
-                                    let buttonDiv2 = document.createElement('div')
-                                    buttonDiv2.className = 'col-6 text-center'
-
-                                    let button2 = document.createElement('button')
-                                    button2.className = 'btn'
-                                    button2.onclick = function () {
-                                        edit(this);
-                                    }
-
-                                    let buttonText2 = document.createElement('div')
-                                    buttonText2.textContent = "Edit"
-
-                                    button2.appendChild(buttonText2)
-                                    buttonDiv2.appendChild(button2)
-
-
-                                    newItem2.appendChild(name2)
-                                    newItem2.appendChild(costAwesome2)
-                                    newItem2.appendChild(costGolden2)
-                                    newItem2.appendChild(buttonDiv2)
-                                } else {
-                                    newItem2.className = 'col-6 row-fluid parentCol addBox'
-                                    let name2 = document.createElement('div')
-                                    name2.className = 'col-6 text-center named oneLine'
-                                    name2.textContent = ''
-
-                                    let costAwesome2 = document.createElement('div')
-                                    costAwesome2.className = 'col-6 text-center oneLine'
-                                    costAwesome2.textContent = ''
-
-                                    let costGolden2 = document.createElement('div')
-                                    costGolden2.className = 'col-6 text-center oneLine'
-                                    costGolden2.textContent = ''
-
-
-                                    let buttonDiv2 = document.createElement('div')
-                                    buttonDiv2.className = 'col-6 text-center'
-
-                                    let button = document.createElement('button')
-                                    button.className = 'btn'
-                                    button.onclick = function () {
-                                        addNew(this);
-                                    }
-
-                                    let buttonText = document.createElement('div')
-                                    buttonText.className = 'plusButton'
-                                    buttonText.textContent = "+"
-
-                                    button.appendChild(buttonText)
-                                    buttonDiv2.appendChild(button)
-
-
-                                    newItem2.appendChild(name2)
-                                    newItem2.appendChild(costAwesome2)
-                                    newItem2.appendChild(costGolden2)
-                                    newItem2.appendChild(buttonDiv2)
-                                }
-                                newRow.appendChild(newItem2)
-                            }
-                            main.appendChild(newRow)
-                        }
-
-                    })
-                    
-                })
             })
+        }
+        
+        function toClass(className){
+            //get array by class name
+            currClass = className;
+            let students = []
             
-        }
+            //students.push(student1)
+            //students.push(student2)
+            //students.push(student3)
 
-        function addNew(button){
-            let par = button.parentElement.parentElement
-            let nameInput = document.createElement('input')
-            nameInput.type = 'text'
-            nameInput.id = 'nameInput'
-            par.children[0].textContent = ""
-            par.children[0].appendChild(nameInput)
-
-            let awesomeInput = document.createElement('input')
-            awesomeInput.type = 'number'
-            awesomeInput.id = 'awesomeInput'
-            par.children[1].textContent = "Cost (Awesome): "
-            par.children[1].appendChild(awesomeInput)
-
-            let goldenInput = document.createElement('input')
-            goldenInput.type = 'number'
-            goldenInput.id = 'goldenInput'
-            par.children[2].textContent = "Cost (Golden): "
-            par.children[2].appendChild(goldenInput)
-
-            button.textContent = "Done"
-            button.onclick = function () {
-                if(nameInput.value != ""){
-                    fetch("/addItem", {
-                        method: 'POST',
-                        headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + nameInput.value + "&CostAwesomes=" + awesomeInput.value + "&CostGoldens=" + goldenInput.value, // body data type must match "Content-Type" header
-                        //body: "username=" + email + "&password=" + password,
-                    })
-                    .then(function (result) {
-                        //check for repeats
-                    })
-                }
-                makeElements();
-            }
-        }
-        function edit(button) {
-            let par = button.parentElement.parentElement
-
-            let nameInput = document.createElement('input')
-            nameInput.type = 'text'
-            nameInput.id = 'nameInput'
-            nameInput.value = par.children[0].textContent
-            oldItem = par.children[0].textContent
-            par.children[0].textContent = ""
-            par.children[0].appendChild(nameInput)
-
-            let awesomeInput = document.createElement('input')
-            awesomeInput.type = 'number'
-            awesomeInput.id = 'awesomeInput'
-            awesomeInput.value = parseInt((par.children[1].textContent).substring(16))
-            par.children[1].textContent = "Cost (Awesome): "
-            par.children[1].appendChild(awesomeInput)
-
-            let goldenInput = document.createElement('input')
-            goldenInput.type = 'number'
-            goldenInput.id = 'goldenInput'
-            goldenInput.value = parseInt((par.children[2].textContent).substring(14))
-            par.children[2].textContent = "Cost (Golden): "
-            par.children[2].appendChild(goldenInput)
-
-            button.textContent = "Done"
-            button.onclick = function () {
-                if(nameInput.value == ""){
-                    console.log("deleting" + par.children[0].textContent)
-                    fetch("/removeItem", {
-                        method: 'POST',
-                        headers: {
-                            //'Content-Type': 'application/url',
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + oldItem, // body data type must match "Content-Type" header
-                    })
-                    .then(function (result) {
-                        makeElements()
-                    })
-                }else{
-                    change(nameInput.value, awesomeInput.value, goldenInput.value)
-                }
-                
-            }
-        }
-
-        function change(name, awesome, golden) {
-            //save the changes to the server
-
-            fetch("/removeItem", {
+            fetch("/getStudentsByClass", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + name, // body data type must match "Content-Type" header
+                body: "AdminU=" + email + "&AdminP=" + password + "&Class=" + className, // body data type must match "Content-Type" header
             })
             .then(function (result) {
-                //check for repeats
-                if(awesome == null){
-                awesome = 0
-                }
-                if(golden == null){
-                    golden == 0
+                result.json().then(function(result2){
+                    students = result2.data;
+                    allStudents = students
+                    let table = document.getElementById("students")
+
+                    let content = document.getElementById("content")
+
+                    let last = table.lastElementChild
+                    while(last){
+                        last.remove()
+                        last = table.lastElementChild
+                    }
+
+                    for(let i = 0; i < students.length; i++){
+
+                        let name = document.createElement('div')
+                        // name.textContent = students[i]["name"]
+                        let nameText = document.createElement('div')
+                        nameText.textContent = students[i][1]
+                        name.className = 'col-4 column text-center bordered'
+                        let brk0 = document.createElement('br')
+                        let editButton = document.createElement('button')
+                        editButton.id = students[i][0]
+                        editButton.textContent = "Buy"
+                        editButton.className = 'edit'
+                        editButton.onclick = function(){
+                            currForm = document.getElementById((this.id + "change"))
+                            currForm.style.display = "block";
+                            studentEdit = currForm.children[0].children[4].value
+                            studentEditEmail = currForm.children[0].children[2].value
+                        }
+                        
+                        //openForm(editButton.id)
+
+                        name.appendChild(nameText)
+                        name.append(brk0)
+                        name.appendChild(editButton)
+
+                        table.appendChild(name)
+
+                        let goldenness = document.createElement('div')
+                        goldenness.className = 'col-4 column text-center bordered'
+                        goldenness.id = "golden"
+
+                        let goldenInput = document.createElement("input")
+                        goldenInput.type = 'number'
+                        goldenInput.className = 'nums'
+                        // goldenInput.value = students[i]["goldenPoints"]
+                        goldenInput.value = students[i][5]
+                        let brk2 = document.createElement('br')
+                        let downButton = document.createElement('button')
+                        downButton.className = 'btn invis'
+                        downButton.onclick = function(){
+                            lower(this.parentElement, 1)
+                        }
+                        downButton.textContent = "-"
+                        let upButton = document.createElement('button')
+                        upButton.className = 'btn invis'
+                        upButton.onclick = function(){
+                            higher(this.parentElement, 1)
+                        }
+                        upButton.textContent = "+"
+
+                        goldenness.appendChild(goldenInput)
+                        goldenness.append(brk2)
+                        goldenness.appendChild(downButton)
+                        goldenness.appendChild(upButton)
+
+                        table.appendChild(goldenness)
+
+                        let awesomeness = document.createElement('div')
+                        awesomeness.className = 'col-4 column text-center bordered'
+                        awesomeness.id = "awesome"
+
+                        let awesomeInput = document.createElement("input")
+                        awesomeInput.type = 'number'
+                        awesomeInput.className = 'nums'
+                        // awesomeInput.value = students[i]["awesomePoints"]
+                        awesomeInput.value = students[i][4]
+                        let brk = document.createElement('br')
+                        let downButton2 = document.createElement('button')
+                        downButton2.className = 'btn invis'
+                        downButton2.onclick = function(){
+                            lower(this.parentElement, 1)
+                        }
+                        downButton2.textContent = "-"
+                        let upButton2 = document.createElement('button')
+                        upButton2.className = 'btn invis'
+                        upButton2.onclick = function(){
+                            higher(this.parentElement, 1)
+                        }
+                        upButton2.textContent = "+"
+
+                        awesomeness.appendChild(awesomeInput)
+                        awesomeness.appendChild(brk)
+                        awesomeness.appendChild(downButton2)
+                        awesomeness.appendChild(upButton2)
+                        
+                        table.appendChild(awesomeness)
+                    }
+
+                })
+            })
+        }
+        function higher(par, num){
+            let student = ""
+            let studentEmail = ""
+            if((par.id) == "golden"){
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        let content = par.parentElement.children[i-1].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
+                    }
                 }
 
-                fetch("/addItem", {
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
+                        break
+                    }
+                }
+
+                fetch("/addPoints", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + name + "&CostAwesomes=" + awesome + "&CostGoldens=" + golden, // body data type must match "Content-Type" header
-                    //body: "username=" + email + "&password=" + password,
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
                 })
                 .then(function (result) {
-                    makeElements()
-                    //check for repeats
+                    toClass(currClass)
                 })
-            })
+                        
+            }else{
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        let content = par.parentElement.children[i-2].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
+                    }
+                }
 
-            
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
+                        break
+                    }
+                }
+
+                fetch("/addPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+                    toClass(currClass)
+                })
+
+            }
+        }
+        function lower(par, num){
+            let student = ""
+            let studentEmail = ""
+            if((par.id) == "golden"){
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        let content = par.parentElement.children[i-1].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
+                    }
+                }
+
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
+                        break;
+                    }
+                }
+
+                fetch("/addPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num*-1 + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+                    toClass(currClass)
+                })       
+            }else{
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        let content = par.parentElement.children[i-2].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
+                    }
+                }
+
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
+                        break;
+                    }
+                }
+
+                fetch("/addPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num*-1 + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+                    toClass(currClass)
+                })
+            }
+        }
+
+        function changeValue(par, num) {
+            let student = "";
+            if((par.id) == "golden"){
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        let content = par.parentElement.children[i-1].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
+                    }
+                }
+
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
+                        break;
+                    }
+                }
+
+                fetch("/setPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+                    toClass(currClass)
+                })
+            }else{
+                for(let i = 0; i < par.parentElement.children.length; i++){
+                    if(par.parentElement.children[i] == par){
+                        let content = par.parentElement.children[i-2].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
+                    }
+                }
+
+                for(let i = 0; i < allStudents.length; i++){
+                    if(allStudents[i][1] == student){
+                        studentEmail = allStudents[i][0]
+                        break;
+                    }
+                }
+
+                fetch("/setPoints", {
+                    method: 'POST',
+                    headers: {
+                        //'Content-Type': 'application/url',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
+                })
+                .then(function (result) {
+                    toClass(currClass)
+                })
+            }
         }
     </script>
 </body>
-
 </html>
