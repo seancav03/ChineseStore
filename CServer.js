@@ -95,8 +95,10 @@ app.post('/newStudent', function(req, res) {
     let name = req.body.name;
     let password = req.body.password;
     let classLevel = req.body.className;
+    let numGol = req.body.numGol;
+    let numAwe = req.body.numAwe;
     
-    let r = database.newStudent(email, name, password, classLevel);
+    let r = database.newStudent(email, name, password, classLevel, numGol, numAwe);
     r.then(result => {
         res.send(JSON.stringify({status: result}));
     })
@@ -110,7 +112,6 @@ app.post('/removeStudent', function(req, res) {
     
     let promise = database.removeStudent(AdminU, AdminP, studentName);
     promise.then(r => {
-        //This is sent as a literal boolean. It should be changed to a strigified JSON
         res.send(r);
     })
 });

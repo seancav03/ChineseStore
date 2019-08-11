@@ -129,7 +129,7 @@ input.spaces{
             //'Content-Type': 'application/url',
             'Content-Type': 'application/x-www-form-urlencoded',
         }, 
-            body: "email=" + email + "&name=" + name + "&password=" + password + "&className=" + className, // body data type must match "Content-Type" header
+            body: "email=" + email + "&name=" + name + "&password=" + password + "&className=" + className + "&numGol=" + 0 + "&numAwe=" + 0, // body data type must match "Content-Type" header
         })
         .then(function(resulting) {
             resulting.json().then(function(result2) {

@@ -37,10 +37,20 @@ div.named{
     font-weight: 600!important;
 }
 
+div.centerChanges{
+
+}
+
 button.invis{
     background-color: transparent!important;
     border: 1px solid rgba(86, 61, 124, .3);
 
+}
+
+button.edit{
+    background-color: transparent!important;
+    border: 0px solid rgba(86, 61, 124, .3);
+    color: rgb(45, 42, 235);
 }
 
 button.classes{
@@ -77,6 +87,29 @@ div.title{
     font-size: 2.7rem;
     font-weight: 500!important;
     margin-bottom: 15px;
+}
+
+div.changeBox{
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%; /* Could be more or less, depending on screen size */
+    text-align: center
+}
+
+div.popup{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w*/
 }
 
 a.bolded{
@@ -178,6 +211,9 @@ input.nums{
         let email
         let password
         let allStudents
+        let currForm
+        let studentEdit
+        let studentEditEmail
 
         function getCredentials(){
             let promise = new Promise(function(resolve, reject){
@@ -200,7 +236,7 @@ input.nums{
             return promise;
         } 
 
-        $("div#content").on('focusout', 'input', function(){
+        $("div#content").on('focusout', '.nums', function(){
             changeValue(event.target.parentElement, event.target.value)
         })
 
@@ -231,10 +267,11 @@ input.nums{
             })
             .then(function (result) {
                 result.json().then(function(result2){
-
                     students = result2.data;
                     allStudents = students
                     let table = document.getElementById("students")
+
+                    let content = document.getElementById("content")
 
                     let last = table.lastElementChild
                     while(last){
@@ -243,10 +280,188 @@ input.nums{
                     }
 
                     for(let i = 0; i < students.length; i++){
+
+                        let popup = document.createElement('div')
+                        popup.className = "popup"
+                        popup.id = students[i][0] + "change"
+
+                        let changeInfo = document.createElement('div')
+                        changeInfo.className = "changeBox"
+
+                        let emailLabel = document.createElement('label')
+                        emailLabel.innerHTML = "Email &nbsp &nbsp"
+                        let emailInput = document.createElement('input')
+                        emailInput.value = students[i][0]
+
+                        let break1 = document.createElement('br')
+
+                        let nameLabel = document.createElement('label')
+                        nameLabel.innerHTML = "Name &nbsp &nbsp"
+                        let nameInput = document.createElement('input')
+                        nameInput.value = students[i][1]
+
+                        let break2 = document.createElement('br')
+
+                        let passwordLabel = document.createElement('label')
+                        passwordLabel.innerHTML = "Password &nbsp &nbsp"
+                        let passwordInput = document.createElement('input')
+                        //dont have access to password here
+
+                        let break3 = document.createElement('br')
+
+                        let classLabel = document.createElement('label')
+                        classLabel.innerHTML = "Class &nbsp &nbsp"
+                        let classInput = document.createElement('select')
+                        let chinese3 = document.createElement('option')
+                        chinese3.text = "Chinese 3"
+                        let chinese4 = document.createElement('option')
+                        chinese4.text = "Chinese 4"
+                        let chinese5 = document.createElement('option')
+                        chinese5.text = "Chinese 5"
+                        let chineseap = document.createElement('option')
+                        chineseap.text = "Chinese AP"
+                        classInput.appendChild(chinese3)
+                        classInput.appendChild(chinese4)
+                        classInput.appendChild(chinese5)
+                        classInput.appendChild(chineseap)
+
+
+                        classInput.value = students[i][3]
+
+                        let break4 = document.createElement('br')
+
+                        let done = document.createElement('button')
+                        done.innerText = "Done"
+                        done.id = students[i][0]
+                        done.onclick = function(){
+                            let newEmail = currForm.children[0].children[1].value
+                            let newName = currForm.children[0].children[4].value
+                            let newPassword = currForm.children[0].children[7].value
+                            let newClass = currForm.children[0].children[10].value
+
+                            let oldGol
+                            let oldAwe
+                            let oldPsw 
+
+                            for(let j = 0; j< students.length; j++){
+                                if(students[j][1] == studentEdit){
+                                    oldAwe = students[j][4]
+                                    oldGol = students[j][5]
+                                    break;
+                                }
+                            }
+
+                            fetch("/getStudent", {
+                                method: 'POST',
+                                headers: {
+                                //'Content-Type': 'application/url',
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: "username=" + studentEdit + "&password=" + password, // body data type must match "Content-Type" header
+                            })
+                            .then(function (result) {
+                                result.json().then(function(result2){
+                                    studentInfo = result2.data;
+                                    oldPsw = studentInfo[2]
+                                })
+                            })
+                            if(newPassword != ""){      
+                                fetch("/removeStudent", {
+                                    method: 'POST',
+                                    headers: {
+                                    //'Content-Type': 'application/url',
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                    },
+                                    body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
+                                })
+                                .then(function (result) {
+                                    fetch("/newStudent", {
+                                        method: 'POST',
+                                        headers: {
+                                        //'Content-Type': 'application/url',
+                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                        },
+                                        body: "email=" + newEmail + "&name=" + newName + "&password=" + newPassword + "&className=" + newClass + "&numGol=" + oldGol + "&numAwe=" + oldAwe, // body data type must match "Content-Type" header
+                                    })
+                                    .then(function (result) {
+                                        //document.getElementById((studentEditEmail + "change")).style.display = "none";
+                                        toClass(currClass) 
+                                    })
+                                })
+                            }else if(newEmail == "" || newName == ""){
+                                fetch("/removeStudent", {
+                                    method: 'POST',
+                                    headers: {
+                                    //'Content-Type': 'application/url',
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                    },
+                                    body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
+                                })
+                            }else if(password == ""){
+                                fetch("/removeStudent", {
+                                    method: 'POST',
+                                    headers: {
+                                    //'Content-Type': 'application/url',
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                    },
+                                    body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
+                                })
+                                .then(function (result) {
+                                    fetch("/newStudent", {
+                                        method: 'POST',
+                                        headers: {
+                                        //'Content-Type': 'application/url',
+                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                        },
+                                        body: "email=" + newEmail + "&name=" + newName + "&password=" + oldPsw + "&className=" + newClass + "&numGol=" + oldGol + "&numAwe=" + oldAwe, // body data type must match "Content-Type" header
+                                    })
+                                    .then(function (result) {
+                                        //document.getElementById((studentEditEmail + "change")).style.display = "none";
+                                        toClass(currClass) 
+                                    })
+                                })
+                            }
+                        }
+
+                        changeInfo.appendChild(emailLabel)
+                        changeInfo.appendChild(emailInput)
+                        changeInfo.appendChild(break1)
+                        changeInfo.appendChild(nameLabel)
+                        changeInfo.appendChild(nameInput)
+                        changeInfo.appendChild(break2)
+                        changeInfo.appendChild(passwordLabel)
+                        changeInfo.appendChild(passwordInput)
+                        changeInfo.appendChild(break3)
+                        changeInfo.appendChild(classLabel)
+                        changeInfo.appendChild(classInput)
+                        changeInfo.appendChild(break4)
+                        changeInfo.appendChild(done)
+
+                        popup.appendChild(changeInfo)
+                        content.insertBefore(popup, content.childNodes[0])
+
                         let name = document.createElement('div')
                         // name.textContent = students[i]["name"]
-                        name.textContent = students[i][1]
+                        let nameText = document.createElement('div')
+                        nameText.textContent = students[i][1]
                         name.className = 'col-4 column text-center bordered'
+                        let brk0 = document.createElement('br')
+                        let editButton = document.createElement('button')
+                        editButton.id = students[i][0]
+                        editButton.textContent = "edit"
+                        editButton.className = 'edit'
+                        editButton.onclick = function(){
+                            currForm = document.getElementById((this.id + "change"))
+                            currForm.style.display = "block";
+                            studentEdit = currForm.children[0].children[4].value
+                            studentEditEmail = currForm.children[0].children[2].value
+                        }
+                        
+                        //openForm(editButton.id)
+
+                        name.appendChild(nameText)
+                        name.append(brk0)
+                        name.appendChild(editButton)
 
                         table.appendChild(name)
 
@@ -320,7 +535,9 @@ input.nums{
             if((par.id) == "golden"){
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
-                        student = par.parentElement.children[i-1].textContent
+                        let content = par.parentElement.children[i-1].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
                     }
                 }
 
@@ -340,13 +557,15 @@ input.nums{
                     body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
                 })
                 .then(function (result) {
-
+                    toClass(currClass)
                 })
                         
             }else{
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
-                        student = par.parentElement.children[i-2].textContent
+                        let content = par.parentElement.children[i-2].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
                     }
                 }
 
@@ -366,11 +585,10 @@ input.nums{
                     body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
                 })
                 .then(function (result) {
-
+                    toClass(currClass)
                 })
 
             }
-            toClass(currClass)
         }
         function lower(par, num){
             let student = ""
@@ -378,7 +596,9 @@ input.nums{
             if((par.id) == "golden"){
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
-                        student = par.parentElement.children[i-1].textContent
+                        let content = par.parentElement.children[i-1].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
                     }
                 }
 
@@ -398,12 +618,14 @@ input.nums{
                     body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num*-1 + "&areGolden=" + "true", // body data type must match "Content-Type" header
                 })
                 .then(function (result) {
-
+                    toClass(currClass)
                 })       
             }else{
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
-                        student = par.parentElement.children[i-2].textContent
+                        let content = par.parentElement.children[i-2].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
                     }
                 }
 
@@ -423,10 +645,9 @@ input.nums{
                     body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num*-1 + "&areGolden=" + "false", // body data type must match "Content-Type" header
                 })
                 .then(function (result) {
-
+                    toClass(currClass)
                 })
             }
-            toClass(currClass)
         }
 
         function changeValue(par, num) {
@@ -434,7 +655,9 @@ input.nums{
             if((par.id) == "golden"){
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
-                        student = par.parentElement.children[i-1].textContent
+                        let content = par.parentElement.children[i-1].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
                     }
                 }
 
@@ -454,12 +677,14 @@ input.nums{
                     body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
                 })
                 .then(function (result) {
-
+                    toClass(currClass)
                 })
             }else{
                 for(let i = 0; i < par.parentElement.children.length; i++){
                     if(par.parentElement.children[i] == par){
-                        student = par.parentElement.children[i-2].textContent
+                        let content = par.parentElement.children[i-2].textContent
+                        student = content.substring(0, content.length-4)
+                        break;
                     }
                 }
 
@@ -479,10 +704,9 @@ input.nums{
                     body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
                 })
                 .then(function (result) {
-
+                    toClass(currClass)
                 })
             }
-            toClass(currClass)
         }
     </script>
 </body>

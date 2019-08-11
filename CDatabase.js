@@ -57,7 +57,7 @@ var exports = module.exports = {};
 // };
 
 //adds student to the database (resolves: 0 - error, 1 - username taken, 2 - success)
-exports.newStudent = function(email, name, password, classLevel){
+exports.newStudent = function(email, name, password, classLevel, numGol, numAwe){
     let promise = new Promise(function(resolve, reject){
         Students.findAndCountAll({
             where: {
@@ -73,8 +73,8 @@ exports.newStudent = function(email, name, password, classLevel){
                         Name: name,
                         Password: hash,
                         Class: classLevel,
-                        Awesomes: 0,
-                        Goldens: 0
+                        Awesomes: numAwe,
+                        Goldens: numGol
                     }).then(success => {
                         resolve(2);
                     }).catch(error => {
@@ -456,7 +456,7 @@ exports.getStudent = function(username, password){
                                 arr[5] = result.rows[0].Goldens;
                                 resolve(arr);
                             } else {
-                                resolve([]);
+                                resolve(["bad", "boy"]);
                             }
                         });
                     }
