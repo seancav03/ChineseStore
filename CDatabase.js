@@ -89,6 +89,69 @@ exports.newStudent = function(email, name, password, classLevel, numGol, numAwe)
     return promise;
 };
 
+//change student data: (resolves: 0 - wrong admin password, 1 - username taken, 2 - success) --- (Note: email and username are the same thing)
+exports.updateStudentData = function(curUsername, nEmail, nName, nPassword, nClass, AdminP, passwordChanged){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res){
+                //correct admin password used
+                Students.findAndCountAll({
+                    where: {
+                        Username: nEmail
+                    }
+                }).then(result => {
+                    if(result.count > 0 && curUsername != nEmail){
+                        //nope. username already taken
+                        resolve(1)
+                    } else {
+                        //username is not already taken: good
+                        if(passwordChanged){
+                            //password has been changed and needs to be hashed
+                            bcrypt.hash(nPassword, saltRounds, function(err, hash){
+                                Students.update(
+                                    {
+                                        Username: nEmail,
+                                        Name: nName,
+                                        Password: hash,
+                                        Class: nClass
+                                    },
+                                    {
+                                        where: {
+                                            Username: curUsername
+                                        }
+                                    }
+                                ).then(yeah => {
+                                    resolve(2);
+                                });
+                            });
+                        } else {
+                            //password has not been changed and the hash should be left as is. ignore nPassword field because it is irrelevent
+                            Students.update(
+                                {
+                                    Username: nEmail,
+                                    Name: nName,
+                                    Class: nClass
+                                },
+                                {
+                                    where: {
+                                        Username: curUsername
+                                    }
+                                }
+                            ).then(yup => {
+                                resolve(2);
+                            });
+                        }
+                    }
+                })
+                
+            } else {
+                resolve(0);
+            }
+        });
+    });
+    return promise;
+}
+
 //remove student
 exports.removeStudent = function(AdminU, AdminP, studentName){
     let promise = new Promise(function(resolve, reject){
@@ -431,6 +494,7 @@ exports.getStudent = function(username, password){
                 Username: username
             }
         }).then(result => {
+            console.log("------------Getting Student data 1")
             if(result.count < 1){
                 resolve([]);
             } else {
@@ -454,9 +518,10 @@ exports.getStudent = function(username, password){
                                 arr[3] = result.rows[0].Class;
                                 arr[4] = result.rows[0].Awesomes;
                                 arr[5] = result.rows[0].Goldens;
+                                console.log("------------Getting Student data 2 - authenticated")
                                 resolve(arr);
                             } else {
-                                resolve(["bad", "boy"]);
+                                resolve([]);
                             }
                         });
                     }

@@ -339,9 +339,14 @@ input.nums{
                             let newPassword = currForm.children[0].children[7].value
                             let newClass = currForm.children[0].children[10].value
 
+                            //did password change
+                            let passwordChanged = "0";
+                            if(newPassword != ""){
+                                passwordChanged = "1";
+                            }
+
                             let oldGol
                             let oldAwe
-                            let oldPsw 
 
                             for(let j = 0; j< students.length; j++){
                                 if(students[j][1] == studentEdit){
@@ -357,70 +362,45 @@ input.nums{
                                 //'Content-Type': 'application/url',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                                 },
-                                body: "username=" + studentEdit + "&password=" + password, // body data type must match "Content-Type" header
+                                body: "username=" + students[i][0]+ "&password=" + password, // body data type must match "Content-Type" header
                             })
-                            .then(function (result) {
-                                result.json().then(function(result2){
-                                    studentInfo = result2.data;
-                                    oldPsw = studentInfo[2]
-                                })
-                            })
-                            if(newPassword != ""){      
-                                fetch("/removeStudent", {
-                                    method: 'POST',
-                                    headers: {
-                                    //'Content-Type': 'application/url',
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                    },
-                                    body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
-                                })
-                                .then(function (result) {
-                                    fetch("/newStudent", {
+                            .then(function (resulty) {
+                                resulty.json().then(function(resulty2){
+                                    studentInfo = resulty2.data;
+                                    console.log(students[i][0] + "-" + newEmail);
+                                    fetch("/updateStudentData", {
                                         method: 'POST',
                                         headers: {
                                         //'Content-Type': 'application/url',
                                         'Content-Type': 'application/x-www-form-urlencoded',
                                         },
-                                        body: "email=" + newEmail + "&name=" + newName + "&password=" + newPassword + "&className=" + newClass + "&numGol=" + oldGol + "&numAwe=" + oldAwe, // body data type must match "Content-Type" header
-                                    })
-                                    .then(function (result) {
+                                        body: "curUsername=" + students[i][0] + "&nEmail=" + newEmail + "&nName=" + newName + "&nPassword=" + newPassword + "&nClass=" + newClass + "&AdminP=" + password + "&passwordChanged=" + passwordChanged, // body data type must match "Content-Type" header
+                                    }).then(done1 => {
+                                        done1.json().then(function(done2){
+
+                                            if(done2.Success){
+                                                //yaya success
+                                                document.getElementById((studentEditEmail + "change")).style.display = "none";
+                                                toClass(currClass) 
+                                            } else {
+                                                if(done2.goodAdminP == false){
+                                                    alert('Invalid Admin Password. Try relogging in');
+                                                } else if(done2.usernameTaken == true){
+                                                    alert('New username is already taken. Please use a unique email address')
+                                                }
+                                                document.getElementById((studentEditEmail + "change")).style.display = "none";
+                                                toClass(currClass) 
+                                            }
+
+                                        })
                                         //document.getElementById((studentEditEmail + "change")).style.display = "none";
-                                        toClass(currClass) 
+                                        // toClass(currClass) 
                                     })
+
+
                                 })
-                            }else if(newEmail == "" || newName == ""){
-                                fetch("/removeStudent", {
-                                    method: 'POST',
-                                    headers: {
-                                    //'Content-Type': 'application/url',
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                    },
-                                    body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
-                                })
-                            }else if(password == ""){
-                                fetch("/removeStudent", {
-                                    method: 'POST',
-                                    headers: {
-                                    //'Content-Type': 'application/url',
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                    },
-                                    body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
-                                })
-                                .then(function (result) {
-                                    fetch("/newStudent", {
-                                        method: 'POST',
-                                        headers: {
-                                        //'Content-Type': 'application/url',
-                                        'Content-Type': 'application/x-www-form-urlencoded',
-                                        },
-                                        body: "email=" + newEmail + "&name=" + newName + "&password=" + oldPsw + "&className=" + newClass + "&numGol=" + oldGol + "&numAwe=" + oldAwe, // body data type must match "Content-Type" header
-                                    })
-                                    .then(function (result) {
-                                        //document.getElementById((studentEditEmail + "change")).style.display = "none";
-                                        toClass(currClass) 
-                                    })
-                                })
-                            }
+                            })
+                            
                         }
 
                         changeInfo.appendChild(emailLabel)
@@ -711,3 +691,67 @@ input.nums{
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+<!-- if(newPassword != ""){      
+    fetch("/removeStudent", {
+        method: 'POST',
+        headers: {
+        //'Content-Type': 'application/url',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
+    })
+    .then(function (result) {
+        fetch("/newStudent", {
+            method: 'POST',
+            headers: {
+            //'Content-Type': 'application/url',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: "email=" + newEmail + "&name=" + newName + "&password=" + newPassword + "&className=" + newClass + "&numGol=" + oldGol + "&numAwe=" + oldAwe, // body data type must match "Content-Type" header
+        })
+        .then(function (result) {
+            //document.getElementById((studentEditEmail + "change")).style.display = "none";
+            toClass(currClass) 
+        })
+    })
+}else if(newEmail == "" || newName == ""){
+    fetch("/removeStudent", {
+        method: 'POST',
+        headers: {
+        //'Content-Type': 'application/url',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
+    })
+}else if(password == ""){
+    fetch("/removeStudent", {
+        method: 'POST',
+        headers: {
+        //'Content-Type': 'application/url',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: "AdminU=" + email + "&AdminP=" + password + "&studentName=" + studentEdit, // body data type must match "Content-Type" header
+    })
+    .then(function (result) {
+        fetch("/newStudent", {
+            method: 'POST',
+            headers: {
+            //'Content-Type': 'application/url',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: "email=" + newEmail + "&name=" + newName + "&password=" + oldPsw + "&className=" + newClass + "&numGol=" + oldGol + "&numAwe=" + oldAwe, // body data type must match "Content-Type" header
+        })
+        .then(function (result) {
+            //document.getElementById((studentEditEmail + "change")).style.display = "none";
+            toClass(currClass) 
+        })
+    })
+} -->
