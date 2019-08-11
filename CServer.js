@@ -105,6 +105,36 @@ app.post('/newStudent', function(req, res) {
     
 });
 
+app.post('/updateStudentData', function(req, res) {
+    let curUsername = req.body.curUsername;
+    let nEmail = req.body.nEmail;
+    let nName = req.body.nName;
+    let nPassword = req.body.nPassword;
+    let nClass = req.body.nClass;
+    let AdminP = req.body.AdminP
+    let passwordChanged = req.body.passwordChanged;
+
+    let passChanged = false;
+    if(passwordChanged == "1"){
+        passChanged = true;
+    }
+
+    let promise = database.updateStudentData(curUsername, nEmail, nName, nPassword, nClass, AdminP, passChanged);
+    promise.then(result => {
+        if(result == 2){
+            //success
+            res.send(JSON.stringify({Success: true, usernameTaken: false, goodAdminP: true}));
+        } else if (result == 1){
+            //username already taken
+            res.send(JSON.stringify({Success: false, usernameTaken: true, goodAdminP: true}));
+        } else {
+            //wrong AdminP login
+            res.send(JSON.stringify({Success: false, usernameTaken: false, goodAdminP: false}));
+        }
+    })
+
+});
+
 app.post('/removeStudent', function(req, res) {
     let AdminU = req.body.AdminU;
     let AdminP = req.body.AdminP;
@@ -239,12 +269,14 @@ app.post('/getStudentsByClass', function(req, res) {
 });
 
 app.post('/getStudent', function(req, res) {
+    console.log("------------Getting Student")
     let username = req.body.username;
     let password = req.body.password;
     
     let promise = database.getStudent(username, password);
     promise.then(result => {
-        res.send(result)
+        console.log("------------Got Student")
+        res.send(JSON.stringify({data: result}));
     }).catch( result => {
         res.send([]);
     })
