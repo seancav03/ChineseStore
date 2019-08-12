@@ -361,33 +361,37 @@ input.nums{
                                 //'Content-Type': 'application/url',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                                 },
-                                body: "username=" + students[i][0]+ "&password=" + password, // body data type must match "Content-Type" header
+                                body: "username=" + studentEdit+ "&password=" + password, // body data type must match "Content-Type" header
                             })
                             .then(function (resulty) {
                                 resulty.json().then(function(resulty2){
                                     studentInfo = resulty2.data;
-                                    console.log(students[i][0] + "-" + newEmail);
+                                    console.log(studentEditEmail + "-" + newEmail);
                                     fetch("/updateStudentData", {
                                         method: 'POST',
                                         headers: {
                                         //'Content-Type': 'application/url',
                                         'Content-Type': 'application/x-www-form-urlencoded',
                                         },
-                                        body: "curUsername=" + students[i][0] + "&nEmail=" + newEmail + "&nName=" + newName + "&nPassword=" + newPassword + "&nClass=" + newClass + "&AdminP=" + password + "&passwordChanged=" + passwordChanged, // body data type must match "Content-Type" header
+                                        body: "curEmail=" + studentEditEmail + "&nEmail=" + newEmail + "&nName=" + newName + "&nPassword=" + newPassword + "&nClass=" + newClass + "&AdminP=" + password + "&passwordChanged=" + passwordChanged, // body data type must match "Content-Type" header
                                     }).then(done1 => {
                                         done1.json().then(function(done2){
 
                                             if(done2.Success){
+                                                if(done2.accountDeleted){
+                                                    alert('Account Successfully Deleted')
+                                                }
+                                                console.log("yay")
                                                 //yaya success
                                                 document.getElementById((studentEditEmail + "change")).style.display = "none";
                                                 toClass(currClass) 
                                             } else {
                                                 if(done2.goodAdminP == false){
-                                                    alert('Invalid Admin Password. Try relogging in');
+                                                    alert('Invalid Admin Password. Try relogging in')
                                                 } else if(done2.usernameTaken == true){
                                                     alert('New username is already taken. Please use a unique email address')
                                                 }
-                                                document.getElementById((studentEditEmail + "change")).style.display = "none";
+                                                document.getElementById((studentEditEmail + "change")).style.display = "none"
                                                 toClass(currClass) 
                                             }
 
@@ -433,7 +437,7 @@ input.nums{
                             currForm = document.getElementById((this.id + "change"))
                             currForm.style.display = "block";
                             studentEdit = currForm.children[0].children[4].value
-                            studentEditEmail = currForm.children[0].children[2].value
+                            studentEditEmail = currForm.children[0].children[1].value
                         }
                         
                         //openForm(editButton.id)

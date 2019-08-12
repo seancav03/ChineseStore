@@ -106,7 +106,7 @@ app.post('/newStudent', function(req, res) {
 });
 
 app.post('/updateStudentData', function(req, res) {
-    let curUsername = req.body.curUsername;
+    let curUsername = req.body.curEmail;
     let nEmail = req.body.nEmail;
     let nName = req.body.nName;
     let nPassword = req.body.nPassword;
@@ -123,10 +123,12 @@ app.post('/updateStudentData', function(req, res) {
     promise.then(result => {
         if(result == 2){
             //success
-            res.send(JSON.stringify({Success: true, usernameTaken: false, goodAdminP: true}));
+            res.send(JSON.stringify({Success: true, usernameTaken: false, goodAdminP: true, accountDeleted: false}));
         } else if (result == 1){
             //username already taken
-            res.send(JSON.stringify({Success: false, usernameTaken: true, goodAdminP: true}));
+            res.send(JSON.stringify({Success: false, usernameTaken: true, goodAdminP: true, accountDeleted: false}));
+        } else if(result == 3){
+            res.send(JSON.stringify({Success: true, usernameTaken: false, goodAdminP: true, accountDeleted: true}));
         } else {
             //wrong AdminP login
             res.send(JSON.stringify({Success: false, usernameTaken: false, goodAdminP: false}));

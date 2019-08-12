@@ -124,7 +124,16 @@ exports.updateStudentData = function(curUsername, nEmail, nName, nPassword, nCla
                                     resolve(2);
                                 });
                             });
-                        } else {
+                        } else if(nEmail == ""){
+                            Students.destroy({
+                                where: {
+                                    Username: curUsername
+                                }
+                            }).then(after => {
+                                resolve(3);
+                                
+                            })
+                        } else{
                             //password has not been changed and the hash should be left as is. ignore nPassword field because it is irrelevent
                             Students.update(
                                 {
