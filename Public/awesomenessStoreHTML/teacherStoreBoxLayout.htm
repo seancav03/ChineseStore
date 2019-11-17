@@ -112,6 +112,7 @@
                <a class="nav-item nav-link"
                    href="javascript:document.location.href = 'teacherPendingRewards.htm?'">Pending
                    Rewards</a>
+                <a class="nav-item nav-link" onclick=logout()>Log Out</a>
            </div>
        </div>
    </nav>
@@ -175,26 +176,6 @@
                }
 
                let items = []
-
-               let newItem1 = []
-               newItem1["name"] = "Candy"
-               newItem1["awesomeCost"] = 5
-               newItem1["goldenCost"] = 0
-
-               let newItem2 = []
-               newItem2["name"] = "1-Day Class Pass"
-               newItem2["awesomeCost"] = 50
-               newItem2["goldenCost"] = 1
-
-               let newItem3 = []
-               newItem3["name"] = "Homework Pass"
-               newItem3["awesomeCost"] = 30
-               newItem3["goldenCost"] = 0
-
-               //items.push(newItem1)
-               //items.push(newItem2)
-               //items.push(newItem3)
-
 
                fetch("/getStore", {
                    method: 'POST',
@@ -512,7 +493,20 @@
                    //check for repeats
                })
            })
-
+           function logout(){
+            fetch("/logout", {
+                method: 'POST',
+                headers: {
+                    //'Content-Type': 'application/url',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then(function (result) {
+                //should be logged out
+                //reload page
+                location.reload();
+            })
+        }
           
        }
    </script>

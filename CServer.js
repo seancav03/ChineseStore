@@ -24,7 +24,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false , maxAge: 1000*60*10, rolling: true},
-    //for herpku, set to process.env.WHATEVER_IS_NEEDED below
+    //for heroku, set to process.env.WHATEVER_IS_NEEDED below
     store: new redisStore({ host: process.env || 'localhost', port: 6379, client: redisClient })
 }));
 //Finish cookie storage settup
@@ -58,6 +58,11 @@ app.post('/cookieAuthenticate', function(req, res) {
         //redirect to login
         res.send( JSON.stringify({LoggedIn: false, Username: null, Password: null, isAdmin: false}));
     }
+});
+
+app.post('/logout', function(req, res) {
+    req.session.destroy();
+    res.send(JSON.stringify({loggedOut: true}));
 });
 
 //log users in instantly if possible
@@ -231,6 +236,31 @@ app.post('/removeItem', function(req, res) {
         res.send(result);
     })
     
+});
+
+app.post('/updateItemData', function(req, res) {
+    let curName = req.body.curName;
+    let nName = req.body.nName;
+    let nGol = req.body.nGol;
+    let nAwe = req.body.nAwe;
+    let AdminP = req.body.AdminP
+
+    let promise = database.updateItemData(curName, nName, nGol, nAwe, AdminP);
+    promise.then(result => {
+        if(result == 2){
+            //success
+            res.send(JSON.stringify({Success: true, nameTaken: false, goodAdminP: true, itemDeleted: false}));
+        } else if (result == 1){
+            //username already taken
+            res.send(JSON.stringify({Success: false, nameTaken: true, goodAdminP: true, itemDeleted: false}));
+        } else if(result == 3){
+            res.send(JSON.stringify({Success: true, nameTaken: false, goodAdminP: true, itemDeleted: true}));
+        } else {
+            //wrong AdminP login
+            res.send(JSON.stringify({Success: false, nameTaken: false, goodAdminP: false}));
+        }
+    })
+
 });
 
 app.post('/buyItem', function(req, res) {

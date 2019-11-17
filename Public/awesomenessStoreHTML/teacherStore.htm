@@ -1,541 +1,622 @@
 <html lang="en" class="gr__getbootstrap_com">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/navbar-top-fixed.css" rel="stylesheet">
-<link href="https://getbootstrap.com/docs/4.0/examples/grid/grid.css" rel="stylesheet">
 
-<style type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/navbar-top-fixed.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/grid/grid.css" rel="stylesheet">
 
-div.parentCol{
-    background-color: rgb(255, 255, 255);
-}
+    <style type="text/css">
+        div.parentCol {
+            background-color: rgb(255, 255, 255);
+        }
 
-main.offtop{
-    margin-top: 110px;
-}
+        div.mainName {
+            max-width: 50% !important;
+            flex: 0 0 50% !important;
+        }
 
-h1.number{
-    font-size: 1rem;
-    font-weight: 400;
-}
+        div.nums {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-div.labels{
-    font-size: 1.25rem;
-    font-weight: 500;
-}
+        div.otherInfo {
+            max-width: 25% !important;
+        }
 
-div.column{
-    float: left;
-    width: 25%;
-}
+        main.offtop {
+            margin-top: 110px;
+        }
 
-div.named{
-    font-size: 1.5rem;
-    font-weight: 600!important;
-}
+        h1.number {
+            font-size: 1rem;
+            font-weight: 400;
+        }
 
-div.centerChanges{
+        div.labels {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
 
-}
+        div.column {
+            float: left;
+            width: 25%;
+        }
 
-button.invis{
-    background-color: transparent!important;
-    border: 1px solid rgba(86, 61, 124, .3);
+        div.named {
+            font-size: 1.5rem;
+            font-weight: 600 !important;
+        }
 
-}
+        button.invis {
+            background-color: transparent !important;
+            border: 1px solid rgba(86, 61, 124, .3);
 
-button.edit{
-    background-color: transparent!important;
-    border: 0px solid rgba(86, 61, 124, .3);
-    color: rgb(45, 42, 235);
-}
+        }
 
-button.classes{
-    background-color: rgba(86, 61, 124, .5);;
-    border: 1px solid rgba(86, 61, 124, .6);
-    font-size: 1.5rem;
-}
+        button.edit {
+            font-size: 16;
+            background-color: transparent !important;
+            border: 0px solid rgba(86, 61, 124, .3);
+            color: rgb(45, 42, 235);
+        }
 
-div.bordered{
-    background-color: rgba(86, 61, 124, .15);
-    border: 1px solid rgba(86, 61, 124, .2);
-}
+        button.add {
+            border: 2px solid rgba(86, 61, 124, .3) !important;
+        }
 
-div.text{
-    background-color: rgb(73, 31, 75);
-    margin-bottom: 20px;
-    text-align:center;
-    font-size: 1.75rem;
-    font-weight: 400!important;
-    font-family: sans-serif;
-}
+        button.classes {
+            background-color: rgba(86, 61, 124, .5);
+            ;
+            border: 1px solid rgba(86, 61, 124, .6);
+            font-size: 1.5rem;
+        }
 
-div.seperate{
-    margin-bottom: 50px;
-    margin-top: 25px;
-}
+        div.bordered {
+            background-color: rgba(86, 61, 124, .15);
+            border: 1px solid rgba(86, 61, 124, .2);
+        }
 
-div#elements{
-    border: 5px!important;
-    border-color: rgb(73, 31, 75)!important;
-}
+        div.text {
+            background-color: rgb(73, 31, 75);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.75rem;
+            font-weight: 400 !important;
+            font-family: sans-serif;
+        }
 
-div.title{
-    font-size: 2.7rem;
-    font-weight: 500!important;
-    margin-bottom: 15px;
-}
+        div.seperate {
+            margin-bottom: 50px;
+            margin-top: 25px;
+        }
 
-div.changeBox{
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 70%; /* Could be more or less, depending on screen size */
-    text-align: center
-}
+        div#elements {
+            border: 5px !important;
+            border-color: rgb(73, 31, 75) !important;
+        }
 
-div.popup{
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 9; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w*/
-}
+        div.title {
+            font-size: 2.7rem;
+            font-weight: 500 !important;
+            margin-bottom: 15px;
+        }
 
-a.bolded{
-    font-size: 1.75rem!important;
-}
+        div.changeBox {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 70%;
+            /* Could be more or less, depending on screen size */
+            text-align: center
+        }
 
-nav.theme{
-    background-color: rgb(73, 31, 75)!important;
-}
-div#title{
-    color: rgb(253, 253, 253);
-}
+        div.popup {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 9;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w*/
+        }
 
-body{
-    margin: 0;
-    padding: 0;
-}
+        div.changeBox {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 70%;
+            /* Could be more or less, depending on screen size */
+            text-align: center
+        }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
+        a.bolded {
+            font-size: 1.75rem !important;
+        }
 
-input.nums{
-    max-width: 40;
-    margin-bottom: 0.5rem;
-    text-align: center;
-}
+        nav.theme {
+            background-color: rgb(73, 31, 75) !important;
+        }
 
-</style>
+        div#title {
+            color: rgb(253, 253, 253);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input.nums {
+            max-width: 40;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        input#nameInput {
+            margin-bottom: 26px;
+            width: 180px;
+            max-width: 100%;
+        }
+
+        input#awesomeInput {
+            width: 45px;
+        }
+
+        input#goldenInput {
+            width: 45px;
+        }
+
+        div.popup {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 9;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w*/
+        }
+    </style>
 
 
 
 </head>
-<body >
+
+<body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top theme">
         <a class="navbar-brand bolded" href="#">Awesomeness Store</a>
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="">Store<span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link"
-                        href="javascript:document.location.href = 'teacherClasses.htm'">Classes</a>
-                    <a class="nav-item nav-link"
-                        href="javascript:document.location.href = 'teacherPendingRewards.htm?'">Pending
-                        Rewards</a>
+                <a class="nav-item nav-link active" href="">Store<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="javascript:document.location.href = 'teacherClasses.htm'">Classes</a>
+                <a class="nav-item nav-link"
+                    href="javascript:document.location.href = 'teacherPendingRewards.htm?'">Pending
+                    Rewards</a>
+                <a class="nav-item nav-link logout" onclick=logout()>Log Out</a>
             </div>
         </div>
     </nav>
 
-    <main role="main" class="container offtop" id="main">
+    <main role="main" class="container offtop" id="main" onload="makeElements()">
         <div class="text-center title">
-                Store
+            Store
         </div>
-        
+
         <div id="content">
             <div class="row centered">
-                <div class="col-4 column text-center bordered labels">
-                    Item Name 
+                <div class="col-4 column text-center bordered labels mainName">
+                    Item Name
                 </div>
-            
-                <div class="col-4 column text-center bordered labels">
+
+                <div class="col-4 column text-center bordered labels otherInfo">
                     Golden Cost
                 </div>
 
-                <div class=" col-4 column text-center bordered labels">
+                <div class=" col-4 column text-center bordered labels otherInfo">
                     Awesome Cost
                 </div>
             </div>
-            
-            <div id="items" class="row centered">       
 
-            </div>
+            <div id="items" class="row centered"></div>
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
 
     <script type='text/javascript'>
-        let currClass
-        let email
-        let password
-        let allStudents
         let currForm
-        let studentEdit
-        let studentEditEmail
+        let saveEditName
 
-        function getCredentials(){
-            let promise = new Promise(function(resolve, reject){
+        function getCredentials() {
+            let promise = new Promise(function (resolve, reject) {
                 fetch("/cookieAuthenticate", {
-                method: 'POST', 
+                    method: 'POST',
                 }).then(result => {
                     result.json().then(result2 => {
-                        if(result2.LoggedIn == false || result2.isAdmin == false){
+                        if (result2.LoggedIn == false || result2.isAdmin == false) {
                             document.location.href = 'login.htm'
                         } else {
                             resolve(result2);
                         }
                     }).catch(result => {
-                    console.log("ERROR - parsing JSON")
+                        console.log("ERROR - parsing JSON")
                     })
                 }).catch(result => {
                     console.log("ERROR - getting cookieAuthenticate")
                 })
             })
             return promise;
-        } 
+        }
 
-        $("div#content").on('focusout', '.nums', function(){
-            changeValue(event.target.parentElement, event.target.value)
-        })
+        window.onload = function () {
+            makeElements()
+        }
 
-        window.onload = function(){
+        function makeElements() {
+
             let promise = getCredentials();
             promise.then(creds => {
+
                 email = creds.Username;
                 password = creds.Password;
+
+                let store = document.getElementById("items")
+
+                let main = document.getElementById("main")
+
+                let last = store.lastElementChild
+                while (last) {
+                    last.remove()
+                    last = store.lastElementChild
+                }
+
+                let items = []
+
+                fetch("/getStore", {
+                        method: 'POST',
+                        headers: {
+                            //'Content-Type': 'application/url',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: "", // body data type must match "Content-Type" header
+                    })
+                    .then(function (result) {
+                        result.json().then(function (result2) {
+                            items = result2.data;
+                            let makeNew = []
+                            makeNew[0] = "ADD"
+
+                            items.push(makeNew)
+
+                            for (let i = 0; i < items.length; i++) {
+
+                                let popup = document.createElement('div')
+                                popup.className = "popup"
+                                popup.id = items[i][0] + "change"
+
+                                let changeInfo = document.createElement('div')
+                                changeInfo.className = "changeBox"
+
+                                let nameLabel = document.createElement('label')
+                                nameLabel.innerHTML = "Name &nbsp &nbsp"
+                                let itemName = document.createElement('input')
+                                if(items[i][0] != "ADD"){
+                                    itemName.value = items[i][0]
+                                }
+
+                                let break1 = document.createElement('br')
+
+                                let golLabel = document.createElement('label')
+                                golLabel.innerHTML = "Golden Cost &nbsp &nbsp"
+                                let golInput = document.createElement('input')
+                                if(items[i][0] != "ADD"){
+                                    golInput.value = items[i][2]
+                                }
+
+                                let break2 = document.createElement('br')
+
+                                let aweLabel = document.createElement('label')
+                                aweLabel.innerHTML = "Awesome Cost &nbsp &nbsp"
+                                let aweInput = document.createElement('input')
+                                if(items[i][0] != "ADD"){
+                                    aweInput.value = items[i][1]
+                                }
+
+                                let break3 = document.createElement('br')
+                                let adding = false
+                                if(items[i][0] == "ADD"){
+                                    adding = true
+                                }
+                                let kill = document.createElement('button')
+                                kill.innerText = "Remove"
+                                kill.id = items[i][0]
+                                kill.onclick = function () {
+                                    fetch("/removeItem", {
+                                        method: 'POST',
+                                        headers: {
+                                            //'Content-Type': 'application/url',
+                                            'Content-Type': 'application/x-www-form-urlencoded',
+                                        },
+                                        body: "Item=" + saveEditName + 
+                                            "&AdminU=" + email + 
+                                            "&AdminP=" + password, // body data type must match "Content-Type" header
+                                    }).then(result => {
+                                        result.json().then(result2 => {
+                                            document.getElementById((saveEditName + "change")).style.display = "none";
+                                            makeElements()
+                                        })
+                                    })
+
+                                }
+
+                                let done = document.createElement('button')
+                                done.innerText = "Done"
+                                done.id = items[i][0]
+                                done.onclick = function () {
+                                    let newName = currForm.children[0].children[1].value
+                                    let newAwe = currForm.children[0].children[4].value
+                                    let newGol = currForm.children[0].children[7].value
+
+                                    if(items[i][0] == "ADD"){
+                                        fetch("/addItem", {
+                                            method: 'POST',
+                                            headers: {
+                                                //'Content-Type': 'application/url',
+                                                'Content-Type': 'application/x-www-form-urlencoded',
+                                            },
+                                            body: "Item=" + newName + 
+                                                "&CostAwesomes=" + newAwe +
+                                                "&CostGoldens=" + newGol +
+                                                "&AdminU=" + email + 
+                                                "&AdminP=" + password, // body data type must match "Content-Type" header
+                                        }).then(result => {
+                                            result.json().then(result2 => {
+                                                document.getElementById((saveEditName + "change")).style.display = "none";
+                                                makeElements()
+                                            })
+                                        })
+                                    } else{
+                                    fetch("/updateItemData", {
+                                        method: 'POST',
+                                        headers: {
+                                            //'Content-Type': 'application/url',
+                                            'Content-Type': 'application/x-www-form-urlencoded',
+                                        },
+                                        body: "curName=" + saveEditName + "&nName=" +
+                                            newName + "&nGol=" + newGol + "&nAwe=" +
+                                            newAwe + "&AdminP=" +
+                                            password, // body data type must match "Content-Type" header
+                                    }).then(done1 => {
+                                        done1.json().then(function (done2) {
+
+                                            if (done2.Success) {
+                                                if (done2.accountDeleted) {
+                                                    alert(
+                                                        'Item Successfully Deleted')
+                                                }
+                                                //yaya success
+                                                document.getElementById((
+                                                        saveEditName +
+                                                        "change")).style
+                                                    .display = "none";
+                                                toClass(currClass)
+                                            } else {
+                                                if (done2.goodAdminP == false) {
+                                                    alert(
+                                                        'Invalid Admin Password. Try relogging in')
+                                                } else if (done2
+                                                    .usernameTaken == true) {
+                                                    alert(
+                                                        'That item name is already taken. Please pick a new one')
+                                                }
+                                                document.getElementById((
+                                                        saveEditName +
+                                                        "change")).style
+                                                    .display = "none"
+                                                makeElements()
+                                            }
+
+                                        })
+                                        document.getElementById((saveEditName +
+                                            "change")).style.display = "none";
+                                        makeElements()
+                                    })
+                                    }
+
+                                }
+
+                                changeInfo.appendChild(nameLabel)
+                                changeInfo.appendChild(itemName)
+                                changeInfo.appendChild(break1)
+                                changeInfo.appendChild(golLabel)
+                                changeInfo.appendChild(golInput)
+                                changeInfo.appendChild(break2)
+                                changeInfo.appendChild(aweLabel)
+                                changeInfo.appendChild(aweInput)
+                                changeInfo.appendChild(break3)
+                                if(!adding){
+                                    changeInfo.appendChild(kill)
+                                }
+                                changeInfo.appendChild(done)
+                                popup.appendChild(changeInfo)
+                                store.insertBefore(popup, store.childNodes[0])
+                            }
+
+
+
+
+
+                            for (let i = 0; i < items.length; i++) {
+                                if (items[i][0] == "ADD") {
+                                    let itemName = document.createElement('div')
+                                    // name.textContent = students[i]["name"]
+                                    itemName.className =
+                                        'col-4 column text-center bordered mainName labels'
+                                    let newButton = document.createElement('button')
+                                    newButton.id = items[i][0]
+                                    newButton.textContent = "Add"
+                                    newButton.className = 'edit add'
+                                    newButton.onclick = function () {
+                                        currForm = document.getElementById((this.id + "change"))
+                                        currForm.style.display = "block";
+                                        saveEditName = "ADD"
+                                    }
+
+                                    itemName.appendChild(newButton)
+
+                                    store.appendChild(itemName)
+
+                                    let goldenness = document.createElement('div')
+                                    goldenness.className =
+                                        'col-4 column text-center bordered otherInfo labels nums'
+                                    goldenness.id = "golden"
+
+                                    store.appendChild(goldenness)
+
+                                    let awesomeness = document.createElement('div')
+                                    awesomeness.className =
+                                        'col-4 column text-center bordered otherInfo labels nums'
+                                    awesomeness.id = "awesome"
+
+                                    store.appendChild(awesomeness)
+                                } else {
+                                    let itemName = document.createElement('div')
+                                    // name.textContent = students[i]["name"]
+                                    let nameText = document.createElement('div')
+                                    nameText.className = 'labels'
+                                    nameText.textContent = items[i][0]
+                                    itemName.className =
+                                        'col-4 column text-center bordered mainName'
+                                    let brk0 = document.createElement('br')
+                                    let editButton = document.createElement('button')
+                                    editButton.id = items[i][0]
+                                    editButton.textContent = "Edit"
+                                    editButton.className = 'edit'
+                                    editButton.onclick = function () {
+                                        currForm = document.getElementById((this.id + "change"))
+                                        currForm.style.display = "block";
+                                        saveEditName = currForm.children[0].children[1].value
+                                    }
+
+                                    itemName.appendChild(nameText)
+                                    itemName.append(brk0)
+                                    itemName.appendChild(editButton)
+
+                                    store.appendChild(itemName)
+
+                                    let goldenness = document.createElement('div')
+                                    goldenness.className =
+                                        'col-4 column text-center bordered otherInfo labels nums'
+                                    goldenness.id = "golden"
+                                    goldenness.textContent = items[i][2]
+
+                                    store.appendChild(goldenness)
+
+                                    let awesomeness = document.createElement('div')
+                                    awesomeness.className =
+                                        'col-4 column text-center bordered otherInfo labels nums'
+                                    awesomeness.id = "awesome"
+                                    awesomeness.textContent = items[i][1]
+
+
+                                    store.appendChild(awesomeness)
+                                }
+                            }
+
+                        })
+                    })
             })
         }
-        
-        function toClass(className){
-            //get array by class name
-            currClass = className;
-            let students = []
-            
-            //students.push(student1)
-            //students.push(student2)
-            //students.push(student3)
 
-            fetch("/getStudentsByClass", {
+        function addNew() {
+            if (nameInput.value != "") {
+                fetch("/addItem", {
+                        method: 'POST',
+                        headers: {
+                            //'Content-Type': 'application/url',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: "AdminU=" + email + "&AdminP=" + password + "&Item=" + nameInput.value +
+                            "&CostAwesomes=" + awesomeInput.value + "&CostGoldens=" + goldenInput
+                            .value, // body data type must match "Content-Type" header
+                        //body: "username=" + email + "&password=" + password,
+                    })
+                    .then(function (result) {
+                        //check for repeats
+                    })
+            }
+            makeElements();
+        }
+
+        function logout(){
+            fetch("/logout", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: "AdminU=" + email + "&AdminP=" + password + "&Class=" + className, // body data type must match "Content-Type" header
             })
             .then(function (result) {
-                result.json().then(function(result2){
-                    students = result2.data;
-                    allStudents = students
-                    let table = document.getElementById("students")
-
-                    let content = document.getElementById("content")
-
-                    let last = table.lastElementChild
-                    while(last){
-                        last.remove()
-                        last = table.lastElementChild
-                    }
-
-                    for(let i = 0; i < students.length; i++){
-
-                        let name = document.createElement('div')
-                        // name.textContent = students[i]["name"]
-                        let nameText = document.createElement('div')
-                        nameText.textContent = students[i][1]
-                        name.className = 'col-4 column text-center bordered'
-                        let brk0 = document.createElement('br')
-                        let editButton = document.createElement('button')
-                        editButton.id = students[i][0]
-                        editButton.textContent = "Buy"
-                        editButton.className = 'edit'
-                        editButton.onclick = function(){
-                            currForm = document.getElementById((this.id + "change"))
-                            currForm.style.display = "block";
-                            studentEdit = currForm.children[0].children[4].value
-                            studentEditEmail = currForm.children[0].children[2].value
-                        }
-                        
-                        //openForm(editButton.id)
-
-                        name.appendChild(nameText)
-                        name.append(brk0)
-                        name.appendChild(editButton)
-
-                        table.appendChild(name)
-
-                        let goldenness = document.createElement('div')
-                        goldenness.className = 'col-4 column text-center bordered'
-                        goldenness.id = "golden"
-
-                        let goldenInput = document.createElement("input")
-                        goldenInput.type = 'number'
-                        goldenInput.className = 'nums'
-                        // goldenInput.value = students[i]["goldenPoints"]
-                        goldenInput.value = students[i][5]
-                        let brk2 = document.createElement('br')
-                        let downButton = document.createElement('button')
-                        downButton.className = 'btn invis'
-                        downButton.onclick = function(){
-                            lower(this.parentElement, 1)
-                        }
-                        downButton.textContent = "-"
-                        let upButton = document.createElement('button')
-                        upButton.className = 'btn invis'
-                        upButton.onclick = function(){
-                            higher(this.parentElement, 1)
-                        }
-                        upButton.textContent = "+"
-
-                        goldenness.appendChild(goldenInput)
-                        goldenness.append(brk2)
-                        goldenness.appendChild(downButton)
-                        goldenness.appendChild(upButton)
-
-                        table.appendChild(goldenness)
-
-                        let awesomeness = document.createElement('div')
-                        awesomeness.className = 'col-4 column text-center bordered'
-                        awesomeness.id = "awesome"
-
-                        let awesomeInput = document.createElement("input")
-                        awesomeInput.type = 'number'
-                        awesomeInput.className = 'nums'
-                        // awesomeInput.value = students[i]["awesomePoints"]
-                        awesomeInput.value = students[i][4]
-                        let brk = document.createElement('br')
-                        let downButton2 = document.createElement('button')
-                        downButton2.className = 'btn invis'
-                        downButton2.onclick = function(){
-                            lower(this.parentElement, 1)
-                        }
-                        downButton2.textContent = "-"
-                        let upButton2 = document.createElement('button')
-                        upButton2.className = 'btn invis'
-                        upButton2.onclick = function(){
-                            higher(this.parentElement, 1)
-                        }
-                        upButton2.textContent = "+"
-
-                        awesomeness.appendChild(awesomeInput)
-                        awesomeness.appendChild(brk)
-                        awesomeness.appendChild(downButton2)
-                        awesomeness.appendChild(upButton2)
-                        
-                        table.appendChild(awesomeness)
-                    }
-
-                })
+                //should be logged out
+                //reload page
+                location.reload();
             })
         }
-        function higher(par, num){
-            let student = ""
-            let studentEmail = ""
-            if((par.id) == "golden"){
-                for(let i = 0; i < par.parentElement.children.length; i++){
-                    if(par.parentElement.children[i] == par){
-                        let content = par.parentElement.children[i-1].textContent
-                        student = content.substring(0, content.length-4)
-                        break;
-                    }
-                }
 
-                for(let i = 0; i < allStudents.length; i++){
-                    if(allStudents[i][1] == student){
-                        studentEmail = allStudents[i][0]
-                        break
-                    }
-                }
-
-                fetch("/addPoints", {
-                    method: 'POST',
-                    headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
-                })
-                .then(function (result) {
-                    toClass(currClass)
-                })
-                        
-            }else{
-                for(let i = 0; i < par.parentElement.children.length; i++){
-                    if(par.parentElement.children[i] == par){
-                        let content = par.parentElement.children[i-2].textContent
-                        student = content.substring(0, content.length-4)
-                        break;
-                    }
-                }
-
-                for(let i = 0; i < allStudents.length; i++){
-                    if(allStudents[i][1] == student){
-                        studentEmail = allStudents[i][0]
-                        break
-                    }
-                }
-
-                fetch("/addPoints", {
-                    method: 'POST',
-                    headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
-                })
-                .then(function (result) {
-                    toClass(currClass)
-                })
-
-            }
-        }
-        function lower(par, num){
-            let student = ""
-            let studentEmail = ""
-            if((par.id) == "golden"){
-                for(let i = 0; i < par.parentElement.children.length; i++){
-                    if(par.parentElement.children[i] == par){
-                        let content = par.parentElement.children[i-1].textContent
-                        student = content.substring(0, content.length-4)
-                        break;
-                    }
-                }
-
-                for(let i = 0; i < allStudents.length; i++){
-                    if(allStudents[i][1] == student){
-                        studentEmail = allStudents[i][0]
-                        break;
-                    }
-                }
-
-                fetch("/addPoints", {
-                    method: 'POST',
-                    headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num*-1 + "&areGolden=" + "true", // body data type must match "Content-Type" header
-                })
-                .then(function (result) {
-                    toClass(currClass)
-                })       
-            }else{
-                for(let i = 0; i < par.parentElement.children.length; i++){
-                    if(par.parentElement.children[i] == par){
-                        let content = par.parentElement.children[i-2].textContent
-                        student = content.substring(0, content.length-4)
-                        break;
-                    }
-                }
-
-                for(let i = 0; i < allStudents.length; i++){
-                    if(allStudents[i][1] == student){
-                        studentEmail = allStudents[i][0]
-                        break;
-                    }
-                }
-
-                fetch("/addPoints", {
-                    method: 'POST',
-                    headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num*-1 + "&areGolden=" + "false", // body data type must match "Content-Type" header
-                })
-                .then(function (result) {
-                    toClass(currClass)
-                })
-            }
-        }
-
-        function changeValue(par, num) {
-            let student = "";
-            if((par.id) == "golden"){
-                for(let i = 0; i < par.parentElement.children.length; i++){
-                    if(par.parentElement.children[i] == par){
-                        let content = par.parentElement.children[i-1].textContent
-                        student = content.substring(0, content.length-4)
-                        break;
-                    }
-                }
-
-                for(let i = 0; i < allStudents.length; i++){
-                    if(allStudents[i][1] == student){
-                        studentEmail = allStudents[i][0]
-                        break;
-                    }
-                }
-
-                fetch("/setPoints", {
-                    method: 'POST',
-                    headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "true", // body data type must match "Content-Type" header
-                })
-                .then(function (result) {
-                    toClass(currClass)
-                })
-            }else{
-                for(let i = 0; i < par.parentElement.children.length; i++){
-                    if(par.parentElement.children[i] == par){
-                        let content = par.parentElement.children[i-2].textContent
-                        student = content.substring(0, content.length-4)
-                        break;
-                    }
-                }
-
-                for(let i = 0; i < allStudents.length; i++){
-                    if(allStudents[i][1] == student){
-                        studentEmail = allStudents[i][0]
-                        break;
-                    }
-                }
-
-                fetch("/setPoints", {
-                    method: 'POST',
-                    headers: {
-                        //'Content-Type': 'application/url',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: "AdminU=" + email + "&AdminP=" + password + "&username=" + studentEmail + "&numPoints=" + num + "&areGolden=" + "false", // body data type must match "Content-Type" header
-                })
-                .then(function (result) {
-                    toClass(currClass)
-                })
-            }
-        }
     </script>
 </body>
+
 </html>

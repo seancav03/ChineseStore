@@ -366,7 +366,7 @@ exports.addItem = function(AdminU, AdminP, Item, costAwesomes, costGoldens){
 exports.removeItem = function(AdminU, AdminP, Item){
     let promise = new Promise(function(resolve, reject){
         bcrypt.compare(AdminP, AP, function(err, res) {
-            if(res && AdminU == AU){
+            if(res){
                 Store.destroy({
                     where: {
                         Reward: Item
@@ -381,6 +381,57 @@ exports.removeItem = function(AdminU, AdminP, Item){
     });
     return promise;
 };
+
+exports.updateItemData = function(curName, nName, nGol, nAwe, AdminP){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res){
+                //correct admin password used
+                Store.findAndCountAll({
+                    where: {
+                        Reward: nName
+                    }
+                }).then(result => {
+                    if(result.count > 0 && curName != nName){
+                        //nope. item name already taken
+                        resolve(1)
+                    } else {
+                        //name is not already taken: good
+                        if(nName == ""){
+                            Store.destroy({
+                                where: {
+                                    Reward: curName
+                                }
+                            }).then(after => {
+                                resolve(3);
+                                
+                            })
+                        } else{
+                            Store.update(
+                                {
+                                    Reward: nName,
+                                    AwesomeCost: nAwe,
+                                    GoldenCost: nGol
+                                },
+                                {
+                                    where: {
+                                        Reward: curName
+                                    }
+                                }
+                            ).then(yup => {
+                                resolve(2);
+                            });
+                        }
+                    }
+                })
+                
+            } else {
+                resolve(0);
+            }
+        });
+    });
+    return promise;
+}
 
 //how student buys and item
 exports.buyItem = function(username, password, Item){

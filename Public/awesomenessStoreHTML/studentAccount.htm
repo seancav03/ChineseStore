@@ -103,6 +103,7 @@
                 <a class="nav-item nav-link "
                     href="javascript:document.location.href = 'studentHistory.htm'">History</a>
                 <a class="nav-item nav-link active" href="">Account<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" onclick=logout()>Log Out</a>
             </div>
         </div>
     </nav>
@@ -248,6 +249,20 @@
             
 
 
+        }
+        function logout(){
+            fetch("/logout", {
+                method: 'POST',
+                headers: {
+                    //'Content-Type': 'application/url',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then(function (result) {
+                //should be logged out
+                //reload page
+                location.reload();
+            })
         }
     </script>
 </body>

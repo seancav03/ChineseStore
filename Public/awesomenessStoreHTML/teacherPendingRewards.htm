@@ -89,6 +89,7 @@
                 <a class="nav-item nav-link"
                     href="javascript:document.location.href = 'teacherClasses.htm'">Classes</a>
                 <a class="nav-item nav-link active" href="">Pending Rewards<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" onclick=logout()>Log Out</a>
             </div>
         </div>
     </nav>
@@ -279,6 +280,21 @@
             
             
             
+        }
+
+        function logout(){
+            fetch("/logout", {
+                method: 'POST',
+                headers: {
+                    //'Content-Type': 'application/url',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then(function (result) {
+                //should be logged out
+                //reload page
+                location.reload();
+            })
         }
     </script>
 </body>
