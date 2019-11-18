@@ -159,18 +159,6 @@
 
                 let toRedeem = [];
 
-                /*$.ajax({
-                    url: "https://server/getRedeemedAdmin",
-                    type: "POST", 
-                    data: (email, password),
-                    success: function(result){
-                        toRedeem = result
-                    },
-                    error: function(error){
-                        console.log("Error: " + error)
-                    }
-                })*/
-
                 fetch("/getBuysAdmin", {
                     method: 'POST',
                     headers: {
@@ -225,42 +213,10 @@
                     })
                     
                 })
-
-                // let student1 = []
-                // student1["name"] = "Ethan Ash"
-                // student1["reward"] = "One-Day Homework Pass"
-
-                // let student2 = []
-                // student2["name"] = "Charlie Jones"
-                // student2["reward"] = "Candy"
-
-                // let student3 = []
-                // student3["name"] = "Luca Snoey"
-                // student3["reward"] = "Homework Pass"
-
-                // toRedeem.push(student1)
-                // toRedeem.push(student2)
-                // toRedeem.push(student3)
-
-                
-
             })
         }
 
         function redeem(par, saleID) {
-            /*let par2 = par.parentElement;
-            let place = null;
-            for (let i = 0; i < par2.children.length; i++) {
-                if (par2.children[i] == par) {
-                    place = i;
-                    break;
-                }
-            }
-            
-            par2.children[place].remove();
-            par2.children[place - 1].remove();
-            par2.children[place - 2].remove();*/
-
             //remove from server
 
             fetch("/redeemItem", {

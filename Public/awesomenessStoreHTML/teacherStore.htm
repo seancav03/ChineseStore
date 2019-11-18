@@ -324,7 +324,6 @@
                 }
 
                 let items = []
-
                 fetch("/getStore", {
                         method: 'POST',
                         headers: {
@@ -340,7 +339,7 @@
                             makeNew[0] = "ADD"
 
                             items.push(makeNew)
-
+                            console.log(items)
                             for (let i = 0; i < items.length; i++) {
 
                                 let popup = document.createElement('div')
@@ -407,8 +406,8 @@
                                 done.id = items[i][0]
                                 done.onclick = function () {
                                     let newName = currForm.children[0].children[1].value
-                                    let newAwe = currForm.children[0].children[4].value
-                                    let newGol = currForm.children[0].children[7].value
+                                    let newGol = currForm.children[0].children[4].value
+                                    let newAwe = currForm.children[0].children[7].value
 
                                     if(items[i][0] == "ADD"){
                                         fetch("/addItem", {
@@ -447,12 +446,8 @@
                                                     alert(
                                                         'Item Successfully Deleted')
                                                 }
-                                                //yaya success
-                                                document.getElementById((
-                                                        saveEditName +
-                                                        "change")).style
-                                                    .display = "none";
-                                                toClass(currClass)
+                                                document.getElementById((saveEditName + "change")).style.display = "none";
+                                                makeElements()
                                             } else {
                                                 if (done2.goodAdminP == false) {
                                                     alert(
@@ -462,17 +457,11 @@
                                                     alert(
                                                         'That item name is already taken. Please pick a new one')
                                                 }
-                                                document.getElementById((
-                                                        saveEditName +
-                                                        "change")).style
-                                                    .display = "none"
+                                                document.getElementById((saveEditName + "change")).style.display = "none";
                                                 makeElements()
                                             }
 
                                         })
-                                        document.getElementById((saveEditName +
-                                            "change")).style.display = "none";
-                                        makeElements()
                                     })
                                     }
 

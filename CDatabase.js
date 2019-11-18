@@ -736,9 +736,16 @@ exports.getRedeemedAdmin = function(AdminU, AdminP){
                     let resultArr = [];
                     for(let i = 0; i < num; i++){
                         let arr = [];
-                        arr[0] = result.rows[i].Student;
-                        arr[1] = result.rows[i].Item;
-                        resultArr.push(arr);
+
+                        Students.findAndCountAll({
+                            where: {
+                                Username: result.rows[i].Student
+                            }
+                        }).then(result2 => {
+                            arr[0] = result.rows[0].Name;
+                            arr[1] = result.rows[i].Item;
+                            resultArr.push(arr);
+                        })
                     }
                     resolve(resultArr);
                 })
