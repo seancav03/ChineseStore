@@ -1,8 +1,13 @@
 const Sequelize = require('sequelize')
+// const sequelize = new Sequelize('chinesestore', 'chinesestore', 'chinesestore', {
+//   dialect: 'mariadb'
+// })
+//TESTING: use sqlite for convenience
 const sequelize = new Sequelize('null', 'null', 'null', {
     dialect: 'sqlite',
     storage: 'ChineseStoreDatabase.sqlite'
 })
+
 //hashing passwords module
 const bcrypt = require('bcrypt');
 
