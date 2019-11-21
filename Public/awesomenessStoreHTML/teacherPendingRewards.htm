@@ -129,10 +129,11 @@
     <script type='text/javascript'>
         let email
         let password
+        let prefix = "/chinesestore";
 
         function getCredentials(){
             let promise = new Promise(function(resolve, reject){
-                fetch("/cookieAuthenticate", {
+                fetch(prefix + "/cookieAuthenticate", {
                 method: 'POST', 
                 }).then(result => {
                     result.json().then(result2 => {
@@ -159,7 +160,7 @@
 
                 let toRedeem = [];
 
-                fetch("/getBuysAdmin", {
+                fetch(prefix + "/getBuysAdmin", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
@@ -219,7 +220,7 @@
         function redeem(par, saleID) {
             //remove from server
 
-            fetch("/redeemItem", {
+            fetch(prefix + "/redeemItem", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',
@@ -239,7 +240,7 @@
         }
 
         function logout(){
-            fetch("/logout", {
+            fetch(prefix + "/logout", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',

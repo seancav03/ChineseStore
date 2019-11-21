@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+//USE THIS for deployment on CSServer
 // const sequelize = new Sequelize('chinesestore', 'chinesestore', 'chinesestore', {
 //   dialect: 'mariadb'
 // })

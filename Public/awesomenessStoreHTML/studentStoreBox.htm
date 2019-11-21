@@ -135,11 +135,12 @@
     <script type='text/javascript'>
         let email
         let password
+        let prefix = "/chinesestore";
 
         function getCredentials(){
             let promise = new Promise(function(resolve, reject){
                 console.log("HERE?")
-                fetch("/cookieAuthenticate", {
+                fetch(prefix + "/cookieAuthenticate", {
                 method: 'POST', 
                 }).then(result => {
                     result.json().then(result2 => {
@@ -171,7 +172,7 @@
 
                 //connecting with server
 
-                fetch("/getStudent", {
+                fetch(prefix + "/getStudent", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
@@ -246,7 +247,7 @@
 
         }
         function logout(){
-            fetch("/logout", {
+            fetch(prefix + "/logout", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',

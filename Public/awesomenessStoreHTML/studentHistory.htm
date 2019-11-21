@@ -103,10 +103,11 @@ body{
     <script type='text/javascript'>
         let email
         let password
+        let prefix = "/chinesestore";
 
         function getCredentials(){
             let promise = new Promise(function(resolve, reject){
-                fetch("/cookieAuthenticate", {
+                fetch(prefix + "/cookieAuthenticate", {
                 method: 'POST', 
                 }).then(result => {
                     result.json().then(result2 => {
@@ -135,7 +136,7 @@ body{
                 let history2 = [];
 
                 //connecting to server to get redeemed
-                fetch("/getMyRedeemed", {
+                fetch(prefix + "/getMyRedeemed", {
                 method: 'POST', 
                 headers: {
                     //'Content-Type': 'application/url',
@@ -175,7 +176,7 @@ body{
                 })
 
                 //connecting to server to get buys that haven't been redeemed yet
-                fetch("/getMyBuys", {
+                fetch(prefix + "/getMyBuys", {
                 method: 'POST', 
                 headers: {
                     //'Content-Type': 'application/url',
@@ -234,7 +235,7 @@ body{
             })
         }
         function logout(){
-            fetch("/logout", {
+            fetch(prefix + "/logout", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',

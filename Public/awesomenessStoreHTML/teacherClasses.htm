@@ -213,11 +213,12 @@ input.nums{
         let allStudents
         let currForm
         let studentEdit
-        let studentEditEmail
+        let studentEditEmail;
+        let prefix = "/chinesestore"
 
         function getCredentials(){
             let promise = new Promise(function(resolve, reject){
-                fetch("/cookieAuthenticate", {
+                fetch(prefix + "/cookieAuthenticate", {
                 method: 'POST', 
                 }).then(result => {
                     result.json().then(result2 => {
@@ -258,7 +259,7 @@ input.nums{
             //students.push(student2)
             //students.push(student3)
 
-            fetch("/getStudentsByClass", {
+            fetch(prefix + "/getStudentsByClass", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',
@@ -357,7 +358,7 @@ input.nums{
                                 }
                             }
 
-                            fetch("/getStudent", {
+                            fetch(prefix + "/getStudent", {
                                 method: 'POST',
                                 headers: {
                                 //'Content-Type': 'application/url',
@@ -369,7 +370,7 @@ input.nums{
                                 resulty.json().then(function(resulty2){
                                     studentInfo = resulty2.data;
                                     console.log(studentEditEmail + "-" + newEmail);
-                                    fetch("/updateStudentData", {
+                                    fetch(prefix + "/updateStudentData", {
                                         method: 'POST',
                                         headers: {
                                         //'Content-Type': 'application/url',
@@ -434,7 +435,7 @@ input.nums{
                                 }
                             }
 
-                            fetch("/getStudent", {
+                            fetch(prefix + "/getStudent", {
                                 method: 'POST',
                                 headers: {
                                 //'Content-Type': 'application/url',
@@ -446,7 +447,7 @@ input.nums{
                                 resulty.json().then(function(resulty2){
                                     studentInfo = resulty2.data;
                                     console.log(studentEditEmail + "-" + newEmail);
-                                    fetch("/updateStudentData", {
+                                    fetch(prefix + "/updateStudentData", {
                                         method: 'POST',
                                         headers: {
                                         //'Content-Type': 'application/url',
@@ -611,7 +612,7 @@ input.nums{
                     }
                 }
 
-                fetch("/addPoints", {
+                fetch(prefix + "/addPoints", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
@@ -639,7 +640,7 @@ input.nums{
                     }
                 }
 
-                fetch("/addPoints", {
+                fetch(prefix + "/addPoints", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
@@ -672,7 +673,7 @@ input.nums{
                     }
                 }
 
-                fetch("/addPoints", {
+                fetch(prefix + "/addPoints", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
@@ -699,7 +700,7 @@ input.nums{
                     }
                 }
 
-                fetch("/addPoints", {
+                fetch(prefix + "/addPoints", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
@@ -731,7 +732,7 @@ input.nums{
                     }
                 }
 
-                fetch("/setPoints", {
+                fetch(prefix + "/setPoints", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
@@ -758,7 +759,7 @@ input.nums{
                     }
                 }
 
-                fetch("/setPoints", {
+                fetch(prefix + "/setPoints", {
                     method: 'POST',
                     headers: {
                         //'Content-Type': 'application/url',
@@ -772,7 +773,7 @@ input.nums{
             }
         }
         function logout(){
-            fetch("/logout", {
+            fetch(prefix + "/logout", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',

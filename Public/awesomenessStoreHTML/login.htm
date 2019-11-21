@@ -89,10 +89,12 @@ div.bolded{
 
     <script type='text/javascript'>
 
+    let prefix = "/chinesestore";
+
     //check cookies on server before asking for login credentials
     function autoLogin(){
         console.log("HERE - autoLogin")
-        fetch("/checkCookie", {
+        fetch(prefix + "/checkCookie", {
             method: 'POST', 
         }).then(result => {
             result.json().then(result2 => {
@@ -119,7 +121,7 @@ div.bolded{
     
 
     function logIn(email, password){
-        fetch("/login", {
+        fetch(prefix + "/login", {
             method: 'POST', 
             headers: {
                 //'Content-Type': 'application/url',

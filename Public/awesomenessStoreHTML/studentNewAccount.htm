@@ -111,6 +111,8 @@ input.spaces{
 
     <script type='text/javascript'>
 
+    let prefix = "/chinesestore";
+
     $('#myform').submit(function(e){
         e.preventDefault();
         let email = (document.getElementById("inputEmail")).value
@@ -123,7 +125,7 @@ input.spaces{
 
     function makeAccount(email, name, password, className){
         console.log('---------making account');
-        fetch("/newStudent", {
+        fetch(prefix + "/newStudent", {
         method: 'POST', 
         headers: {
             //'Content-Type': 'application/url',
@@ -136,7 +138,7 @@ input.spaces{
                 if(result2.status == 2){
                     console.log('-----------Success');
                     //success - login to set cookie and go to correct page
-                    fetch("/login", {
+                    fetch(prefix + "/login", {
                         method: 'POST', 
                         headers: {
                            //'Content-Type': 'application/url',

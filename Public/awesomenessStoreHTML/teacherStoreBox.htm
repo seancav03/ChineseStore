@@ -138,10 +138,11 @@
        let oldItem;
        let email;
        let password;
+       let prefix = "/chinesestore";
 
        function getCredentials(){
            let promise = new Promise(function(resolve, reject){
-               fetch("/cookieAuthenticate", {
+               fetch(prefix + "/cookieAuthenticate", {
                method: 'POST',
                }).then(result => {
                    result.json().then(result2 => {
@@ -177,7 +178,7 @@
 
                let items = []
 
-               fetch("/getStore", {
+               fetch(prefix + "/getStore", {
                    method: 'POST',
                    headers: {
                        //'Content-Type': 'application/url',
@@ -396,7 +397,7 @@
            button.textContent = "Done"
            button.onclick = function () {
                if(nameInput.value != ""){
-                   fetch("/addItem", {
+                   fetch(prefix + "/addItem", {
                        method: 'POST',
                        headers: {
                        //'Content-Type': 'application/url',
@@ -441,7 +442,7 @@
            button.onclick = function () {
                if(nameInput.value == ""){
                    console.log("deleting" + par.children[0].textContent)
-                   fetch("/removeItem", {
+                   fetch(prefix + "/removeItem", {
                        method: 'POST',
                        headers: {
                            //'Content-Type': 'application/url',
@@ -462,7 +463,7 @@
        function change(name, awesome, golden) {
            //save the changes to the server
 
-           fetch("/removeItem", {
+           fetch(prefix + "/removeItem", {
                method: 'POST',
                headers: {
                    //'Content-Type': 'application/url',
@@ -479,7 +480,7 @@
                    golden == 0
                }
 
-               fetch("/addItem", {
+               fetch(prefix + "/addItem", {
                    method: 'POST',
                    headers: {
                        //'Content-Type': 'application/url',
@@ -494,7 +495,7 @@
                })
            })
            function logout(){
-            fetch("/logout", {
+            fetch(prefix + "/logout", {
                 method: 'POST',
                 headers: {
                     //'Content-Type': 'application/url',
