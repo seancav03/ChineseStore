@@ -92,6 +92,7 @@ app.post('/checkCookie', function(req, res) {
 });
 
 //static directory prep
+//TODO: Look at this to make a '/login.htm' go to login right away
 app.use('/store', express.static('Public/awesomenessStoreHTML'));
 
 
@@ -226,6 +227,8 @@ app.post('/addItem', function(req, res) {
     })
 });
 
+//TODO addClassItem - Pooling Update
+
 app.post('/removeItem', function(req, res) {
     let AdminU = req.body.AdminU;
     let AdminP = req.body.AdminP;
@@ -237,6 +240,8 @@ app.post('/removeItem', function(req, res) {
     })
     
 });
+
+//TODO removeClassItem - Pooling Update
 
 app.post('/updateItemData', function(req, res) {
     let curName = req.body.curName;
@@ -263,6 +268,8 @@ app.post('/updateItemData', function(req, res) {
 
 });
 
+//TODO updateClassItemData - Pooling Update
+
 app.post('/buyItem', function(req, res) {
     let username = req.body.username;
     let password = req.body.password;
@@ -276,6 +283,8 @@ app.post('/buyItem', function(req, res) {
     })
 });
 
+//TODO contribute to class item - Pooling Update
+
 app.post('/redeemItem', function(req, res) {
     let AdminU = req.body.AdminU;
     let AdminP = req.body.AdminP;
@@ -286,6 +295,8 @@ app.post('/redeemItem', function(req, res) {
         res.send(JSON.stringify({ data: result}));
     })
 });
+
+//TODO redeemClassItem - Pooling Update
 
 app.post('/getStudentsByClass', function(req, res) {
     let AdminU = req.body.AdminU;
@@ -322,6 +333,10 @@ app.post('/getStore', function(req, res) {
         res.send([]);
     })
 });
+
+//TODO getClassStore - Pooling Update
+
+//TODO getClassStoreAdmin - Pooling Update
 
 app.post('/getMyBuys', function(req, res) {
     let username = req.body.username;
@@ -360,6 +375,8 @@ app.post('/getBuysAdmin', function(req, res) {
     })
 });
 
+//TODO getClassBuysAdmin - Pooling Update
+
 app.post('/getRedeemedAdmin', function(req, res) {
     let AdminU = req.body.AdminU;
     let AdminP = req.body.AdminP;
@@ -371,6 +388,8 @@ app.post('/getRedeemedAdmin', function(req, res) {
         res.send([]);
     })
 });
+
+//TODO getClassRedeemedAdmin - Pooling Update
 
 //Server Listening (3775 swapped with "port" for cloud)
 //O(1)

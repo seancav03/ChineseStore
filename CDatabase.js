@@ -45,22 +45,28 @@ const Buys = sequelize.define('Buys', {
 })
 Buys.sync();
 
+//Pooling currecy update tables:
+
+//define table for store items which classes can pool together coins for - Pooling Update
+const ClassStore = sequelize.define('ClassStore', {
+    Class: Sequelize.STRING,
+    Reward: Sequelize.STRING,
+    AwesomeCost: Sequelize.INTEGER,
+    AwesomeProgress: Sequelize.INTEGER,
+    GoldenCost: Sequelize.INTEGER,
+    GoldenProgress: Sequelize.INTEGER
+})
+ClassStore.sync();
+//Buys list for pooled currency class rewards - Pooling Update
+const ClassBuys = sequelize.define('ClassBuys', {
+    Class: Sequelize.STRING,
+    Redeemed: Sequelize.BOOLEAN,
+    Item: Sequelize.STRING
+})
+ClassBuys.sync();
+
 //stores all functions
 var exports = module.exports = {};
-
-//authenticate teacher - NO LONGER USED. READY TO BE DELETED
-// exports.authenticateAdmin = function(AdminU, AdminP){
-//     let promise = new Promise(function(resolve, reject){
-//         bcrypt.compare(password, AP, function(err, res) {
-//             if(res && AdminU == AU) {
-//                 resolve(true);
-//             } else {
-//                 resolve(false);
-//             } 
-//         });
-//     });
-//     return promise;
-// };
 
 //adds student to the database (resolves: 0 - error, 1 - username taken, 2 - success)
 exports.newStudent = function(email, name, password, classLevel, numGol, numAwe){
@@ -368,6 +374,28 @@ exports.addItem = function(AdminU, AdminP, Item, costAwesomes, costGoldens){
     return promise;
 };
 
+//Add a class Item to a specific class's store - Pooling Update
+exports.addClassItem = function(AdminU, AdminP, Item, Class, costAwesomes, costGoldens){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res && AdminU == AU){
+                ClassStore.create({
+                    Class: Class,
+                    Reward: Item,
+                    AwesomeCost: costAwesomes,
+                    AwesomeProgress: 0,
+                    GoldenCost: costGoldens,
+                    GoldenProgress: 0
+                })
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+    });
+    return promise;
+};
+
 //removes item from store by name
 exports.removeItem = function(AdminU, AdminP, Item){
     let promise = new Promise(function(resolve, reject){
@@ -388,6 +416,27 @@ exports.removeItem = function(AdminU, AdminP, Item){
     return promise;
 };
 
+//removes item from ClassStore by name - Pooling Update
+exports.removeClassItem = function(AdminU, AdminP, Item){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res){
+                ClassStore.destroy({
+                    where: {
+                        Reward: Item
+                    }
+                }).then(after => {
+                    resolve(true);
+                })
+            } else {
+                resolve(false);
+            }
+        });
+    });
+    return promise;
+};
+
+//update information for item
 exports.updateItemData = function(curName, nName, nGol, nAwe, AdminP){
     let promise = new Promise(function(resolve, reject){
         bcrypt.compare(AdminP, AP, function(err, res) {
@@ -437,7 +486,62 @@ exports.updateItemData = function(curName, nName, nGol, nAwe, AdminP){
         });
     });
     return promise;
-}
+};
+
+//update item data for class Items - Pooling Update
+exports.updateClassItemData = function(curName, nName, nClass, nGol, nGolProg, nAwe, nAweProg, AdminP){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res){
+                //correct admin password used
+                ClassStore.findAndCountAll({
+                    where: {
+                        Reward: nName
+                    }
+                }).then(result => {
+                    if(result.count > 0 && curName != nName){
+                        //nope. item name already taken
+                        resolve(1)
+                    } else {
+                        //name is not already taken: good
+                        if(nName == ""){
+                            ClassStore.destroy({
+                                where: {
+                                    Reward: curName
+                                }
+                            }).then(after => {
+                                resolve(3);
+                                
+                            })
+                        } else{
+                            ClassStore.update(
+                                {
+                                    Reward: nName,
+                                    Class: nClass,
+                                    AwesomeCost: nAwe,
+                                    AwesomeProgress: nAweProg,
+                                    GoldenCost: nGol,
+                                    GoldenProgress: nGolProg
+                                },
+                                {
+                                    where: {
+                                        Reward: curName
+                                    }
+                                }
+                            ).then(yup => {
+                                resolve(2);
+                            });
+                        }
+                    }
+                })
+                
+            } else {
+                resolve(0);
+            }
+        });
+    });
+    return promise;
+};
 
 //how student buys and item
 exports.buyItem = function(username, password, Item){
@@ -497,12 +601,122 @@ exports.buyItem = function(username, password, Item){
     return promise;
 };
 
+//contribute to pooled currency item of your class - Pooling Update
+exports.contributeToItem = function(username, password, Item, numAwesome, numGolden){
+    let promise = new Promise(function(resolve, reject){
+        Students.findAndCountAll({
+            where: {
+                Username: username
+            }
+        }).then(result2 => {
+            bcrypt.compare(password, result2.rows[0].Password, function(err, res) {
+                if(res){
+                    let num = result2.count;
+                    if(num > 0){
+                        let awes = result2.rows[0].Awesomes;
+                        let golds = result2.rows[0].Goldens;
+                        ClassStore.findAndCountAll({
+                            where: {
+                                Reward: Item
+                            }
+                        }).then(({ rows }) => {
+                            //first, check that user has as much currency as they want to contribute
+                            if(awes >= numAwesome && golds >= numGolden){
+                                //user has enough currency, check if they are giving too much. If they are, cut number down to amount needed.
+                                if(rows[0].AwesomeCost - rows[0].AwesomeProgress < numAwesome){
+                                    numAwesome = rows[0].AwesomeCost - rows[0].AwesomeProgress
+                                }
+                                if(rows[0].GoldenCost - rows[0].GoldenProgress < numGolden){
+                                    numGolden = rows[0].GoldenCost - rows[0].GoldenProgress
+                                }
+                                //subtract currency from user, add it to progress on item
+                                let paymentPromise1 = internalAddPoints(username, numAwesome*(-1), false)
+                                let paymentPromise2 = internalAddPoints(username, numGolden*(-1), true)
+                                //add to table to mark transaction if both promises resolve to true. (points were taken)
+                                paymentPromise1.then(firstOne => {
+                                    paymentPromise2.then(secondOne => {
+                                        //add contribution
+                                        ClassStore.update(
+                                            {
+                                                AwesomeProgress: rows[0].AwesomeProgress + numAwesome,
+                                                Golden: rows[0].GoldenProgress + numGolden,
+                                            },
+                                            {
+                                                where: {
+                                                    Reward: Item
+                                                }
+                                            }
+                                        ).then(yeah => {
+                                            //check if item is fully bought
+                                            ClassStore.findAndCountAll({
+                                                where: {
+                                                    Reward: Item
+                                                }
+                                            }).then(checking => {
+                                                if(checking.count > 0 && checking.rows[0].AwesomeCost == checking.rows[0].AwesomeProgress && checking.rows[0].GoldenCost == checking.rows[0].GoldenProgress){
+                                                    //the item has been fully payed for. Add to bought!
+                                                    ClassBuys.create({
+                                                        Class: checking.rows[0].Class,
+                                                        Redeemed: false,
+                                                        Item = checking.rows[0].Item
+                                                    })
+                                                }
+                                            })
+                                        });
+
+                                    }).catch(not2 => {
+                                        resolve(false)
+                                    })
+                                }).catch(not1 => {
+                                    //TODO: These catches should actual be checks if the return value was false.
+                                    resolve(false)
+                                })
+
+                            } else {
+                                resolve(false)
+                            }
+                        });
+                    } else {
+                        resolve(false);
+                    }
+                } else {
+                    resolve(false);
+                }
+            });
+        })
+    })
+    return promise;
+};
+
 //allows teacher to mark item as redeemed
 exports.redeemItem = function(AdminU, AdminP, saleID){
     let promise = new Promise(function(resolve, reject){
         bcrypt.compare(AdminP, AP, function(err, res) {
             if(res && AdminU == AU){
                 Buys.update(
+                    {
+                        Redeemed: true
+                    },
+                    { where: {
+                        id: saleID } 
+                    }
+                ).then(after => {
+                    resolve(true);
+                })
+            } else {
+                resolve(false);
+            }
+        });
+    });
+    return promise;
+};
+
+//allows teacher to mark a class item as redeemed - Pooling update
+exports.redeemClassItem = function(AdminU, AdminP, saleID){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res && AdminU == AU){
+                ClassBuys.update(
                     {
                         Redeemed: true
                     },
@@ -619,6 +833,46 @@ exports.getStore = function(){
     return promise;
 };
 
+//Admin: get every store item and every class specific item - Pooling update
+exports.getStoreAdmin = function(AdminU, AdminP){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res && AdminU == AU){
+                Store.findAndCountAll({
+
+                }).then(result => {
+                    let num = result.count;
+                    let resultArr = [];
+                    for(let i = 0; i < num; i++){
+                        let arr = [];
+                        arr[0] = result.rows[i].Reward;
+                        arr[1] = result.rows[i].AwesomeCost;
+                        arr[2] = result.rows[i].GoldenCost;
+                        resultArr.push(arr);
+                    }
+                    //also get class specific store items
+                    ClassStore.findAndCountAll({
+        
+                    }).then(res2 => {
+                        let num2 = result.count;
+                        for(let i = 0; i < num2; i++){
+                            let arr = [];
+                            arr[0] = result.rows[i].Reward;
+                            arr[1] = result.rows[i].AwesomeCost;
+                            arr[2] = result.rows[i].GoldenCost;
+                            resultArr.push(arr);
+                        }
+                        resolve(resultArr);
+                    })
+                })
+            } else {
+                resolve([])
+            }
+        });
+    })
+    return promise;
+};
+
 //gets all items Bought but not Redeemed by a single student
 exports.getMyBuys = function(username, password){
     let promise = new Promise(function(resolve, reject){
@@ -728,12 +982,76 @@ exports.getBuysAdmin = function(AdminU, AdminP){
     return promise;
 };
 
+//get all class buys. gives saleID as well so item can be redeemed - Pooling Update
+exports.getClassBuysAdmin = function(AdminU, AdminP){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res && AdminU == AU){
+                ClassBuys.findAndCountAll({
+                    where: {
+                        Redeemed: false
+                    }
+                }).then(result => {
+                    let num = result.count;
+                    let resultArr = [];
+                    for(let i = 0; i < num; i++){
+                        let arr = [];
+                        arr[0] = result.rows[i].Student;
+                        arr[1] = result.rows[i].Item;
+                        arr[2] = result.rows[i].id;
+                        resultArr.push(arr);
+                    }
+                    resolve(resultArr);
+                })
+            } else {
+                resolve([]);
+            }
+        });
+    })
+    return promise;
+};
+
 //get all student redeemed items
 exports.getRedeemedAdmin = function(AdminU, AdminP){
     let promise = new Promise(function(resolve, reject){
         bcrypt.compare(AdminP, AP, function(err, res) {
             if(res && AdminU == AU){
                 Buys.findAndCountAll({
+                    where: {
+                        Redeemed: true
+                    }
+                }).then(result => {
+                    let num = result.count;
+                    let resultArr = [];
+                    for(let i = 0; i < num; i++){
+                        let arr = [];
+
+                        Students.findAndCountAll({
+                            where: {
+                                Username: result.rows[i].Student
+                            }
+                        }).then(result2 => {
+                            arr[0] = result.rows[0].Name;
+                            arr[1] = result.rows[i].Item;
+                            resultArr.push(arr);
+                        })
+                    }
+                    resolve(resultArr);
+                })
+            } else {
+                resolve([]);
+            }
+        });
+    })
+    return promise;
+};
+
+//get all class redeemed items
+exports.getClassRedeemedAdmin = function(AdminU, AdminP){
+    let promise = new Promise(function(resolve, reject){
+        bcrypt.compare(AdminP, AP, function(err, res) {
+            if(res && AdminU == AU){
+                ClassBuys.findAndCountAll({
                     where: {
                         Redeemed: true
                     }
