@@ -658,7 +658,7 @@ exports.contributeToItem = function(username, password, Item, numAwesome, numGol
                                                     ClassBuys.create({
                                                         Class: checking.rows[0].Class,
                                                         Redeemed: false,
-                                                        Item = checking.rows[0].Item
+                                                        Item: checking.rows[0].Item
                                                     })
                                                 }
                                             })
